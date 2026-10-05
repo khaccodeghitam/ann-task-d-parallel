@@ -112,7 +112,7 @@ void exact_knn(const size_t dim, const size_t k,
   compute_l2sq(points_l2sq, points, npoints, dim);
   compute_l2sq(queries_l2sq, queries, nqueries, dim);
 
-  size_t q_batch_size = (1 << 9);
+  size_t q_batch_size = (1 << 6);
   float *dist_matrix = new float[(size_t) q_batch_size * (size_t) npoints];
 
   for (_u64 b = 0; b < div_round_up(nqueries, q_batch_size); ++b) {

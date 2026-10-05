@@ -1,5 +1,7 @@
 # Parallel ANN Research Baseline
 
+For a concise Vietnamese guide covering WSL2 setup, building, and running PipeANN with the local SIFT1M dataset and index, see [HUONG_DAN_WSL2_VA_CHAY_BASELINE.md](HUONG_DAN_WSL2_VA_CHAY_BASELINE.md).
+
 This repository is a clean research baseline for evaluating graph-based approximate nearest-neighbor (ANN) search on SSD. It contains PipeANN together with comparable search paths derived from DiskANN, Starling, and a coroutine-based implementation.
 
 The repository contains source code and experiment utilities only. Datasets, generated indexes, build products, and local smoke-test artifacts are intentionally excluded from version control.
