@@ -133,10 +133,12 @@ int search_disk_index(int argc, char **argv) {
 #pragma omp parallel for schedule(dynamic, 1)
     for (_s64 i = 0; i < (int64_t) query_num; i++) {
       auto s1 = std::chrono::high_resolution_clock::now();
-      _pFlashIndex.search(query + (i * query_dim), recall_at, L, query_result_tags_32.data() + (i * recall_at),
-                          query_result_dists[test_id].data() + (i * recall_at));
+      auto search_stats =
+          _pFlashIndex.search(query + (i * query_dim), recall_at, L, query_result_tags_32.data() + (i * recall_at),
+                              query_result_dists[test_id].data() + (i * recall_at));
       auto e1 = std::chrono::high_resolution_clock::now();
       stats[i].total_us = std::chrono::duration_cast<std::chrono::microseconds>(e1 - s1).count();
+      stats[i].n_hops = search_stats.first;
     }
 
     auto e = std::chrono::high_resolution_clock::now();

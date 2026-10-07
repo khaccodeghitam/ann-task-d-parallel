@@ -113,6 +113,7 @@ namespace diskann {
     };
 
     uint64_t n_computes = 0;
+    uint64_t n_hops = 0;
     // Neighbor nbr_scratch[4096], merged_nbr[4096];
     auto compute_and_push_nbrs = [&](const char *node_buf, unsigned &nk) {
       unsigned *node_nbrs = offset_to_node_nhood(node_buf);
@@ -258,6 +259,7 @@ namespace diskann {
         if (!retset[marker].visited && id_buf_map.find(retset[marker].id) != id_buf_map.end()) {
           retset[marker].flag = false;  // even out the id_buf_map cost to O(1)
           retset[marker].visited = true;
+          n_hops++;
           auto it = id_buf_map.find(retset[marker].id);
           auto [id, buf] = *it;
           compute_exact_dists_and_push(buf, id);
@@ -387,6 +389,7 @@ namespace diskann {
     }
 
     if (stats != nullptr) {
+      stats->n_hops = n_hops;
       stats->total_us = (double) query_timer.elapsed();
     }
     return t;

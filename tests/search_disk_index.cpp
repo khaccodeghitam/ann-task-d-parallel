@@ -168,7 +168,7 @@ int search_disk_index(int argc, char **argv) {
         }
 
         _pFlashIndex->coro_search(q, (uint64_t) recall_at, mem_L, (uint64_t) L, res_tags, res_dists,
-                                  (uint64_t) beamwidth, N);
+                                  (uint64_t) beamwidth, N, stats + i);
       }
     } else if (search_mode == SearchMode::BEAM_SEARCH) {
 #pragma omp parallel for schedule(dynamic, 1)

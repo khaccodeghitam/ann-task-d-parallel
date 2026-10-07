@@ -268,8 +268,8 @@ namespace diskann {
 
     if (file_dim != 1) {
       std::stringstream stream;
-      stream << "ERROR: Loading " << file_dim << " dimensions for tags,"
-             << "but tag file must have 1 dimension." << std::endl;
+      stream << "ERROR: Loading " << file_dim << " dimensions for tags," << "but tag file must have 1 dimension."
+             << std::endl;
       std::cerr << stream.str() << std::endl;
       delete[] tag_data;
       throw diskann::ANNException(stream.str(), -1, __FUNCSIG__, __FILE__, __LINE__);
@@ -306,8 +306,8 @@ namespace diskann {
 
     if (file_dim != _dim) {
       std::stringstream stream;
-      stream << "ERROR: Driver requests loading " << _dim << " dimension,"
-             << "but file has " << file_dim << " dimension." << std::endl;
+      stream << "ERROR: Driver requests loading " << _dim << " dimension," << "but file has " << file_dim
+             << " dimension." << std::endl;
       std::cerr << stream.str() << std::endl;
       aligned_free(_data);
       throw diskann::ANNException(stream.str(), -1, __FUNCSIG__, __FILE__, __LINE__);
@@ -675,6 +675,7 @@ namespace diskann {
 
       if (best_L_nodes[k].flag) {
         best_L_nodes[k].flag = false;
+        hops++;
         auto n = best_L_nodes[k].id;
         if (!(best_L_nodes[k].id == _ep && _num_frozen_pts > 0 && !ret_frozen)) {
           expanded_nodes_info.emplace_back(best_L_nodes[k]);
@@ -1155,9 +1156,8 @@ namespace diskann {
         if ((sync_num * 100) / NUM_SYNCS > progress_counter) {
           diskann::cout.precision(4);
           diskann::cout << "Completed  (round: " << rnd_no << ", sync: " << sync_num << "/" << NUM_SYNCS << " with L "
-                        << L << ")"
-                        << " sync_time: " << sync_time << "s"
-                        << "; inter_time: " << inter_time << "s" << std::endl;
+                        << L << ")" << " sync_time: " << sync_time << "s" << "; inter_time: " << inter_time << "s"
+                        << std::endl;
 
           total_sync_time += sync_time;
           total_inter_time += inter_time;
@@ -1278,16 +1278,16 @@ namespace diskann {
       if (file_num_points > _max_points || num_points_to_load > file_num_points) {
         std::stringstream stream;
         stream << "ERROR: Driver requests loading " << num_points_to_load << " points and file has " << file_num_points
-               << " points, but "
-               << "index can support only " << _max_points << " points as specified in constructor." << std::endl;
+               << " points, but " << "index can support only " << _max_points << " points as specified in constructor."
+               << std::endl;
         std::cerr << stream.str() << std::endl;
         aligned_free(_data);
         throw diskann::ANNException(stream.str(), -1, __FUNCSIG__, __FILE__, __LINE__);
       }
       if (file_dim != _dim) {
         std::stringstream stream;
-        stream << "ERROR: Driver requests loading " << _dim << " dimension,"
-               << "but file has " << file_dim << " dimension." << std::endl;
+        stream << "ERROR: Driver requests loading " << _dim << " dimension," << "but file has " << file_dim
+               << " dimension." << std::endl;
         std::cerr << stream.str() << std::endl;
         aligned_free(_data);
         throw diskann::ANNException(stream.str(), -1, __FUNCSIG__, __FILE__, __LINE__);
@@ -1361,16 +1361,16 @@ namespace diskann {
       if (file_num_points > _max_points || num_points_to_load > file_num_points) {
         std::stringstream stream;
         stream << "ERROR: Driver requests loading " << num_points_to_load << " points and file has " << file_num_points
-               << " points, but "
-               << "index can support only " << _max_points << " points as specified in constructor." << std::endl;
+               << " points, but " << "index can support only " << _max_points << " points as specified in constructor."
+               << std::endl;
         std::cerr << stream.str() << std::endl;
         aligned_free(_data);
         throw diskann::ANNException(stream.str(), -1, __FUNCSIG__, __FILE__, __LINE__);
       }
       if (file_dim != _dim) {
         std::stringstream stream;
-        stream << "ERROR: Driver requests loading " << _dim << " dimension,"
-               << "but file has " << file_dim << " dimension." << std::endl;
+        stream << "ERROR: Driver requests loading " << _dim << " dimension," << "but file has " << file_dim
+               << " dimension." << std::endl;
         std::cerr << stream.str() << std::endl;
         aligned_free(_data);
         throw diskann::ANNException(stream.str(), -1, __FUNCSIG__, __FILE__, __LINE__);

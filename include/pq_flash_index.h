@@ -179,7 +179,8 @@ namespace diskann {
 
     // best-first search with inter-query parallelism.
     DISKANN_DLLEXPORT size_t coro_search(T **queries, const _u64 k_search, const _u32 mem_L, const _u64 l_search,
-                                         TagT **res_tags, float **res_dists, const _u64 beam_width, int N);
+                                         TagT **res_tags, float **res_dists, const _u64 beam_width, int N,
+                                         QueryStats *stats = nullptr);
 
     static constexpr int kMaxCoroPerThread = 8;
     static constexpr int kMaxVectorDim = 512;
@@ -205,7 +206,7 @@ namespace diskann {
       std::vector<IORequest> frontier_read_reqs;
 
       PQFlashIndex<T> *parent;
-      unsigned cur_list_size, cmps, k;
+      unsigned cur_list_size, cmps, k, n_hops;
 
       void compute_dists(const unsigned *ids, const _u64 n_ids, float *dists_out) {
         ::aggregate_coords(ids, n_ids, parent->data.data(), parent->n_chunks, pq_coord_scratch);
@@ -226,7 +227,7 @@ namespace diskann {
         retset.resize(4096);
         retset.clear();
         full_retset.clear();
-        cur_list_size = cmps = k = 0;
+        cur_list_size = cmps = k = n_hops = 0;
       }
 
       void compute_and_add_to_retset(const unsigned *node_ids, const _u64 n_ids) {
@@ -265,6 +266,7 @@ namespace diskann {
         // read nhoods of frontier ids
         std::vector<uint32_t> locked;
         if (!frontier.empty()) {
+          n_hops++;
           for (_u64 i = 0; i < frontier.size(); i++) {
             uint32_t loc = frontier[i];
             uint64_t offset = parent->loc_sector_no(loc) * SECTOR_LEN;

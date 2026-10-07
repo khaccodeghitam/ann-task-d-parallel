@@ -24,7 +24,8 @@
 namespace diskann {
   template<typename T, typename TagT>
   size_t PQFlashIndex<T, TagT>::coro_search(T **queries, const _u64 k_search, const _u32 mem_L, const _u64 l_search,
-                                            TagT **res_tags, float **res_dists, const _u64 beam_width, int N) {
+                                            TagT **res_tags, float **res_dists, const _u64 beam_width, int N,
+                                            QueryStats *stats) {
     static __thread CoroData *data;
     if (unlikely(data == nullptr)) {
       data = new CoroData(this);
@@ -98,9 +99,14 @@ namespace diskann {
 
     for (int v = 0; v < N; ++v) {
       // re-sort by distance
-      auto &full_retset = data->data[v].full_retset;
+      auto &coro_data = data->data[v];
+      auto &full_retset = coro_data.full_retset;
       std::sort(full_retset.begin(), full_retset.end(),
                 [](const Neighbor &left, const Neighbor &right) { return left < right; });
+
+      if (stats != nullptr) {
+        stats[v].n_hops = coro_data.n_hops;
+      }
 
       _u64 t = 0;
       for (_u64 i = 0; i < full_retset.size() && t < k_search; i++) {

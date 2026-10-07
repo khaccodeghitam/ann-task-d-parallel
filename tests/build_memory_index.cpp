@@ -76,8 +76,7 @@ int main(int argc, char **argv) {
                   << " <data_type(int8/uint8/float)>  <data_file.bin>"
                      " <tags_file> (use null if no tags file is used) "
                      "<output_index_file> <dynamic_index(0/1)> <single_file_index(0/1)>"
-                  << " <R> <L> <alpha> <num_threads_to_use>"
-                  << " <distance_metric(l2/cosine case-sensitive)>."
+                  << " <R> <L> <alpha> <num_threads_to_use>" << " <distance_metric(l2/cosine case-sensitive)>."
                   << " See README for more information on parameters." << std::endl;
     exit(-1);
   }

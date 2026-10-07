@@ -277,10 +277,9 @@ namespace diskann {
         this->range = max_degree;
       }
 
-      LOG(INFO) << "Disk-Index File Meta-data: "
-                << "# nodes per sector: " << nnodes_per_sector << ", max node len (bytes): " << max_node_len
-                << ", max node degree: " << max_degree << ", npts: " << nr << ", dim: " << nc
-                << " disk_nnodes: " << disk_nnodes << " disk_ndims: " << disk_ndims;
+      LOG(INFO) << "Disk-Index File Meta-data: " << "# nodes per sector: " << nnodes_per_sector
+                << ", max node len (bytes): " << max_node_len << ", max node degree: " << max_degree << ", npts: " << nr
+                << ", dim: " << nc << " disk_nnodes: " << disk_nnodes << " disk_ndims: " << disk_ndims;
 
       if (nnodes_per_sector > this->kMaxElemInAPage) {
         LOG(ERROR) << "nnodes_per_sector: " << nnodes_per_sector << " is greater than " << this->kMaxElemInAPage
