@@ -1,4 +1,6 @@
-build/
+build_AIO/
+build-DYN_PIPE_WIDTH-aio/
+build_DYN_PIPE_WIDTH-io_uring/
 .vscode/
 indices/
 .cache/
