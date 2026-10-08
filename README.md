@@ -6,6 +6,9 @@ This repository is a clean research baseline for evaluating graph-based approxim
 
 The repository contains source code and experiment utilities only. Datasets, generated indexes, build products, and local smoke-test artifacts are intentionally excluded from version control.
 
+For the P0 local-artifact experiment runner, trace modes, optional local MLflow,
+and SIFT1M validation, see [P0 experiments](docs/research/P0_EXPERIMENTS.md).
+
 ## Implemented search modes
 
 The `search_disk_index` executable selects an implementation through the `search_mode` argument:

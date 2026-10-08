@@ -1,0 +1,114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:parallel-ann:p0:summary:1",
+  "title": "P0 summary",
+  "type": "object",
+  "required": [
+    "qps",
+    "recall",
+    "mean_latency_us",
+    "p50_latency_us",
+    "p95_latency_us",
+    "p99_latency_us",
+    "p999_latency_us",
+    "mean_hops",
+    "mean_ios",
+    "schema_version",
+    "run_id",
+    "wall_time_s",
+    "exit_code",
+    "run_status"
+  ],
+  "properties": {
+    "qps": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "recall": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "mean_latency_us": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "p50_latency_us": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "p95_latency_us": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "p99_latency_us": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "p999_latency_us": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "mean_hops": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "mean_ios": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "wall_time_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "exit_code": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "run_status": {
+      "enum": [
+        "success",
+        "failed",
+        "interrupted",
+        "timed_out"
+      ]
+    }
+  },
+  "additionalProperties": true
+}

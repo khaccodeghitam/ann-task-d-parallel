@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:parallel-ann:p0:event:1",
+  "type": "object",
+  "required": ["schema_version", "run_id", "source", "event", "timestamp"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "run_id": {"type": "string"},
+    "source": {"const": "harness"},
+    "event": {"enum": ["benchmark_start", "benchmark_end"]},
+    "timestamp": {"type": "string"}
+  },
+  "additionalProperties": true,
+  "description": "DETAIL scaffold only: harness lifecycle events; no sampled ANN hot-loop events yet."
+}

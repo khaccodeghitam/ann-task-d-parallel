@@ -1,0 +1,390 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:parallel-ann:p0:manifest:2",
+  "title": "P0 manifest v2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "run_id",
+    "timestamp_start",
+    "timestamp_end",
+    "git_commit",
+    "git_dirty",
+    "git_branch",
+    "repo_remote",
+    "executable",
+    "executable_sha256",
+    "argv",
+    "exact_command",
+    "cwd",
+    "hostname",
+    "kernel",
+    "cpu_model",
+    "logical_cpu_count",
+    "physical_core_count",
+    "total_ram_bytes",
+    "dataset_id",
+    "dataset_path",
+    "dataset_hash",
+    "index_id",
+    "index_path",
+    "search_mode",
+    "threads",
+    "wcap",
+    "k",
+    "l_search",
+    "mem_l",
+    "distance_metric",
+    "neighbor_type",
+    "trace_mode",
+    "repetition",
+    "host_telemetry_collectors",
+    "mlflow_enabled",
+    "mlflow_run_id",
+    "mlflow_status",
+    "status",
+    "benchmark_profile",
+    "benchmark_profile_version",
+    "parser_version",
+    "printed_latency_percentile",
+    "build_metadata",
+    "harness_repo_root",
+    "harness_repo_remote",
+    "harness_git_commit",
+    "harness_git_branch",
+    "harness_git_dirty",
+    "subject_repo_root",
+    "subject_repo_remote",
+    "subject_git_commit",
+    "subject_git_branch",
+    "subject_git_dirty"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 2
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "timestamp_start": {
+      "type": "string"
+    },
+    "timestamp_end": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "git_commit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "git_dirty": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "git_branch": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "repo_remote": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "executable": {
+      "type": "string"
+    },
+    "executable_sha256": {
+      "type": "string"
+    },
+    "argv": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "exact_command": {
+      "type": "string"
+    },
+    "cwd": {
+      "type": "string"
+    },
+    "hostname": {
+      "type": "string"
+    },
+    "kernel": {
+      "type": "string"
+    },
+    "cpu_model": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "logical_cpu_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "physical_core_count": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "total_ram_bytes": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "dataset_id": {
+      "type": "string"
+    },
+    "dataset_path": {
+      "type": "string"
+    },
+    "dataset_hash": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "index_id": {
+      "type": "string"
+    },
+    "index_path": {
+      "type": "string"
+    },
+    "search_mode": {
+      "type": "integer",
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "threads": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "wcap": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "k": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "l_search": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mem_l": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "distance_metric": {
+      "type": "string"
+    },
+    "neighbor_type": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "trace_mode": {
+      "type": "string",
+      "enum": [
+        "OFF",
+        "LIGHT",
+        "DETAIL"
+      ]
+    },
+    "repetition": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "host_telemetry_collectors": {
+      "type": "object"
+    },
+    "mlflow_enabled": {
+      "type": "boolean"
+    },
+    "mlflow_run_id": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "mlflow_status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "disabled",
+        "success",
+        "failed",
+        "skipped"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "running",
+        "success",
+        "failed",
+        "interrupted",
+        "timed_out"
+      ]
+    },
+    "benchmark_profile": {
+      "enum": [
+        "legacy-research",
+        "pipeann-b9ec4ba"
+      ]
+    },
+    "benchmark_profile_version": {
+      "type": "string"
+    },
+    "parser_version": {
+      "type": "string"
+    },
+    "printed_latency_percentile": {
+      "enum": [
+        0.99,
+        0.999
+      ]
+    },
+    "build_metadata": {
+      "type": "object"
+    },
+    "harness_repo_root": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "harness_repo_remote": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "harness_git_commit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "harness_git_branch": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "harness_git_dirty": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "subject_repo_root": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "subject_repo_remote": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "subject_git_commit": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "subject_git_branch": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "subject_git_dirty": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "benchmark_profile": {
+            "const": "legacy-research"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "benchmark_profile_version": {
+            "const": "legacy-research/v1"
+          },
+          "printed_latency_percentile": {
+            "const": 0.999
+          },
+          "parser_version": {
+            "const": "search-table/v1"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "benchmark_profile": {
+            "const": "pipeann-b9ec4ba"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "benchmark_profile_version": {
+            "const": "pipeann-b9ec4ba/v1"
+          },
+          "printed_latency_percentile": {
+            "const": 0.99
+          },
+          "parser_version": {
+            "const": "search-table/v1"
+          },
+          "neighbor_type": {
+            "enum": [
+              "pq",
+              "rabitq",
+              "rabitq3",
+              "rabitq4",
+              "rabitq5",
+              "dummy"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}
