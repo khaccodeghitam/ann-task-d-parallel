@@ -40,6 +40,7 @@ def mirror(directory, root):
             "benchmark_status": summary.get("benchmark_status", "unknown"),
             "trace_valid": json.dumps(summary.get("trace_valid")),
             "run_status": summary["run_status"],
+            "host_telemetry_requested": json.dumps(manifest.get("host_telemetry_requested")),
             **package_tags,
             **{key: "unknown" if manifest.get(key) is None else str(manifest[key])
                for key in (*provenance, *profiles)}}).info.run_id
@@ -50,6 +51,8 @@ def mirror(directory, root):
         for target, source in keys.items():
             value = manifest.get(source)
             client.log_param(run_id, target, "unknown" if value is None else value)
+        if "host_telemetry_requested" in manifest:
+            client.log_param(run_id, "host_telemetry_requested", manifest["host_telemetry_requested"])
         for key, value in package_tags.items():
             client.log_param(run_id, key, value)
         if manifest.get("causal_trace_enabled"):

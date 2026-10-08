@@ -363,3 +363,23 @@ textual reports. `.gitignore` extends existing rules for data/indexes, builds,
 raw traces, MLflow stores, caches, virtualenvs and local headers. Keep bulky
 evidence external. Before staging, inspect `git status --short`,
 `git diff --stat`, and `git diff --cached --name-only`.
+
+## Host telemetry independent of trace mode (Issue #10)
+
+Use `--host-telemetry` to request mpstat/pidstat/iostat for any OFF/LIGHT/DETAIL
+run, including stock binaries without causal tracing. `--no-host-telemetry`
+disables those collectors independently of ANN instrumentation. Missing tools
+still do not fail an ordinary benchmark. E0b requires matched available
+collectors explicitly; its campaign validator enforces that separate protocol.
+
+Omitting both flags preserves historical behavior: OFF disables collectors;
+LIGHT/DETAIL request them. New manifests record the effective boolean
+`host_telemetry_requested` and nullable CLI override `host_telemetry_option`.
+These fields are optional in schema v2 for compatibility; old finalized runs
+are not rewritten or assigned inferred values. The derived run index is
+unchanged. MLflow mirrors the effective request as a parameter/tag.
+
+OFF with host telemetry writes raw collector logs and system_metrics.csv,
+without adding ANN events or stub query metrics. OFF without telemetry keeps
+its historical artifact behavior. LIGHT/DETAIL retain existing trace exports.
+Collection remains outside the ANN process; no search/timing hooks changed.

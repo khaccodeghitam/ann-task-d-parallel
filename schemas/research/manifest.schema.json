@@ -407,6 +407,17 @@
         "null"
       ],
       "pattern": "^[0-9a-f]{64}$"
+    },
+    "host_telemetry_requested": {
+      "type": "boolean",
+      "description": "Effective host collection request independent of ANN tracing. Absent in historical finalized records."
+    },
+    "host_telemetry_option": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Explicit CLI override; null preserves historical OFF=disabled, LIGHT/DETAIL=enabled default."
     }
   },
   "additionalProperties": true,
