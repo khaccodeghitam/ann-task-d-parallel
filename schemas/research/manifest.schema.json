@@ -381,6 +381,32 @@
         "null"
       ],
       "description": "Native ANN process returncode (negative for signal termination), null when no process started. This is not the runner return code."
+    },
+    "input_package_manifest_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "input_package_manifest_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "index_package_manifest_path": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "index_package_manifest_sha256": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[0-9a-f]{64}$"
     }
   },
   "additionalProperties": true,

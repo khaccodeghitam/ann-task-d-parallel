@@ -30,6 +30,8 @@ def mirror(directory, root):
             raise ValueError("Existing MLflow experiment artifact location is outside the local artifact root")
         provenance = ("harness_git_commit", "subject_git_commit", "harness_git_dirty", "subject_git_dirty")
         profiles = ("benchmark_profile", "benchmark_profile_version", "parser_version")
+        packages = tuple(f"{kind}_package_manifest_sha256" for kind in ("input", "index"))
+        package_tags = {key: str(manifest[key]) for key in packages if manifest.get(key) is not None}
         run_id = client.create_run(experiment_id, tags={
             "mlflow.runName": manifest["run_id"], "phase": "P0", "dataset": manifest["dataset_id"],
             "variant": "baseline", "trace_mode": manifest["trace_mode"],
@@ -38,6 +40,7 @@ def mirror(directory, root):
             "benchmark_status": summary.get("benchmark_status", "unknown"),
             "trace_valid": json.dumps(summary.get("trace_valid")),
             "run_status": summary["run_status"],
+            **package_tags,
             **{key: "unknown" if manifest.get(key) is None else str(manifest[key])
                for key in (*provenance, *profiles)}}).info.run_id
         keys = {"dataset": "dataset_id", "threads": "threads", "wcap": "wcap", "L": "l_search",
@@ -47,6 +50,8 @@ def mirror(directory, root):
         for target, source in keys.items():
             value = manifest.get(source)
             client.log_param(run_id, target, "unknown" if value is None else value)
+        for key, value in package_tags.items():
+            client.log_param(run_id, key, value)
         if manifest.get("causal_trace_enabled"):
             client.log_param(run_id, "trace_protocol", manifest["trace_config"]["protocol"])
             client.log_param(run_id, "trace_detail_first_n", manifest["trace_config"]["detail_first_n"])

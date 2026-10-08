@@ -346,6 +346,10 @@ This updates the existing compatible index without deleting unrelated rows.
   exact paths and sizes. A cached/full large-input provenance strategy is an
   explicit follow-up requirement **before official SIFT10M**. This patch does
   not hash multi-GB files on each smoke repetition or begin that redesign.
+  Issue #6 now provides [immutable input/index packages](SIFT10M_SETUP.md):
+  setup hashes every canonical component once, and SIFT10M runs bind the
+  verified package digests without rehashing multi-GB inputs. Historical
+  manifests retain their original small-file/null hashing semantics.
 - The frozen shell command captures argv/cwd and an allowlist of threading
   variables; it does not dump secrets or the entire machine environment.
 - Collector output formats depend on sysstat versions. Unknown/unparsed output
