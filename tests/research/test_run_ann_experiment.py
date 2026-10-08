@@ -67,6 +67,62 @@ class RunnerTests(unittest.TestCase):
             code = runner.run(runner.parser().parse_args(self.cli(*extra)))
         return code, json.loads(output.getvalue())
 
+    def test_off_with_host_telemetry(self):
+        def fake_start(collector, pid):
+            collector.directory.mkdir()
+            for name, info in collector.collectors.items():
+                self.assertEqual(info['status'], 'available')
+                info['status'] = 'stopped'
+                (collector.directory / (name + '.log')).write_text('synthetic raw collector')
+        with mock.patch.object(runner.shutil, 'which', return_value='/synthetic/collector'), \
+             mock.patch.object(runner.Telemetry, 'start', fake_start):
+            code, result = self.execute('--trace-mode', 'OFF', '--host-telemetry')
+        self.assertEqual(code, 0)
+        directory = Path(result['run_directory'])
+        manifest = json.loads((directory / 'manifest.json').read_text())
+        self.assertTrue(manifest['host_telemetry_requested'])
+        self.assertTrue(manifest['host_telemetry_option'])
+        self.assertTrue((directory / 'system_metrics.csv').exists())
+        self.assertFalse((directory / 'events.jsonl').exists())
+        self.assertFalse((directory / 'query_metrics.csv').exists())
+        self.assertEqual(len(list((directory / 'telemetry').glob('*.log'))), 3)
+
+    def test_off_explicit_no_telemetry(self):
+        code, result = self.execute('--no-host-telemetry')
+        manifest = json.loads((Path(result['run_directory']) / 'manifest.json').read_text())
+        self.assertEqual(code, 0)
+        self.assertFalse(manifest['host_telemetry_requested'])
+        self.assertFalse((Path(result['run_directory']) / 'telemetry').exists())
+        self.assertFalse((Path(result['run_directory']) / 'system_metrics.csv').exists())
+
+    def test_historical_telemetry_defaults(self):
+        with mock.patch.object(runner.shutil, 'which', return_value='/synthetic/collector'):
+            for mode, expected in [('OFF', 'disabled'), ('LIGHT', 'available'), ('DETAIL', 'available')]:
+                args = runner.parser().parse_args(self.cli('--trace-mode', mode))
+                self.assertIsNone(args.host_telemetry)
+                self.assertTrue(all(v['status'] == expected for v in runner.collector_availability(mode).values()))
+        code, result = self.execute()
+        manifest = json.loads((Path(result['run_directory']) / 'manifest.json').read_text())
+        self.assertEqual(code, 0)
+        self.assertIsNone(manifest['host_telemetry_option'])
+        self.assertFalse(manifest['host_telemetry_requested'])
+
+    def test_light_telemetry_can_be_disabled_independently(self):
+        code, result = self.execute('--trace-mode', 'LIGHT', '--no-host-telemetry')
+        directory = Path(result['run_directory'])
+        manifest = json.loads((directory / 'manifest.json').read_text())
+        self.assertEqual(code, 0)
+        self.assertFalse(manifest['host_telemetry_requested'])
+        self.assertTrue((directory / 'query_metrics.csv').exists())
+        self.assertTrue((directory / 'trace_health.json').exists())
+        self.assertFalse((directory / 'telemetry').exists())
+
+    def test_host_telemetry_dry_run(self):
+        code, result = self.execute('--dry-run', '--host-telemetry')
+        self.assertEqual(code, 0)
+        self.assertTrue(result['host_telemetry_requested'])
+        self.assertFalse(self.evidence.exists())
+
     def test_run_ids_are_unique_and_safe(self):
         ids = {runner.run_id("../sift 1m", 8, 32, "OFF", 1) for _ in range(1000)}
         self.assertEqual(len(ids), 1000)

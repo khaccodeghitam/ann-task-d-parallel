@@ -178,6 +178,8 @@ def parser():
     p.add_argument("--repetition", type=int, default=1)
     p.add_argument("--evidence-root", default=os.environ.get("ANN_EVIDENCE_ROOT", "~/ann-research/research-v3"))
     p.add_argument("--mlflow", action=argparse.BooleanOptionalAction, default=False)
+    p.add_argument("--host-telemetry", action=argparse.BooleanOptionalAction, default=None,
+                   help="Host collectors independent of ANN trace mode; omitted preserves historical OFF=off, LIGHT/DETAIL=on")
     p.add_argument("--telemetry-interval", type=int, default=1)
     p.add_argument("--timeout", type=float, default=300, help="Benchmark wall timeout in seconds")
     p.add_argument("--mlflow-timeout", type=float, default=60)
@@ -282,9 +284,10 @@ def benchmark_argv(args):
                                     else "null" for field in profile["argv_fields"])]
 
 
-def collector_availability(trace_mode):
+def collector_availability(trace_mode, host_telemetry=None):
+    enabled = trace_mode != "OFF" if host_telemetry is None else host_telemetry
     return {name: {"executable": shutil.which(name),
-                   "status": "disabled" if trace_mode == "OFF" else
+                   "status": "disabled" if not enabled else
                    "available" if shutil.which(name) else "unavailable"}
             for name in ("mpstat", "pidstat", "iostat")}
 
@@ -333,6 +336,8 @@ def make_manifest(args, identity, argv, collectors):
             "wcap": args.wcap, "k": args.k, "l_search": args.l_search, "mem_l": args.mem_l,
             "distance_metric": args.distance_metric, "neighbor_type": args.neighbor_type,
             "trace_mode": args.trace_mode, "repetition": args.repetition,
+            "host_telemetry_requested": args.trace_mode != "OFF" if args.host_telemetry is None else args.host_telemetry,
+            "host_telemetry_option": args.host_telemetry,
             "host_telemetry_collectors": collectors, "telemetry_interval_s": args.telemetry_interval,
             "mlflow_enabled": args.mlflow, "mlflow_run_id": None,
             "mlflow_status": "pending" if args.mlflow else "disabled",
@@ -504,9 +509,7 @@ def telemetry_rows(text, collector, identity):
                        "metric": metric, "value": value, "unit": metric_unit(metric)}
 
 
-def write_trace_artifacts(directory, manifest):
-    with (directory / "query_metrics.csv").open("w", newline="") as stream:
-        csv.writer(stream).writerow(QUERY_COLUMNS)  # No per-query export exists yet.
+def write_system_metrics(directory, manifest):
     count = 0
     with (directory / "system_metrics.csv").open("w", newline="") as stream:
         writer = csv.DictWriter(stream, SYSTEM_COLUMNS)
@@ -517,6 +520,13 @@ def write_trace_artifacts(directory, manifest):
             writer.writerows(rows)
             count += len(rows)
             info["metric_rows"] = len(rows)
+    return count
+
+
+def write_trace_artifacts(directory, manifest):
+    with (directory / "query_metrics.csv").open("w", newline="") as stream:
+        csv.writer(stream).writerow(QUERY_COLUMNS)  # No per-query export exists yet.
+    count = write_system_metrics(directory, manifest)
     health = {"schema_version": 1, "trace_mode": manifest["trace_mode"], "query_rows": 0,
               "system_metric_rows": count, "ann_events_available": False,
               "d1_d4_d6_implemented": False, "reason": "Current benchmark exports run summaries only",
@@ -597,7 +607,7 @@ def run(args):
     argv = benchmark_argv(args)
     identity = run_id(args.dataset_id, args.threads, args.wcap, args.trace_mode, args.repetition)
     directory = args.evidence_root / "runs" / identity
-    collectors = collector_availability(args.trace_mode)
+    collectors = collector_availability(args.trace_mode, args.host_telemetry)
     args.trace_environment = trace_environment(args, directory)
     preview = {"run_id": identity, "executable": str(args.executable),
                **profile_metadata(args.benchmark_profile),
@@ -605,7 +615,9 @@ def run(args):
                "dataset": str(args.dataset_path), "query": str(args.query),
                "index": str(args.index_prefix), "exact_command": shlex.join(argv),
                "run_directory": str(directory), "trace_mode": args.trace_mode,
-               "mlflow_enabled": args.mlflow, "telemetry_collectors": collectors}
+               "mlflow_enabled": args.mlflow, "telemetry_collectors": collectors,
+               "host_telemetry_requested": args.trace_mode != "OFF" if args.host_telemetry is None else args.host_telemetry,
+               "host_telemetry_option": args.host_telemetry}
     preview.update(args.package_bindings)
     preview.update(causal_trace_enabled=args.causal_trace, trace_environment=args.trace_environment)
     if args.dry_run:
@@ -674,6 +686,8 @@ def run(args):
                                args.benchmark_profile, args.causal_trace)
         if args.trace_mode != "OFF":
             write_trace_artifacts(directory, manifest)
+        elif manifest["host_telemetry_requested"]:
+            write_system_metrics(directory, manifest)
         trace_valid = None
         if args.causal_trace:
             # Export/check outside ANN execution; raw data and diagnostics remain authoritative.

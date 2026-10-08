@@ -153,8 +153,8 @@ UUID; run directories are created exclusively and never reused or overwritten.
     summary.json               available run-level benchmark measurements
     SHA256SUMS                 all finalized evidence files in this run
     query_metrics.csv          LIGHT/DETAIL; currently header only
-    system_metrics.csv         LIGHT/DETAIL; normalized numeric sysstat samples
-    telemetry/*.log            LIGHT/DETAIL; original collector output
+    system_metrics.csv         when host telemetry is enabled; numeric sysstat samples
+    telemetry/*.log            when host telemetry is enabled; original collector output
     trace_health.json          LIGHT/DETAIL; availability and row counts
     events.jsonl               DETAIL; harness lifecycle scaffold only
     mlflow.log                 MLflow-enabled runs; mirror diagnostics
@@ -169,8 +169,8 @@ UUID; run directories are created exclusively and never reused or overwritten.
 
 | Mode | Current behavior |
 | --- | --- |
-| OFF | Manifest, exact command, stdout, summary and checksums; no telemetry or ANN instrumentation. Optional MLflow logging occurs afterward. |
-| LIGHT | OFF plus optional Linux telemetry and a query schema. Current executable exports no per-query rows. Intended for eventual headline runs after overhead checks. |
+| OFF | Manifest, exact command, stdout, summary and checksums; host telemetry defaults off, independently enabled with `--host-telemetry`. No ANN event instrumentation. Optional MLflow logging occurs afterward. |
+| LIGHT | OFF plus a query schema; host telemetry defaults on, independently disabled with `--no-host-telemetry`. Without causal tracing the executable exports no per-query rows. Intended for eventual headline runs after overhead checks. |
 | DETAIL | LIGHT plus harness start/end events. Sampled ANN event infrastructure is scaffolded only; unsuitable for headline QPS. |
 
 No `width_timeseries.csv` is produced because widths are not exported.
@@ -219,7 +219,7 @@ export ANN_INDEX_PREFIX="$HOME/ann-research/research-v3/manifests/<setup_id>/sif
 ```
 
 Remove `--dry-run` to execute. Use `--mlflow` instead of `--no-mlflow` to mirror
-the run. Change the trace mode explicitly to collect telemetry. Dry run resolves
+the run. Use `--host-telemetry` to collect telemetry in any trace mode. Dry run resolves
 and validates inputs and prints the command, prospective directory, mode,
 MLflow state and collector availability. It creates no files/directories and
 starts no benchmark, collector or MLflow process.
@@ -363,3 +363,23 @@ textual reports. `.gitignore` extends existing rules for data/indexes, builds,
 raw traces, MLflow stores, caches, virtualenvs and local headers. Keep bulky
 evidence external. Before staging, inspect `git status --short`,
 `git diff --stat`, and `git diff --cached --name-only`.
+
+## Host telemetry independent of trace mode (Issue #10)
+
+Use `--host-telemetry` to request mpstat/pidstat/iostat for any OFF/LIGHT/DETAIL
+run, including stock binaries without causal tracing. `--no-host-telemetry`
+disables those collectors independently of ANN instrumentation. Missing tools
+still do not fail an ordinary benchmark. E0b requires matched available
+collectors explicitly; its campaign validator enforces that separate protocol.
+
+Omitting both flags preserves historical behavior: OFF disables collectors;
+LIGHT/DETAIL request them. New manifests record the effective boolean
+`host_telemetry_requested` and nullable CLI override `host_telemetry_option`.
+These fields are optional in schema v2 for compatibility; old finalized runs
+are not rewritten or assigned inferred values. The derived run index is
+unchanged. MLflow mirrors the effective request as a parameter/tag.
+
+OFF with host telemetry writes raw collector logs and system_metrics.csv,
+without adding ANN events or stub query metrics. OFF without telemetry keeps
+its historical artifact behavior. LIGHT/DETAIL retain existing trace exports.
+Collection remains outside the ANN process; no search/timing hooks changed.
