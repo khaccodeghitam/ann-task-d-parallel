@@ -6,6 +6,7 @@ import csv
 import datetime as dt
 import fcntl
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -157,6 +158,8 @@ def parser():
     p.add_argument("--dataset-path", required=True, help="Existing dataset directory or file")
     p.add_argument("--query", required=True)
     p.add_argument("--ground-truth", required=True, help="Existing truthset, or literal null")
+    p.add_argument("--input-package-manifest", help="Verified immutable input package with SHA256 sidecar")
+    p.add_argument("--index-package-manifest", help="Verified immutable index package with SHA256 sidecar")
     p.add_argument("--index-id", default="sift1m")
     p.add_argument("--index-prefix", required=True)
     p.add_argument("--data-type", choices=("float", "int8", "uint8"), default="float")
@@ -257,6 +260,10 @@ def resolve(args):
         if size not in (8 + truth_count * truth_k * 4, 8 + truth_count * truth_k * 8):
             raise ValueError("Unsupported/truncated ground truth format")
     args.query_count, args.query_dimension = count, dimension
+    spec = importlib.util.spec_from_file_location("ann_packages", Path(__file__).with_name("package_manifest.py"))
+    packages = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(packages)
+    args.package_bindings = packages.bindings(args)
     return args
 
 
@@ -301,7 +308,7 @@ def make_manifest(args, identity, argv, collectors):
             "git_commit": harness["harness_git_commit"], "git_dirty": harness["harness_git_dirty"],
             "git_branch": harness["harness_git_branch"], "repo_remote": harness["harness_repo_remote"],
             "executable": str(args.executable), "executable_sha256": sha256(args.executable),
-            "build_metadata": build_metadata,
+            "build_metadata": build_metadata, **args.package_bindings,
             "argv": argv, "exact_command": shlex.join(argv), "cwd": str(REPO),
             "environment": {key: os.environ.get(key) for key in
                             ("OMP_NUM_THREADS", "OMP_PROC_BIND", "OMP_PLACES", "MKL_NUM_THREADS")},
@@ -339,6 +346,8 @@ def parse_benchmark_output(text, l_search, wcap, k, has_truth, benchmark_profile
     """
     profile = BENCHMARK_PROFILES[benchmark_profile]
     metrics = dict.fromkeys(METRICS)
+    if re.search(r"\[linux_aligned_file_reader\.cpp:\d+:ERROR\]", text):
+        return metrics, "Canonical reader reported an I/O error; benchmark table is invalid"
     header_seen = False
     rows = []
     for line in text.splitlines():
@@ -597,6 +606,7 @@ def run(args):
                "index": str(args.index_prefix), "exact_command": shlex.join(argv),
                "run_directory": str(directory), "trace_mode": args.trace_mode,
                "mlflow_enabled": args.mlflow, "telemetry_collectors": collectors}
+    preview.update(args.package_bindings)
     preview.update(causal_trace_enabled=args.causal_trace, trace_environment=args.trace_environment)
     if args.dry_run:
         print(json.dumps(preview, indent=2))

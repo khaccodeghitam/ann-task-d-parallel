@@ -112,6 +112,16 @@ class RunnerTests(unittest.TestCase):
                 self.assertIsNotNone(error)
                 self.assertTrue(all(value is None for value in metrics.values()))
 
+    def test_reader_error_rejects_zero_exit_benchmark_table(self):
+        self.executable.write_text("#!/usr/bin/env python3\nprint(" + repr("[linux_aligned_file_reader.cpp:724:ERROR] Failed Bad file descriptor\n" + TABLE) + ")\n")
+        code, result = self.execute()
+        self.assertEqual(code, 1)
+        summary = json.loads((Path(result["run_directory"]) / "summary.json").read_text())
+        self.assertEqual(summary["exit_code"], 0)
+        self.assertEqual(summary["benchmark_status"], "failed")
+        self.assertIsNone(summary["recall"])
+        self.assertIn("I/O error", summary["parse_error"])
+
     def test_parser_without_ground_truth(self):
         text = TABLE.replace("   Recall@10", "").replace("       90.50", "")
         metrics, error = runner.parse_benchmark_output(text, 20, 32, 10, False, "legacy-research")
