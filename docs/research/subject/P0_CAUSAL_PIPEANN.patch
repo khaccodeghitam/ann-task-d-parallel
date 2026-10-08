@@ -1,0 +1,487 @@
+diff --git a/include/causal_trace.h b/include/causal_trace.h
+new file mode 100644
+index 0000000..939f787
+--- /dev/null
++++ b/include/causal_trace.h
+@@ -0,0 +1,207 @@
++#pragma once
++// P0 observation only. No ANN objects, request layouts, or search decisions are changed.
++#include <array>
++#include <algorithm>
++#include <cstdint>
++#include <memory>
++#include <vector>
++#include <chrono>
++#include <unistd.h>
++#include <sys/syscall.h>
++
++namespace pipeann::trace {
++constexpr uint64_t NA = UINT64_MAX;
++constexpr size_t TABLE_CAPACITY = 512;  // Stock MAX_N_SECTOR_READS is 128.
++enum Mode : uint64_t { OFF = 0, LIGHT = 1, DETAIL = 2 };
++enum Kind : uint64_t { QUERY_START = 1, QUERY_END, WIDTH_INIT, WIDTH_CHANGE, IO_SELECT,
++                      IO_SUBMIT, IO_CQE_SEEN, IO_PUBLISH, NODE_EXPAND, TRACE_HEALTH, IO_CACHE_READY };
++enum Field : size_t { TYPE, TIME_NS, QID, WORKER, TID, RING, SEQ, KEY, NODE, PAGE, LOC,
++                     OFFSET, LENGTH, WIDTH, WCAP, OLD_WIDTH, CUR_N_IN, CUR_TOT, N_IN, N_OUT,
++                     MAX_MARKER, INFLIGHT, POLL_CQES, SUBMITTED, CQE_SEEN, PUBLISHED, EXPANDED,
++                     HIDDEN, CACHE_READY, CACHE_PUBLISHED, DROPPED, ORDERING, OUTSTANDING,
++                     RESULT, EVENT_FIELDS };
++enum Counter : size_t { C_QID, C_WORKER, C_TID, C_SAMPLED, C_SELECTED, C_SUBMITTED, C_CQE,
++    C_PUBLISHED, C_EXPANDED, C_POLL_CALLS, C_CQE_COUNT, C_MAX_HIDDEN, C_INITIAL_WIDTH,
++    C_FINAL_WIDTH, C_WIDTH_CHANGES, C_MAX_INFLIGHT, C_DROPPED, C_UNMATCHED_SUBMIT,
++    C_UNMATCHED_CQE, C_UNMATCHED_PUBLISH, C_ORDERING, C_NEGATIVE_HIDDEN,
++    C_OUTSTANDING, C_CACHE_READY, C_CACHE_PUBLISHED, C_LATENCY_NS, C_TABLE_OVERFLOWS,
++    C_EVENTS_WRITTEN, COUNTER_FIELDS };
++using TraceEvent = std::array<uint64_t, EVENT_FIELDS>;
++using QueryCounters = std::array<uint64_t, COUNTER_FIELDS>;
++struct Correlation {
++  uintptr_t key = 0;  // 0 empty, 1 tombstone; real pointers are aligned.
++  uint64_t seq = 0, node = NA, page = NA, loc = NA, offset = NA, length = NA;
++  uint64_t submit_ns = NA, cqe_ns = NA, publish_ns = NA;
++  uint8_t state = 0;  // 1 selected, 2 submitted, 3 CQE ready, 4 cache ready.
++};
++struct WorkerState {
++  std::array<Correlation, TABLE_CAPACITY> requests{};
++  std::unique_ptr<TraceEvent[]> events;
++  uint64_t count = 0, capacity = 0, tid = 0, ring = NA, width = NA, wcap = NA;
++  uint64_t inflight = 0, seq = 0, next_publish = 1, query_event_start = 0;
++  bool sampled = false;
++  QueryCounters counters{};
++};
++struct Config { Mode mode = OFF; uint64_t first_n = 8, capacity = 16384, queries = 0, workers = 0; };
++extern Config config;
++extern std::vector<WorkerState> workers;
++extern std::vector<QueryCounters> summaries;
++extern thread_local WorkerState *current;
++void prepare(uint64_t worker_count, uint64_t query_count);
++void dump();  // Exclusive binary dump after the measured loop; may throw outside hot path.
++
++inline uint64_t now_ns() {
++  return std::chrono::duration_cast<std::chrono::nanoseconds>(
++      std::chrono::steady_clock::now().time_since_epoch()).count();
++}
++inline Correlation *lookup(WorkerState &s, uintptr_t key, bool insert = false) {
++  const size_t start = ((key >> 3) * 11400714819323198485ull) & (TABLE_CAPACITY - 1);
++  Correlation *free_slot = nullptr;
++  for (size_t i = 0; i < TABLE_CAPACITY; ++i) {
++    auto &slot = s.requests[(start + i) & (TABLE_CAPACITY - 1)];
++    if (slot.key == key) return &slot;
++    if (slot.key <= 1 && free_slot == nullptr) free_slot = &slot;
++    if (slot.key == 0) break;
++  }
++  return insert ? free_slot : nullptr;
++}
++inline uint64_t hidden(WorkerState &s) {
++  auto &c = s.counters;
++  if (c[C_PUBLISHED] > c[C_CQE]) { ++c[C_NEGATIVE_HIDDEN]; return NA; }
++  return c[C_CQE] - c[C_PUBLISHED];
++}
++inline TraceEvent blank_event() { TraceEvent e; e.fill(NA); return e; }
++inline void emit(Kind kind, Correlation *r = nullptr, const TraceEvent *extra = nullptr) {
++  auto *s = current;
++  if (!s || !s->sampled) return;
++  if (s->count == s->capacity) { ++s->counters[C_DROPPED]; return; }
++  // No timestamp call on OFF/LIGHT/unsampled DETAIL, or after buffer overflow.
++  TraceEvent e;
++  e.fill(NA);
++  e[TYPE] = kind; e[TIME_NS] = now_ns();
++  if (r) {
++    if (kind == IO_SUBMIT) r->submit_ns = e[TIME_NS];
++    if (kind == IO_CQE_SEEN) r->cqe_ns = e[TIME_NS];
++    if (kind == IO_PUBLISH) r->publish_ns = e[TIME_NS];
++  }
++  e[QID] = s->counters[C_QID]; e[WORKER] = s->counters[C_WORKER]; e[TID] = s->tid;
++  e[RING] = s->ring; e[WIDTH] = s->width; e[WCAP] = s->wcap; e[INFLIGHT] = s->inflight;
++  auto &c = s->counters;
++  e[SUBMITTED] = c[C_SUBMITTED]; e[CQE_SEEN] = c[C_CQE]; e[PUBLISHED] = c[C_PUBLISHED];
++  e[EXPANDED] = c[C_EXPANDED]; e[HIDDEN] = hidden(*s);
++  e[CACHE_READY] = c[C_CACHE_READY]; e[CACHE_PUBLISHED] = c[C_CACHE_PUBLISHED];
++  e[DROPPED] = c[C_DROPPED]; e[ORDERING] = c[C_ORDERING]; e[OUTSTANDING] = c[C_OUTSTANDING];
++  if (r) { e[SEQ] = r->seq; e[KEY] = r->key; e[NODE] = r->node; e[PAGE] = r->page;
++           e[LOC] = r->loc; e[OFFSET] = r->offset; e[LENGTH] = r->length; }
++  // Explicit extras are only these numeric fields, and never part of algorithm state.
++  for (size_t field : {OLD_WIDTH, CUR_N_IN, CUR_TOT, N_IN, N_OUT, MAX_MARKER, POLL_CQES, RESULT})
++    e[field] = extra ? (*extra)[field] : NA;
++  if (kind == NODE_EXPAND) e[NODE] = (*extra)[NODE];
++  s->events[s->count++] = e;
++}
++inline void begin(uint64_t qid, uint64_t worker) {
++  if (config.mode == OFF) return;
++  auto &s = workers[worker];
++  s.requests = {}; s.counters = {}; s.seq = 0; s.next_publish = 1;
++  s.inflight = 0; s.width = s.wcap = s.ring = NA; s.query_event_start = s.count;
++  s.sampled = config.mode == DETAIL && qid < config.first_n;
++  if (!s.tid) s.tid = syscall(SYS_gettid);
++  s.counters[C_QID] = qid; s.counters[C_WORKER] = worker; s.counters[C_TID] = s.tid;
++  s.counters[C_SAMPLED] = s.sampled; current = &s;
++  emit(QUERY_START);
++}
++inline void end(uint64_t latency_ns = NA) {
++  auto *s = current;
++  if (!s) return;
++  for (auto &r : s->requests) if (r.key > 1 && r.state == 1) ++s->counters[C_UNMATCHED_SUBMIT];
++  s->counters[C_LATENCY_NS] = latency_ns;
++  emit(QUERY_END); emit(TRACE_HEALTH);
++  s->counters[C_EVENTS_WRITTEN] = s->count - s->query_event_start;
++  summaries[s->counters[C_QID]] = s->counters;
++  current = nullptr;
++}
++struct QueryScope {
++  const double *latency_us;
++  QueryScope(uint64_t qid, uint64_t worker, const double *latency) : latency_us(latency) { begin(qid, worker); }
++  ~QueryScope() { if (current) end(latency_us ? static_cast<uint64_t>(*latency_us * 1000) : NA); }
++  QueryScope(const QueryScope &) = delete;
++  QueryScope &operator=(const QueryScope &) = delete;
++};
++inline void width_init(uint64_t width, uint64_t wcap, void *ctx) {
++  if (!current) return;
++  current->width = width; current->wcap = wcap; current->ring = reinterpret_cast<uintptr_t>(ctx);
++  current->counters[C_INITIAL_WIDTH] = current->counters[C_FINAL_WIDTH] = width;
++  emit(WIDTH_INIT);
++}
++inline void width_change(uint64_t old_width, uint64_t width, uint64_t cur_n_in, uint64_t cur_tot,
++                         uint64_t n_in, uint64_t n_out, uint64_t max_marker, uint64_t inflight) {
++  if (!current || old_width == width) return;
++  current->width = width; current->inflight = inflight;
++  current->counters[C_FINAL_WIDTH] = width; ++current->counters[C_WIDTH_CHANGES];
++  if (width < old_width || width > old_width + 1 || width > current->wcap) ++current->counters[C_ORDERING];
++  if (!current->sampled) return;
++  TraceEvent extra = blank_event(); extra[OLD_WIDTH] = old_width; extra[CUR_N_IN] = cur_n_in; extra[CUR_TOT] = cur_tot;
++  extra[N_IN] = n_in; extra[N_OUT] = n_out; extra[MAX_MARKER] = max_marker;
++  emit(WIDTH_CHANGE, nullptr, &extra);
++}
++inline void select(void *request, uint64_t node, uint64_t page, uint64_t loc,
++                   uint64_t offset, uint64_t length, uint64_t inflight) {
++  if (!current) return;
++  auto &s = *current; auto key = reinterpret_cast<uintptr_t>(request);
++  ++s.counters[C_SELECTED]; ++s.seq;
++  auto *r = lookup(s, key, true);
++  if (!r || r->key > 1) { ++s.counters[C_TABLE_OVERFLOWS]; ++s.counters[C_ORDERING]; return; }
++  *r = Correlation{}; r->key = key; r->seq = s.seq; r->state = 1;
++  r->node = node; r->page = page; r->loc = loc; r->offset = offset; r->length = length;
++  ++s.counters[C_OUTSTANDING]; s.inflight = inflight + 1;
++  s.counters[C_MAX_INFLIGHT] = std::max(s.counters[C_MAX_INFLIGHT], s.inflight);
++  emit(IO_SELECT, r);
++}
++inline void submit(void *request) {
++  if (!current) return;
++  auto &s = *current; auto *r = lookup(s, reinterpret_cast<uintptr_t>(request));
++  if (!r) { ++s.counters[C_UNMATCHED_SUBMIT]; return; }
++  if (r->state != 1) ++s.counters[C_ORDERING];
++  r->state = 2; ++s.counters[C_SUBMITTED];
++  emit(IO_SUBMIT, r);
++}
++inline void poll_result(uint64_t count) {
++  if (!current) return;
++  ++current->counters[C_POLL_CALLS]; current->counters[C_CQE_COUNT] += count;
++}
++inline void cqe(void *request, uint64_t batch, int result) {
++  if (!current) return;
++  auto &s = *current; auto *r = lookup(s, reinterpret_cast<uintptr_t>(request));
++  if (!r) { ++s.counters[C_UNMATCHED_CQE]; return; }
++  if (r->state != 2 || result < 0) ++s.counters[C_ORDERING];
++  r->state = 3; ++s.counters[C_CQE];
++  s.counters[C_MAX_HIDDEN] = std::max(s.counters[C_MAX_HIDDEN], hidden(s));
++  if (!s.sampled) return;
++  TraceEvent extra = blank_event(); extra[POLL_CQES] = batch; extra[RESULT] = static_cast<uint64_t>(static_cast<int64_t>(result));
++  emit(IO_CQE_SEEN, r, &extra);
++}
++inline void cache_ready(void *request) {
++  if (!current) return;
++  auto &s = *current; auto *r = lookup(s, reinterpret_cast<uintptr_t>(request));
++  if (!r) { ++s.counters[C_UNMATCHED_CQE]; return; }
++  if (r->state != 1) ++s.counters[C_ORDERING];
++  r->state = 4; ++s.counters[C_CACHE_READY]; emit(IO_CACHE_READY, r);
++}
++inline void publish(void *request, uint64_t inflight) {
++  if (!current) return;
++  auto &s = *current; auto *r = lookup(s, reinterpret_cast<uintptr_t>(request));
++  if (!r) { ++s.counters[C_UNMATCHED_PUBLISH]; return; }
++  if (r->seq != s.next_publish++) ++s.counters[C_ORDERING];
++  if (r->state == 3) ++s.counters[C_PUBLISHED];
++  else if (r->state == 4) ++s.counters[C_CACHE_PUBLISHED];
++  else { ++s.counters[C_UNMATCHED_PUBLISH]; ++s.counters[C_ORDERING]; }
++  --s.counters[C_OUTSTANDING]; s.inflight = inflight - 1;
++  emit(IO_PUBLISH, r); r->key = 1; r->state = 0;
++}
++inline void expand(uint64_t node, uint64_t inflight) {
++  if (!current) return;
++  ++current->counters[C_EXPANDED]; current->inflight = inflight;
++  if (!current->sampled) return;
++  TraceEvent extra = blank_event(); extra[NODE] = node; emit(NODE_EXPAND, nullptr, &extra);
++}
++}  // namespace pipeann::trace
+diff --git a/src/search/pipe_search_common.h b/src/search/pipe_search_common.h
+index 3e9fc81..9b9fdc5 100644
+--- a/src/search/pipe_search_common.h
++++ b/src/search/pipe_search_common.h
+@@ -8,6 +8,7 @@
+ #endif
+
+ #include "candidate_pool.h"
++#include "causal_trace.h"
+
+ namespace pipeann {
+
+@@ -244,6 +245,7 @@ namespace pipeann {
+
+     // --- In-memory index initialization ---
+     int64_t cur_beam_width = std::min<uint64_t>(4, beam_width);
++    trace::width_init(cur_beam_width, beam_width, ctx);
+     std::vector<unsigned> mem_tags(mem_L);
+     std::vector<float> mem_dists(mem_L);
+
+@@ -293,6 +295,7 @@ namespace pipeann {
+       auto &req = query_buf->reqs[cur_buf_idx];
+       req = IORequest(static_cast<uint64_t>(pid) * SECTOR_LEN, read_io_size, buf, u_loc_offset(loc), meta_.max_node_len,
+                       sector_scratch);
++      trace::select(&req, item.id, pid, loc, req.offset, req.len, on_flight_ios.size());
+       reader->send_read(req, ctx);
+
+       on_flight_ios.push(io_t{item, pid, loc, &req, UINT32_MAX});
+@@ -314,6 +317,7 @@ namespace pipeann {
+       while (!on_flight_ios.empty() && on_flight_ios.front().finished()) {
+         io_t &io = on_flight_ios.front();
+         id_buf_map.insert(std::make_pair(io.nbr.id, node_from_page((char *) io.read_req->buf, io.loc)));
++        trace::publish(io.read_req, on_flight_ios.size());
+         if (insert_ctx != nullptr) {
+           insert_ctx->hint_pages.push_back(io.page_id);
+         }
+@@ -346,6 +350,7 @@ namespace pipeann {
+       // ready-probe scan on the frequent spins where no IO has landed yet.
+       Neighbor *node = id_buf_map.empty() ? nullptr : pool.next_calc_nbr();
+       if (node != nullptr) {
++        trace::expand(node->id, on_flight_ios.size());
+         auto it = id_buf_map.find(node->id);
+         auto &[id, dnode] = *it;
+         if (compute_exact_dists_and_push(dnode, id)) {
+@@ -423,9 +428,12 @@ namespace pipeann {
+         cur_tot += n_in + n_out;
+         constexpr double kWasteThreshold = 0.1;
+         if ((cur_tot - cur_n_in) * 1.0 / cur_tot <= kWasteThreshold) {
++          const auto trace_old_width = cur_beam_width;
+           cur_beam_width = cur_beam_width + 1;
+           cur_beam_width = std::max(cur_beam_width, 4l);
+           cur_beam_width = std::min((int64_t) beam_width, cur_beam_width);
++          trace::width_change(trace_old_width, cur_beam_width, cur_n_in, cur_tot, n_in, n_out,
++                              max_marker, on_flight_ios.size());
+         }
+       }
+
+diff --git a/src/utils/causal_trace.cpp b/src/utils/causal_trace.cpp
+new file mode 100644
+index 0000000..60fbe6e
+--- /dev/null
++++ b/src/utils/causal_trace.cpp
+@@ -0,0 +1,63 @@
++#include "causal_trace.h"
++#include <cstdio>
++#include <cerrno>
++#include <cstdlib>
++#include <cstring>
++#include <stdexcept>
++#include <string>
++
++namespace pipeann::trace {
++Config config;
++std::vector<WorkerState> workers;
++std::vector<QueryCounters> summaries;
++thread_local WorkerState *current = nullptr;
++static std::string output;
++
++static uint64_t number(const char *name, uint64_t fallback, uint64_t maximum) {
++  const char *value = std::getenv(name);
++  if (!value) return fallback;
++  if (!*value || strspn(value, "0123456789") != strlen(value)) throw std::runtime_error(name);
++  errno = 0; char *end = nullptr;
++  auto n = strtoull(value, &end, 10);
++  if (errno || *end || n > maximum) throw std::runtime_error(name);
++  return n;
++}
++void prepare(uint64_t worker_count, uint64_t query_count) {
++  config = Config{}; workers.clear(); summaries.clear(); current = nullptr;
++  const char *mode = std::getenv("PIPEANN_TRACE_MODE");
++  if (mode && strcmp(mode, "OFF") != 0) {
++    if (strcmp(mode, "LIGHT") == 0) config.mode = LIGHT;
++    else if (strcmp(mode, "DETAIL") == 0) config.mode = DETAIL;
++    else throw std::runtime_error("Invalid PIPEANN_TRACE_MODE");
++  }
++  config.first_n = number("PIPEANN_TRACE_DETAIL_FIRST_N", 8, 1000000);
++  config.capacity = number("PIPEANN_TRACE_EVENT_CAPACITY", 16384, 1048576);
++  if (!config.capacity || (config.mode == DETAIL && !config.first_n)) throw std::runtime_error("Invalid trace capacity/sample");
++  const char *path = std::getenv("PIPEANN_TRACE_OUTPUT"); output = path ? path : "";
++  if (config.mode != OFF && output.empty()) throw std::runtime_error("PIPEANN_TRACE_OUTPUT required");
++  config.workers = worker_count; config.queries = query_count;
++  if (config.mode == OFF) return;  // No event arrays, tables, or query rows allocated.
++  workers.resize(worker_count); summaries.resize(query_count);
++  for (auto &s : workers) {
++    s.capacity = config.capacity;
++    if (config.mode == DETAIL) s.events = std::make_unique<TraceEvent[]>(config.capacity);
++  }
++}
++void dump() {
++  if (output.empty()) return;
++  uint64_t event_count = 0;
++  for (auto &s : workers) event_count += s.count;
++  // Fixed protocol is little-endian uint64 arrays on the canonical Linux x86-64 host.
++  const uint16_t endian = 1;
++  if (*reinterpret_cast<const uint8_t *>(&endian) != 1) throw std::runtime_error("Trace protocol requires little endian");
++  uint64_t header[] = {1, config.mode, config.workers, config.capacity, config.first_n,
++                       config.queries, event_count, summaries.size(), EVENT_FIELDS, COUNTER_FIELDS};
++  FILE *f = std::fopen(output.c_str(), "wbx");
++  if (!f) throw std::runtime_error("Cannot create exclusive trace output");
++  bool ok = fwrite("PANTRC01", 8, 1, f) == 1 && fwrite(header, sizeof(header), 1, f) == 1;
++  for (auto &s : workers) if (s.count) ok = ok && fwrite(s.events.get(), sizeof(TraceEvent), s.count, f) == s.count;
++  if (!summaries.empty()) ok = ok && fwrite(summaries.data(), sizeof(QueryCounters), summaries.size(), f) == summaries.size();
++  ok = (fclose(f) == 0) && ok;
++  if (!ok) throw std::runtime_error("Trace output write failed");
++}
++}  // namespace pipeann::trace
+diff --git a/src/utils/linux_aligned_file_reader.cpp b/src/utils/linux_aligned_file_reader.cpp
+index 5c54701..7f31b9b 100644
+--- a/src/utils/linux_aligned_file_reader.cpp
++++ b/src/utils/linux_aligned_file_reader.cpp
+@@ -1,3 +1,4 @@
++#include "causal_trace.h"
+ #include <bits/types/struct_iovec.h>
+ #include "ssd_index_defs.h"
+ #include "utils/lock_table.h"
+@@ -694,6 +695,7 @@ void LinuxAlignedFileReader::send_io(IORequest &req, void *ctx, bool write) {
+   } else {
+     io_uring_prep_read(sqe, fd, req.buf, req.len, req.offset);
+   }
++  if (!write) pipeann::trace::submit(&req);
+   io_uring_submit(ring);
+ }
+
+@@ -719,12 +721,14 @@ int LinuxAlignedFileReader::poll(void *ctx) {
+   if (ret < 0) {
+     return 0;  // not finished yet.
+   }
++  pipeann::trace::poll_result(ret);
+   for (int i = 0; i < ret; i++) {
+     if (cqes[i]->res < 0) {
+       LOG(ERROR) << "Failed " << strerror(-cqes[i]->res);
+     }
+     IORequest *req = (IORequest *) cqes[i]->user_data;
+     if (req != nullptr) {
++      pipeann::trace::cqe(req, ret, cqes[i]->res);
+       req->finished = true;
+     }
+     io_uring_cqe_seen(ring, cqes[i]);
+@@ -739,12 +743,14 @@ void LinuxAlignedFileReader::poll_alloc(void *ctx, std::vector<uint64_t> *page_r
+   if (ret < 0) {
+     return;
+   }
++  pipeann::trace::poll_result(ret);
+   for (int i = 0; i < ret; i++) {
+     if (cqes[i]->res < 0) {
+       LOG(ERROR) << "Failed " << strerror(-cqes[i]->res);
+     }
+     IORequest *req = (IORequest *) cqes[i]->user_data;
+     if (req != nullptr) {
++      pipeann::trace::cqe(req, ret, cqes[i]->res);
+       req->finished = true;
+       for (uint64_t i = 0; i < req->len / SECTOR_LEN; i++) {
+         uint32_t blk_no = req->offset / SECTOR_LEN + i;
+@@ -1023,6 +1029,8 @@ int LinuxAlignedFileReader::send_read(IORequest &req, void *ring) {
+ #ifndef READ_ONLY_TESTS
+   if (!read_from_cache(this->fd, req)) {
+     send_io(req, ring, false);
++  } else {
++    pipeann::trace::cache_ready(&req);
+   }
+ #else
+   send_io(req, ring, false);
+diff --git a/tests/search_disk_index.cpp b/tests/search_disk_index.cpp
+index 0903ccb..bd8ca9a 100644
+--- a/tests/search_disk_index.cpp
++++ b/tests/search_disk_index.cpp
+@@ -1,3 +1,4 @@
++#include "causal_trace.h"
+ #include <cstring>
+ #include <omp.h>
+ #include <ssd_index.h>
+@@ -108,11 +109,13 @@ int search_disk_index(int argc, char **argv) {
+
+     std::vector<uint64_t> query_result_tags_64(recall_at * query_num);
+     std::vector<uint32_t> query_result_tags_32(recall_at * query_num);
++    if (search_mode == SearchMode::PIPE_SEARCH) pipeann::trace::prepare(num_threads, query_num);
+     auto s = std::chrono::high_resolution_clock::now();
+
+     if (search_mode == SearchMode::PIPE_SEARCH) {
+ #pragma omp parallel for schedule(dynamic, 1)
+       for (int64_t i = 0; i < (int64_t) query_num; i++) {
++        pipeann::trace::QueryScope trace_scope(i, omp_get_thread_num(), &stats[i].total_us);
+         _pFlashIndex->pipe_search(query + (i * query_dim), (uint64_t) recall_at, mem_L, (uint64_t) L,
+                                   query_result_tags_32.data() + (i * recall_at),
+                                   query_result_dists[test_id].data() + (i * recall_at), (uint64_t) beamwidth,
+@@ -159,6 +162,7 @@ int search_disk_index(int argc, char **argv) {
+
+     auto e = std::chrono::high_resolution_clock::now();
+     std::chrono::duration<double> diff = e - s;
++    if (search_mode == SearchMode::PIPE_SEARCH) pipeann::trace::dump();
+     float qps = (float) ((1.0 * (double) query_num) / (1.0 * (double) diff.count()));
+
+     pipeann::convert_types<uint32_t, uint32_t>(query_result_tags_32.data(), query_result_tags[test_id].data(),
+diff --git a/tests/test_causal_trace.cpp b/tests/test_causal_trace.cpp
+new file mode 100644
+index 0000000..820c0b1
+--- /dev/null
++++ b/tests/test_causal_trace.cpp
+@@ -0,0 +1,55 @@
++// Standalone numeric tracer test: no dataset, ANN library, io_uring or root needed.
++#include "causal_trace.h"
++#include <cassert>
++#include <cstdlib>
++#include <cstdio>
++#include <stdexcept>
++using namespace pipeann::trace;
++static void configure(const char *mode, const char *capacity = "128") {
++  setenv("PIPEANN_TRACE_MODE", mode, 1);
++  setenv("PIPEANN_TRACE_OUTPUT", "/tmp/not-written-by-tracer-unit-test", 1);
++  setenv("PIPEANN_TRACE_DETAIL_FIRST_N", "1", 1);
++  setenv("PIPEANN_TRACE_EVENT_CAPACITY", capacity, 1);
++  prepare(1, 2);
++}
++int main() {
++  configure("OFF"); begin(0, 0); width_init(4, 32, nullptr);
++  select(reinterpret_cast<void *>(8), 1, 2, 3, 0, 4096, 0);
++  submit(reinterpret_cast<void *>(8)); cqe(reinterpret_cast<void *>(8), 1, 4096);
++  publish(reinterpret_cast<void *>(8), 1); expand(1, 0); end();
++  assert(current == nullptr && workers.empty() && summaries.empty());
++  configure("DETAIL"); begin(1, 0); width_init(4, 32, nullptr); end();
++  assert(workers[0].count == 0 && summaries[1][C_SAMPLED] == 0);
++  begin(0, 0); width_init(4, 32, reinterpret_cast<void *>(16));
++  void *a = reinterpret_cast<void *>(64), *b = reinterpret_cast<void *>(128);
++  select(a, 1, 10, 11, 0, 4096, 0); submit(a);
++  select(b, 2, 20, 21, 4096, 4096, 1); submit(b);
++  poll_result(2); cqe(b, 2, 4096); cqe(a, 2, 4096);
++  assert(current->counters[C_MAX_HIDDEN] == 2);
++  publish(a, 2); publish(b, 1); expand(1, 0);
++  width_change(4, 5, 9, 10, 1, 0, 8, 0);
++  // Reuse the same address only after publication; correlation seq must change.
++  select(a, 3, 30, 31, 8192, 4096, 0); cache_ready(a); publish(a, 1);
++  end(123000);
++  auto c = summaries[0];
++  assert(c[C_SUBMITTED] == 2 && c[C_CQE] == 2 && c[C_PUBLISHED] == 2);
++  assert(c[C_OUTSTANDING] == 0 && c[C_ORDERING] == 0 && c[C_DROPPED] == 0);
++  assert(c[C_CACHE_READY] == 1 && c[C_CACHE_PUBLISHED] == 1);
++  assert(c[C_INITIAL_WIDTH] == 4 && c[C_FINAL_WIDTH] == 5 && c[C_WIDTH_CHANGES] == 1);
++  assert(c[C_LATENCY_NS] == 123000 && c[C_SELECTED] == 3);
++  configure("LIGHT"); begin(0, 0); width_init(4, 32, nullptr); end();
++  assert(workers[0].count == 0 && summaries[0][C_EVENTS_WRITTEN] == 0);
++  configure("DETAIL", "1"); begin(0, 0); width_init(4, 32, nullptr); end();
++  assert(workers[0].count == 1 && summaries[0][C_DROPPED] == 3);
++  configure("LIGHT"); begin(0, 0);
++  for (size_t i = 0; i < TABLE_CAPACITY + 1; ++i)
++    select(reinterpret_cast<void *>((i + 1) * 8), i, 0, 0, 0, 4096, i);
++  assert(current->counters[C_TABLE_OVERFLOWS] == 1); end();
++  for (const char *bad : {"oops", "", "off"}) {
++    bool threw = false; try { configure(bad); } catch (const std::runtime_error &) { threw = true; }
++    assert(threw);
++  }
++  bool threw = false; try { configure("DETAIL", "-1"); } catch (const std::runtime_error &) { threw = true; }
++  assert(threw);
++  std::puts("causal tracer tests passed: OFF, sampling, correlation reuse/FIFO, cache, width, LIGHT, overflow, config");
++}

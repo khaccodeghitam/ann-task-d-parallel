@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:parallel-ann:p0:causal-events:2",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "source",
+    "run_id",
+    "event",
+    "timestamp_ns",
+    "query_id",
+    "worker_id",
+    "linux_tid",
+    "request_seq",
+    "completed_hidden"
+  ],
+  "properties": {
+    "timestamp_ns": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "query_id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "worker_id": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "linux_tid": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "ring_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "request_seq": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "request_key": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "node_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "page_id": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "location": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "offset": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "length": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "width": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "wcap": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "old_width": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "cur_n_in": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "cur_tot": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "n_in": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "n_out": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "max_marker": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "inflight_count": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "poll_cqes": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "submitted": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "cqe_seen": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "published": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "expanded": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "completed_hidden": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "cache_ready": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "cache_published": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "events_dropped": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "ordering_violations": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "outstanding_correlations": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "schema_version": {
+      "const": 2
+    },
+    "source": {
+      "const": "ann"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "event": {
+      "enum": [
+        "QUERY_START",
+        "QUERY_END",
+        "WIDTH_INIT",
+        "WIDTH_CHANGE",
+        "IO_SELECT",
+        "IO_SUBMIT",
+        "IO_CQE_SEEN",
+        "IO_PUBLISH",
+        "NODE_EXPAND",
+        "TRACE_HEALTH",
+        "IO_CACHE_READY"
+      ]
+    },
+    "cqe_result": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

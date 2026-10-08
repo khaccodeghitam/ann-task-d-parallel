@@ -91,6 +91,9 @@ class RunnerTests(unittest.TestCase):
         self.assertIsNone(manifest["neighbor_type"])
         self.assertEqual(manifest["argv"][0], str(self.executable))
         self.assertEqual(manifest["status"], "success")
+        self.assertEqual(manifest["benchmark_status"], "success")
+        self.assertEqual(manifest["run_status"], "success")
+        self.assertIsNone(manifest["trace_valid"])
 
     def test_parser_preserves_true_percentile(self):
         metrics, error = runner.parse_benchmark_output(TABLE, 20, 32, 10, True, "legacy-research")
@@ -154,6 +157,7 @@ class RunnerTests(unittest.TestCase):
         code, result = self.execute()
         self.assertEqual(code, 1)
         self.assertEqual(result["summary"]["exit_code"], 7)
+        self.assertEqual(result["benchmark_status"], "failed")
         directory = Path(result["run_directory"])
         self.assertIn("diagnostic error", (directory / "stdout.log").read_text())
         self.check_checksums(directory)
@@ -484,6 +488,46 @@ class RunnerTests(unittest.TestCase):
             schema = json.loads((REPO / f"schemas/research/{name}.v1.schema.json").read_text())
             Draft202012Validator(schema).validate(data)
 
+    def test_v2_index_migration_preserves_historical_status(self):
+        directory = self.evidence / "summaries"
+        directory.mkdir(parents=True)
+        historical = {key: f"old-{key}" for key in runner.V2_INDEX_COLUMNS}
+        historical["run_status"] = "success"  # Pre-fix meaning remains recorded, not inferred.
+        with (directory / "run_index.csv").open("w", newline="") as stream:
+            writer = csv.DictWriter(stream, runner.V2_INDEX_COLUMNS)
+            writer.writeheader(); writer.writerow(historical)
+        code, result = self.execute()
+        self.assertEqual(code, 0)
+        with (directory / "run_index.csv").open() as stream:
+            rows = list(csv.DictReader(stream))
+        self.assertEqual(len(rows), 2)
+        for key, value in historical.items(): self.assertEqual(rows[0][key], value)
+        for key in ("benchmark_status", "trace_valid", "causal_trace_enabled"):
+            self.assertEqual(rows[0][key], "")
+        self.assertEqual(rows[1]["benchmark_status"], "success")
+        self.assertEqual(rows[1]["trace_valid"], "")
+
+    def test_old_v2_schema_and_index_do_not_fabricate_benchmark_status(self):
+        code, result = self.execute()
+        self.assertEqual(code, 0)
+        directory = Path(result["run_directory"])
+        old = {}
+        for name in ("manifest", "summary"):
+            data = json.loads((directory / f"{name}.json").read_text())
+            data.pop("benchmark_status"); data.pop("trace_valid")
+            if name == "manifest": data.pop("run_status"); data.pop("exit_code")
+            else: data.pop("causal_trace_enabled")
+            Draft202012Validator(json.loads((REPO / f"schemas/research/{name}.schema.json").read_text())).validate(data)
+            old[name] = data
+        before = {p.name: p.read_bytes() for p in directory.iterdir() if p.is_file()}
+        runner.update_run_index(self.evidence, old["manifest"], old["summary"])
+        with (self.evidence / "summaries/run_index.csv").open() as stream:
+            row = next(csv.DictReader(stream))
+        self.assertEqual(row["benchmark_status"], "")
+        self.assertEqual(row["trace_valid"], "")
+        self.assertEqual(row["run_status"], old["summary"]["run_status"])
+        self.assertEqual(before, {p.name: p.read_bytes() for p in directory.iterdir() if p.is_file()})
+
     def test_canonical_manifest_and_summary_metadata(self):
         code, result = self.execute("--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", "pq")
         self.assertEqual(code, 0)
@@ -527,6 +571,10 @@ class RunnerTests(unittest.TestCase):
         metrics = {call.args[1]: call.args[2] for call in client.log_metric.call_args_list}
         self.assertEqual(metrics["p99_latency_us"], 1500.25)
         self.assertNotIn("p999_latency_us", metrics)
+        self.assertEqual(tags["benchmark_status"], "success")
+        self.assertEqual(tags["trace_valid"], "null")
+        self.assertEqual(tags["run_status"], "success")
+        client.set_terminated.assert_called_with("mirror-one", status="FINISHED")
 
 
 if __name__ == "__main__":

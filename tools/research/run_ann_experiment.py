@@ -24,6 +24,8 @@ import time
 import uuid
 
 REPO = Path(__file__).resolve().parents[2]
+TRACE_ENV_KEYS = ("PIPEANN_TRACE_MODE", "PIPEANN_TRACE_OUTPUT", "PIPEANN_TRACE_DETAIL_FIRST_N",
+                  "PIPEANN_TRACE_EVENT_CAPACITY")
 METRICS = ("qps", "recall", "mean_latency_us", "p50_latency_us",
            "p95_latency_us", "p99_latency_us", "p999_latency_us", "mean_hops", "mean_ios")
 QUERY_COLUMNS = ("schema_version", "run_id", "query_id", "latency_us", "hops",
@@ -38,7 +40,8 @@ PROVENANCE_COLUMNS = tuple(f"{namespace}_{field}" for namespace in ("harness", "
                            for field in ("repo_root", "repo_remote", "git_commit", "git_branch", "git_dirty"))
 PROFILE_COLUMNS = ("benchmark_profile", "benchmark_profile_version", "parser_version",
                    "printed_latency_percentile")
-INDEX_COLUMNS = (*V1_INDEX_COLUMNS, *PROFILE_COLUMNS, *PROVENANCE_COLUMNS)
+V2_INDEX_COLUMNS = (*V1_INDEX_COLUMNS, *PROFILE_COLUMNS, *PROVENANCE_COLUMNS)
+INDEX_COLUMNS = (*V2_INDEX_COLUMNS, "benchmark_status", "trace_valid", "causal_trace_enabled")
 
 # Source-audited contracts; the shared output label cannot identify its percentile.
 BENCHMARK_PROFILES = {
@@ -166,6 +169,9 @@ def parser():
     p.add_argument("--distance-metric", choices=("l2", "cosine"), default="l2")
     p.add_argument("--neighbor-type", help="Required positional nbr_type for pipeann-b9ec4ba; legacy annotation only")
     p.add_argument("--trace-mode", choices=("OFF", "LIGHT", "DETAIL"), default="OFF")
+    p.add_argument("--causal-trace", action="store_true", help="Require PANTRC01 output from the instrumented canonical subject")
+    p.add_argument("--trace-detail-first-n", type=int, default=8)
+    p.add_argument("--trace-event-capacity", type=int, default=16384, help="Numeric event capacity per worker")
     p.add_argument("--repetition", type=int, default=1)
     p.add_argument("--evidence-root", default=os.environ.get("ANN_EVIDENCE_ROOT", "~/ann-research/research-v3"))
     p.add_argument("--mlflow", action=argparse.BooleanOptionalAction, default=False)
@@ -177,6 +183,12 @@ def parser():
 
 
 def resolve(args):
+    if args.causal_trace and (args.benchmark_profile != "pipeann-b9ec4ba" or args.search_mode != 2):
+        raise ValueError("--causal-trace requires canonical pipeann-b9ec4ba profile and search-mode 2")
+    if not 0 <= args.trace_detail_first_n <= 1000000 or not 1 <= args.trace_event_capacity <= 1048576:
+        raise ValueError("Invalid trace sampling/event capacity")
+    if args.causal_trace and args.trace_mode == "DETAIL" and args.trace_detail_first_n == 0:
+        raise ValueError("DETAIL causal tracing requires a positive first-n sample")
     profile = BENCHMARK_PROFILES[args.benchmark_profile]
     if profile["neighbor_types"] is not None and args.neighbor_type not in profile["neighbor_types"]:
         raise ValueError("pipeann-b9ec4ba requires --neighbor-type from: " + ", ".join(profile["neighbor_types"]))
@@ -248,6 +260,13 @@ def resolve(args):
     return args
 
 
+def trace_environment(args, directory):
+    if not args.causal_trace:
+        return dict.fromkeys(TRACE_ENV_KEYS)  # Clear ambient tracing rather than silently enable it.
+    return dict(zip(TRACE_ENV_KEYS, (args.trace_mode, str(directory / "ann_trace.bin"),
+                    str(args.trace_detail_first_n), str(args.trace_event_capacity))))
+
+
 def benchmark_argv(args):
     profile = BENCHMARK_PROFILES[args.benchmark_profile]
     if profile["neighbor_types"] is not None and args.neighbor_type not in profile["neighbor_types"]:
@@ -286,6 +305,11 @@ def make_manifest(args, identity, argv, collectors):
             "argv": argv, "exact_command": shlex.join(argv), "cwd": str(REPO),
             "environment": {key: os.environ.get(key) for key in
                             ("OMP_NUM_THREADS", "OMP_PROC_BIND", "OMP_PLACES", "MKL_NUM_THREADS")},
+            "trace_environment": args.trace_environment,
+            "causal_trace_enabled": args.causal_trace,
+            "trace_valid": None,
+            "trace_config": {"protocol": "PANTRC01/v1", "detail_first_n": args.trace_detail_first_n,
+                             "event_capacity": args.trace_event_capacity} if args.causal_trace else None,
             **host_info(), "dataset_id": args.dataset_id, "dataset_path": str(args.dataset_path),
             "dataset_hash": sha256(args.dataset_path) if args.dataset_path.is_file() and
                             args.dataset_path.stat().st_size <= 64 * 1024 * 1024 else None,
@@ -347,11 +371,21 @@ def parse_benchmark_output(text, l_search, wcap, k, has_truth, benchmark_profile
     return metrics, None
 
 
-def make_summary(identity, metrics, wall_time, exit_code, status, parse_error, benchmark_profile):
+def overall_run_status(benchmark_status, causal_trace_enabled, trace_valid):
+    if benchmark_status != "success":
+        return benchmark_status
+    return "success" if not causal_trace_enabled or trace_valid is True else "failed"
+
+
+def make_summary(identity, metrics, wall_time, exit_code, benchmark_status, parse_error,
+                 benchmark_profile, causal_trace_enabled=False):
     profile = BENCHMARK_PROFILES[benchmark_profile]
     return {"schema_version": 2, "run_id": identity, **metrics, "wall_time_s": wall_time,
             **profile_metadata(benchmark_profile), "printed_latency_metric": profile["latency_metric"],
-            "exit_code": exit_code, "run_status": status, "parse_error": parse_error,
+            "exit_code": exit_code, "benchmark_status": benchmark_status,
+            "causal_trace_enabled": causal_trace_enabled, "trace_valid": None,
+            "run_status": overall_run_status(benchmark_status, causal_trace_enabled, None),
+            "parse_error": parse_error,
             "recall_unit": "percent", "latency_note":
             f"Printed P99 Lat maps to {profile['latency_metric']} at percentile {profile['percentile']}; "
             "all other unreported percentiles remain null"}
@@ -478,8 +512,9 @@ def write_trace_artifacts(directory, manifest):
               "system_metric_rows": count, "ann_events_available": False,
               "d1_d4_d6_implemented": False, "reason": "Current benchmark exports run summaries only",
               "collectors": manifest["host_telemetry_collectors"]}
-    write_json(directory / "trace_health.json", health)
-    if manifest["trace_mode"] == "DETAIL":
+    if not manifest.get("causal_trace_enabled"):
+        write_json(directory / "trace_health.json", health)
+    if manifest["trace_mode"] == "DETAIL" and not manifest.get("causal_trace_enabled"):
         # Harness lifecycle only. This interface is not an ANN causal trace.
         with (directory / "events.jsonl").open("w") as stream:
             for kind, timestamp in (("benchmark_start", manifest["timestamp_start"]),
@@ -499,7 +534,7 @@ def update_run_index(root, manifest, summary):
         if path.exists():
             with path.open(newline="") as stream:
                 reader = csv.DictReader(stream)
-                if reader.fieldnames not in (list(INDEX_COLUMNS), list(V1_INDEX_COLUMNS)):
+                if reader.fieldnames not in (list(INDEX_COLUMNS), list(V2_INDEX_COLUMNS), list(V1_INDEX_COLUMNS)):
                     raise ValueError("Existing run_index.csv schema differs; preserved without overwriting")
                 rows = [old for old in reader if old["run_id"] != row["run_id"]]
         rows.append(row)
@@ -554,6 +589,7 @@ def run(args):
     identity = run_id(args.dataset_id, args.threads, args.wcap, args.trace_mode, args.repetition)
     directory = args.evidence_root / "runs" / identity
     collectors = collector_availability(args.trace_mode)
+    args.trace_environment = trace_environment(args, directory)
     preview = {"run_id": identity, "executable": str(args.executable),
                **profile_metadata(args.benchmark_profile),
                **git_provenance(REPO, "harness"), **args.subject_provenance,
@@ -561,11 +597,13 @@ def run(args):
                "index": str(args.index_prefix), "exact_command": shlex.join(argv),
                "run_directory": str(directory), "trace_mode": args.trace_mode,
                "mlflow_enabled": args.mlflow, "telemetry_collectors": collectors}
+    preview.update(causal_trace_enabled=args.causal_trace, trace_environment=args.trace_environment)
     if args.dry_run:
         print(json.dumps(preview, indent=2))
         return 0  # No directories, telemetry, MLflow import or benchmark process.
     directory.mkdir(parents=True, exist_ok=False)
     manifest = make_manifest(args, identity, argv, collectors)
+    manifest["environment"].update(args.trace_environment)
     write_json(directory / "manifest.json", manifest)
     command = ["#!/bin/sh", "set -eu", "cd " + shlex.quote(str(REPO))]
     for key, value in manifest["environment"].items():
@@ -575,7 +613,7 @@ def run(args):
     telemetry = Telemetry(directory / "telemetry", collectors, args.telemetry_interval)
     process = None
     received_signal = None
-    status = "failed"
+    benchmark_status = "failed"
     exit_code = None
     def handle_signal(number, _frame):
         nonlocal received_signal
@@ -585,22 +623,28 @@ def run(args):
     try:
         with (directory / "stdout.log").open("w") as stream:
             if received_signal is None:
-                process = subprocess.Popen(argv, cwd=REPO, stdout=stream, stderr=subprocess.STDOUT,
+                environment = {**os.environ}
+                for key, value in args.trace_environment.items():
+                    if value is None:
+                        environment.pop(key, None)
+                    else:
+                        environment[key] = value
+                process = subprocess.Popen(argv, cwd=REPO, stdout=stream, stderr=subprocess.STDOUT, env=environment,
                                            start_new_session=True)
                 telemetry.start(process.pid)
             while process is not None and process.poll() is None:
                 if received_signal is not None:
-                    status = "interrupted"
+                    benchmark_status = "interrupted"
                     break
                 if time.monotonic() - start > args.timeout:
-                    status = "timed_out"
+                    benchmark_status = "timed_out"
                     break
                 try:
                     process.wait(timeout=0.2)
                 except subprocess.TimeoutExpired:
                     pass
             if received_signal is not None:
-                status = "interrupted"
+                benchmark_status = "interrupted"
     except Exception as error:
         manifest["error"] = f"{type(error).__name__}: {error}"
     finally:
@@ -614,13 +658,32 @@ def run(args):
         metrics, parse_error = parse_benchmark_output(
             output_path.read_text(errors="replace") if output_path.exists() else "",
             args.l_search, args.wcap, args.k, args.ground_truth is not None, args.benchmark_profile)
-        if status not in ("interrupted", "timed_out"):
-            status = "success" if exit_code == 0 and parse_error is None and manifest["error"] is None else "failed"
-        manifest.update(status=status, termination_signal=received_signal)
-        summary = make_summary(identity, metrics, wall, exit_code, status, parse_error, args.benchmark_profile)
-        write_json(directory / "summary.json", summary)
+        if benchmark_status not in ("interrupted", "timed_out"):
+            benchmark_status = "success" if exit_code == 0 and parse_error is None and manifest["error"] is None else "failed"
+        summary = make_summary(identity, metrics, wall, exit_code, benchmark_status, parse_error,
+                               args.benchmark_profile, args.causal_trace)
         if args.trace_mode != "OFF":
             write_trace_artifacts(directory, manifest)
+        trace_valid = None
+        if args.causal_trace:
+            # Export/check outside ANN execution; raw data and diagnostics remain authoritative.
+            try:
+                exported = subprocess.run([sys.executable, str(Path(__file__).with_name("causal_trace.py")),
+                                           str(directory)], capture_output=True, text=True, timeout=60)
+                (directory / "trace_export.log").write_text(exported.stdout + exported.stderr)
+                health = json.loads((directory / "trace_health.json").read_text())
+                trace_valid = exported.returncode == 0 and health["trace_valid"] is True
+                summary.update(trace_valid=trace_valid, trace_events_written=health["events_written"],
+                               trace_events_dropped=health["events_dropped"])
+            except (OSError, ValueError, subprocess.SubprocessError) as error:
+                trace_valid = False
+                write_json(directory / "trace_health.json", {"trace_valid": False, "health_error": str(error)})
+                summary.update(trace_valid=False)
+        status = overall_run_status(benchmark_status, args.causal_trace, trace_valid)
+        summary.update(run_status=status, trace_valid=trace_valid)
+        manifest.update(status=status, run_status=status, benchmark_status=benchmark_status,
+                        exit_code=exit_code, trace_valid=trace_valid, termination_signal=received_signal)
+        write_json(directory / "summary.json", summary)
         write_json(directory / "manifest.json", manifest)
         if args.mlflow and received_signal is None:
             try:
@@ -640,7 +703,8 @@ def run(args):
         manifest["termination_signal"] = received_signal
         write_json(directory / "manifest.json", manifest)
         checksums(directory)
-        print(json.dumps({**preview, "run_status": status, "summary": summary,
+        print(json.dumps({**preview, "benchmark_status": benchmark_status, "trace_valid": trace_valid,
+                          "run_status": status, "summary": summary,
                           "mlflow_status": manifest["mlflow_status"], "mlflow_run_id": manifest["mlflow_run_id"]}, indent=2))
         return 128 + received_signal if received_signal else 0 if status == "success" else 1
     finally:

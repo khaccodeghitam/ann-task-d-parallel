@@ -246,7 +246,8 @@
         "failed",
         "interrupted",
         "timed_out"
-      ]
+      ],
+      "description": "Running during execution; finalized alias of overall run_status for records with benchmark_status."
     },
     "benchmark_profile": {
       "enum": [
@@ -328,6 +329,58 @@
         "boolean",
         "null"
       ]
+    },
+    "causal_trace_enabled": {
+      "type": "boolean"
+    },
+    "trace_environment": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "trace_config": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "trace_valid": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Required causal evidence validity; null when causal tracing is not enabled or validation is pending."
+    },
+    "benchmark_status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed",
+        "interrupted",
+        "timed_out"
+      ],
+      "description": "ANN process execution plus benchmark parsing result; independent of required causal trace validity."
+    },
+    "run_status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed",
+        "interrupted",
+        "timed_out"
+      ],
+      "description": "Overall experiment result. Success iff benchmark_status is success and tracing is not required or trace_valid is true. Historical v2 records lacking benchmark_status retain their original pre-correction meaning."
+    },
+    "exit_code": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "description": "Native ANN process returncode (negative for signal termination), null when no process started. This is not the runner return code."
     }
   },
   "additionalProperties": true,
@@ -384,6 +437,21 @@
             ]
           }
         }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "benchmark_status"
+        ]
+      },
+      "then": {
+        "required": [
+          "run_status",
+          "trace_valid",
+          "causal_trace_enabled",
+          "exit_code"
+        ]
       }
     }
   ]

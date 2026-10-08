@@ -34,7 +34,10 @@ def mirror(directory, root):
             "mlflow.runName": manifest["run_id"], "phase": "P0", "dataset": manifest["dataset_id"],
             "variant": "baseline", "trace_mode": manifest["trace_mode"],
             "local_run_dir": str(directory), "local_run_id": manifest["run_id"],
-            "ann_run_status": summary["run_status"],
+            "ann_run_status": summary.get("benchmark_status", "unknown"),
+            "benchmark_status": summary.get("benchmark_status", "unknown"),
+            "trace_valid": json.dumps(summary.get("trace_valid")),
+            "run_status": summary["run_status"],
             **{key: "unknown" if manifest.get(key) is None else str(manifest[key])
                for key in (*provenance, *profiles)}}).info.run_id
         keys = {"dataset": "dataset_id", "threads": "threads", "wcap": "wcap", "L": "l_search",
@@ -44,6 +47,10 @@ def mirror(directory, root):
         for target, source in keys.items():
             value = manifest.get(source)
             client.log_param(run_id, target, "unknown" if value is None else value)
+        if manifest.get("causal_trace_enabled"):
+            client.log_param(run_id, "trace_protocol", manifest["trace_config"]["protocol"])
+            client.log_param(run_id, "trace_detail_first_n", manifest["trace_config"]["detail_first_n"])
+            client.log_param(run_id, "trace_event_capacity", manifest["trace_config"]["event_capacity"])
         for metric in ("qps", "recall", "mean_latency_us", "p99_latency_us", "p999_latency_us",
                        "mean_hops", "mean_ios", "wall_time_s"):
             if summary[metric] is not None:
