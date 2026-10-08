@@ -20,7 +20,7 @@ def main():
             continue
         manifest = json.loads(path.read_text())
         summary = json.loads(summary_path.read_text())
-        if manifest.get("schema_version") != 1 or manifest.get("status") == "running":
+        if manifest.get("schema_version") not in (1, 2) or manifest.get("status") == "running":
             continue
         if manifest["run_id"] != summary["run_id"]:
             raise ValueError(f"Run ID mismatch: {path.parent}")

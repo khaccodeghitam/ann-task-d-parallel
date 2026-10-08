@@ -1,19 +1,81 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "null_encoding": "empty cell",
   "query_metrics.csv": {
-    "columns": ["schema_version", "run_id", "query_id", "latency_us", "hops", "ios", "recall", "trace_mode"],
+    "columns": [
+      "schema_version",
+      "run_id",
+      "query_id",
+      "latency_us",
+      "hops",
+      "ios",
+      "recall",
+      "trace_mode"
+    ],
     "availability": "Header only in LIGHT/DETAIL: current executable does not export per-query measurements.",
     "extension_policy": "Append optional versioned columns when real D1/D4/D6 measurements become available."
   },
   "system_metrics.csv": {
-    "columns": ["schema_version", "run_id", "collector", "sample_time_local", "entity", "metric", "value", "unit"],
+    "columns": [
+      "schema_version",
+      "run_id",
+      "collector",
+      "sample_time_local",
+      "entity",
+      "metric",
+      "value",
+      "unit"
+    ],
     "format": "Long form numeric metrics; one row per metric, per sample, per CPU/PID/device.",
     "time": "Native sysstat local time (iostat includes date/offset); manifest identifies run start/end. No invented UTC conversion.",
     "units": "percent, ms, KiB, KiB/s, 1/s, or empty when unknown; raw telemetry logs preserved."
   },
   "run_index.csv": {
-    "columns": ["run_id", "timestamp_start", "timestamp_end", "git_commit", "git_dirty", "dataset_id", "index_id", "threads", "wcap", "k", "l_search", "mem_l", "trace_mode", "repetition", "qps", "recall", "mean_latency_us", "p50_latency_us", "p95_latency_us", "p99_latency_us", "p999_latency_us", "mean_hops", "mean_ios", "wall_time_s", "exit_code", "run_status", "mlflow_status", "mlflow_run_id"],
-    "policy": "One row per finalized run, including failed runs. Derived from manifest/summary under flock and atomic replacement. Existing incompatible headers are preserved and reported."
+    "columns": [
+      "run_id",
+      "timestamp_start",
+      "timestamp_end",
+      "git_commit",
+      "git_dirty",
+      "dataset_id",
+      "index_id",
+      "threads",
+      "wcap",
+      "k",
+      "l_search",
+      "mem_l",
+      "trace_mode",
+      "repetition",
+      "qps",
+      "recall",
+      "mean_latency_us",
+      "p50_latency_us",
+      "p95_latency_us",
+      "p99_latency_us",
+      "p999_latency_us",
+      "mean_hops",
+      "mean_ios",
+      "wall_time_s",
+      "exit_code",
+      "run_status",
+      "mlflow_status",
+      "mlflow_run_id",
+      "benchmark_profile",
+      "benchmark_profile_version",
+      "parser_version",
+      "printed_latency_percentile",
+      "harness_repo_root",
+      "harness_repo_remote",
+      "harness_git_commit",
+      "harness_git_branch",
+      "harness_git_dirty",
+      "subject_repo_root",
+      "subject_repo_remote",
+      "subject_git_commit",
+      "subject_git_branch",
+      "subject_git_dirty"
+    ],
+    "policy": "Derived index under flock and atomic replacement. Known v1 header migrates additively, preserving old cells; new fields for historical runs stay empty. Unknown headers are preserved and reported.",
+    "legacy_git_fields": "git_commit/git_dirty mean harness provenance only. Use subject_git_commit for algorithm comparisons."
   }
 }

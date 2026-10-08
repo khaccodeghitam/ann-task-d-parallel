@@ -15,6 +15,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import types
 import unittest
 from unittest import mock
 
@@ -57,7 +58,7 @@ class RunnerTests(unittest.TestCase):
         self.temp.cleanup()
 
     def cli(self, *extra):
-        return ["--executable", str(self.executable), "--dataset-path", str(self.root),
+        return ["--benchmark-profile", "legacy-research", "--executable", str(self.executable), "--dataset-path", str(self.root),
                 "--query", str(self.query), "--ground-truth", str(self.truth),
                 "--index-prefix", str(self.prefix), "--evidence-root", str(self.evidence), *extra]
 
@@ -92,7 +93,7 @@ class RunnerTests(unittest.TestCase):
         self.assertEqual(manifest["status"], "success")
 
     def test_parser_preserves_true_percentile(self):
-        metrics, error = runner.parse_benchmark_output(TABLE, 20, 32, 10, True)
+        metrics, error = runner.parse_benchmark_output(TABLE, 20, 32, 10, True, "legacy-research")
         self.assertIsNone(error)
         self.assertEqual(metrics["qps"], 1234.5)
         self.assertEqual(metrics["recall"], 90.5)
@@ -104,19 +105,23 @@ class RunnerTests(unittest.TestCase):
         for text in ("20 32 1 2 3 4 5 6", TABLE + TABLE, TABLE.replace("1234.50", "nan"),
                      TABLE.replace("90.50", "101.00"), TABLE.replace("Recall@10", "Recall@1")):
             with self.subTest(text=text):
-                metrics, error = runner.parse_benchmark_output(text, 20, 32, 10, True)
+                metrics, error = runner.parse_benchmark_output(text, 20, 32, 10, True, "legacy-research")
                 self.assertIsNotNone(error)
                 self.assertTrue(all(value is None for value in metrics.values()))
 
     def test_parser_without_ground_truth(self):
         text = TABLE.replace("   Recall@10", "").replace("       90.50", "")
-        metrics, error = runner.parse_benchmark_output(text, 20, 32, 10, False)
+        metrics, error = runner.parse_benchmark_output(text, 20, 32, 10, False, "legacy-research")
         self.assertIsNone(error)
         self.assertIsNone(metrics["recall"])
         self.assertEqual(metrics["mean_ios"], 13)
 
     def test_dry_run_has_no_side_effects(self):
-        with mock.patch.object(runner.subprocess, "Popen", side_effect=AssertionError("process launched")):
+        original_popen = subprocess.Popen
+        def only_git(argv, *args, **kwargs):
+            self.assertEqual(argv[0], "git", "Dry run launched a benchmark, collector or MLflow process")
+            return original_popen(argv, *args, **kwargs)
+        with mock.patch.object(runner.subprocess, "Popen", side_effect=only_git):
             code, result = self.execute("--dry-run", "--mlflow", "--trace-mode", "LIGHT")
         self.assertEqual(code, 0)
         self.assertFalse(self.evidence.exists())
@@ -315,6 +320,213 @@ class RunnerTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "Ground truth query count"):
             self.execute()
         self.assertFalse(self.evidence.exists())
+
+    def test_profile_is_required_on_cli(self):
+        with contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+            runner.parser().parse_args(self.cli()[2:])
+
+    def test_legacy_argv_exact_contract(self):
+        args = runner.resolve(runner.parser().parse_args(self.cli("--neighbor-type", "pq")))
+        self.assertEqual(runner.benchmark_argv(args), [str(self.executable), "float", str(self.prefix),
+                         "8", "32", str(self.query), str(self.truth), "10", "l2", "2", "10", "20"])
+
+    def test_canonical_argv_exact_contract(self):
+        args = runner.resolve(runner.parser().parse_args(self.cli(
+            "--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", "pq", "--mem-l", "0")))
+        self.assertEqual(runner.benchmark_argv(args), [str(self.executable), "float", str(self.prefix),
+                         "8", "32", str(self.query), str(self.truth), "10", "l2", "pq", "2", "0", "20"])
+
+    def test_canonical_neighbor_required_and_validated(self):
+        for extra in ((), ("--neighbor-type", "unknown"), ("--neighbor-type", "PQ")):
+            with self.subTest(extra=extra), self.assertRaisesRegex(ValueError, "neighbor-type"):
+                self.execute("--benchmark-profile", "pipeann-b9ec4ba", *extra)
+        self.assertFalse(self.evidence.exists())
+
+    def test_canonical_memory_index_has_its_own_file_contract(self):
+        Path(str(self.prefix) + "_mem.index.data").unlink()
+        Path(str(self.prefix) + "_mem.index.tags").unlink()
+        code, result = self.execute("--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", "pq", "--dry-run")
+        self.assertEqual(code, 0)
+        with self.assertRaisesRegex(ValueError, "Index component missing"):
+            self.execute("--benchmark-profile", "legacy-research", "--dry-run")
+
+    def test_canonical_neighbor_companions_match_selected_type(self):
+        for suffix in ("_pq_compressed.bin", "_pq_pivots.bin"):
+            Path(str(self.prefix) + suffix).unlink()
+        code, _ = self.execute("--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", "dummy", "--dry-run")
+        self.assertEqual(code, 0)
+        with self.assertRaisesRegex(ValueError, "rabitq_metadata"):
+            self.execute("--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", "rabitq", "--dry-run")
+        for part in ("metadata", "rotator", "pivots", "compressed"):
+            Path(str(self.prefix) + f"_rabitq_{part}.bin").write_bytes(b"synthetic")
+        for neighbor in ("rabitq", "rabitq3", "rabitq4", "rabitq5"):
+            with self.subTest(neighbor=neighbor):
+                code, _ = self.execute("--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", neighbor, "--dry-run")
+                self.assertEqual(code, 0)
+
+    def test_profiles_map_identical_output_to_distinct_percentiles(self):
+        for profile, available, unavailable in (("legacy-research", "p999_latency_us", "p99_latency_us"),
+                                                 ("pipeann-b9ec4ba", "p99_latency_us", "p999_latency_us")):
+            with self.subTest(profile=profile):
+                metrics, error = runner.parse_benchmark_output(TABLE, 20, 32, 10, True, profile)
+                self.assertIsNone(error)
+                self.assertEqual(metrics[available], 1500.25)
+                for key in (unavailable, "p50_latency_us", "p95_latency_us"):
+                    self.assertIsNone(metrics[key])
+                summary = runner.make_summary("one", metrics, 1, 0, "success", error, profile)
+                self.assertEqual(summary["printed_latency_metric"], available)
+                self.assertEqual(summary["benchmark_profile"], profile)
+                schema = json.loads((REPO / "schemas/research/summary.schema.json").read_text())
+                Draft202012Validator(schema).validate(summary)
+                summary[unavailable] = 123
+                with self.assertRaises(ValidationError):
+                    Draft202012Validator(schema).validate(summary)
+
+    def make_git_repo(self, name):
+        directory = self.root / name
+        directory.mkdir()
+        def git(*args):
+            return subprocess.run(["git", "-C", str(directory), *args], check=True,
+                                  capture_output=True, text=True).stdout.strip()
+        git("init", "-b", "research-test")
+        git("config", "user.name", "Research Test")
+        git("config", "user.email", "test@example.invalid")
+        (directory / "source.txt").write_text(name)
+        git("add", "source.txt")
+        git("commit", "-m", "synthetic baseline")
+        git("remote", "add", "origin", f"https://example.invalid/{name}.git")
+        return directory, git("rev-parse", "HEAD")
+
+    def test_harness_and_subject_are_independent_repositories(self):
+        harness, harness_commit = self.make_git_repo("harness")
+        subject, subject_commit = self.make_git_repo("subject")
+        with mock.patch.object(runner, "REPO", harness):
+            code, result = self.execute("--subject-repo", str(subject))
+        self.assertEqual(code, 0)
+        manifest = json.loads((Path(result["run_directory"]) / "manifest.json").read_text())
+        self.assertEqual(manifest["harness_git_commit"], harness_commit)
+        self.assertEqual(manifest["subject_git_commit"], subject_commit)
+        self.assertNotEqual(harness_commit, subject_commit)
+        for namespace, directory in (("harness", harness), ("subject", subject)):
+            self.assertEqual(manifest[f"{namespace}_repo_root"], str(directory))
+            self.assertEqual(manifest[f"{namespace}_git_branch"], "research-test")
+            self.assertEqual(manifest[f"{namespace}_repo_remote"], f"https://example.invalid/{namespace}.git")
+            self.assertFalse(manifest[f"{namespace}_git_dirty"])
+        self.assertEqual(manifest["git_commit"], harness_commit)
+        self.assertEqual(manifest["executable_sha256"], runner.sha256(self.executable))
+
+    def test_subject_dirty_state_and_commit(self):
+        subject, commit = self.make_git_repo("subject")
+        (subject / "source.txt").write_text("modified source")
+        code, result = self.execute("--subject-repo", str(subject))
+        self.assertEqual(code, 0)
+        self.assertTrue(result["subject_git_dirty"])
+        self.assertEqual(result["subject_git_commit"], commit)
+
+    def test_explicit_invalid_subject_rejected(self):
+        bare = self.root / "bare.git"
+        subprocess.run(["git", "init", "--bare", str(bare)], check=True, capture_output=True)
+        for path in (self.root / "missing", self.root, self.query, bare):
+            with self.subTest(path=path), self.assertRaisesRegex(ValueError, "Git worktree"):
+                self.execute("--subject-repo", str(path), "--dry-run")
+        self.assertFalse(self.evidence.exists())
+
+    def test_unresolved_subject_stays_null(self):
+        code, result = self.execute()
+        self.assertEqual(code, 0)
+        manifest = json.loads((Path(result["run_directory"]) / "manifest.json").read_text())
+        for field in runner.PROVENANCE_COLUMNS:
+            if field.startswith("subject_"):
+                self.assertIsNone(manifest[field])
+
+    def test_explicit_subject_overrides_executable_discovery(self):
+        discovered, discovered_commit = self.make_git_repo("discovered")
+        explicit, explicit_commit = self.make_git_repo("explicit")
+        executable = discovered / "search"
+        executable.write_bytes(self.executable.read_bytes())
+        executable.chmod(0o755)
+        code, result = self.execute("--executable", str(executable), "--dry-run")
+        self.assertEqual(code, 0)
+        self.assertEqual(result["subject_git_commit"], discovered_commit)
+        code, result = self.execute("--executable", str(executable), "--subject-repo", str(explicit), "--dry-run")
+        self.assertEqual(code, 0)
+        self.assertEqual(result["subject_git_commit"], explicit_commit)
+        self.assertEqual(result["subject_repo_root"], str(explicit))
+
+    def test_v1_index_migration_preserves_historical_cells(self):
+        directory = self.evidence / "summaries"
+        directory.mkdir(parents=True)
+        historical = {key: f"old-{key}" for key in runner.V1_INDEX_COLUMNS}
+        with (directory / "run_index.csv").open("w", newline="") as stream:
+            writer = csv.DictWriter(stream, runner.V1_INDEX_COLUMNS)
+            writer.writeheader()
+            writer.writerow(historical)
+        code, result = self.execute("--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", "pq")
+        self.assertEqual(code, 0)
+        with (directory / "run_index.csv").open() as stream:
+            rows = list(csv.DictReader(stream))
+        self.assertEqual(len(rows), 2)
+        for key, value in historical.items():
+            self.assertEqual(rows[0][key], value)
+        for key in (*runner.PROFILE_COLUMNS, *runner.PROVENANCE_COLUMNS):
+            self.assertEqual(rows[0][key], "")
+        self.assertEqual(rows[1]["benchmark_profile"], "pipeann-b9ec4ba")
+        self.assertEqual(rows[1]["parser_version"], "search-table/v1")
+        self.assertEqual(rows[1]["harness_git_commit"], result["harness_git_commit"])
+
+    def test_v1_evidence_schema_remains_available(self):
+        code, result = self.execute()
+        self.assertEqual(code, 0)
+        directory = Path(result["run_directory"])
+        for name in ("manifest", "summary"):
+            data = json.loads((directory / f"{name}.json").read_text())
+            data["schema_version"] = 1
+            schema = json.loads((REPO / f"schemas/research/{name}.v1.schema.json").read_text())
+            Draft202012Validator(schema).validate(data)
+
+    def test_canonical_manifest_and_summary_metadata(self):
+        code, result = self.execute("--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", "pq")
+        self.assertEqual(code, 0)
+        directory = Path(result["run_directory"])
+        for name in ("manifest", "summary"):
+            data = json.loads((directory / f"{name}.json").read_text())
+            schema = json.loads((REPO / f"schemas/research/{name}.schema.json").read_text())
+            Draft202012Validator(schema).validate(data)
+            self.assertEqual(data["benchmark_profile_version"], "pipeann-b9ec4ba/v1")
+            self.assertEqual(data["parser_version"], "search-table/v1")
+            self.assertEqual(data["printed_latency_percentile"], 0.99)
+        self.assertEqual(result["summary"]["p99_latency_us"], 1500.25)
+        self.assertIsNone(result["summary"]["p999_latency_us"])
+
+    def test_mlflow_mirrors_profiles_and_separate_commits(self):
+        subject, commit = self.make_git_repo("subject")
+        code, result = self.execute("--subject-repo", str(subject), "--benchmark-profile",
+                                    "pipeann-b9ec4ba", "--neighbor-type", "pq")
+        self.assertEqual(code, 0)
+        directory = Path(result["run_directory"])
+        mirror_spec = importlib.util.spec_from_file_location("mirror", REPO / "tools/research/mlflow_mirror.py")
+        mirror = importlib.util.module_from_spec(mirror_spec)
+        mirror_spec.loader.exec_module(mirror)
+        client = mock.Mock()
+        client.get_experiment_by_name.return_value = types.SimpleNamespace(experiment_id="1")
+        client.get_experiment.return_value = types.SimpleNamespace(
+            artifact_location=(self.evidence / "mlflow/artifacts").as_uri())
+        client.create_run.return_value = types.SimpleNamespace(info=types.SimpleNamespace(run_id="mirror-one"))
+        with mock.patch.dict(sys.modules, {"mlflow": types.SimpleNamespace(MlflowClient=lambda **kwargs: client)}), \
+                mock.patch.dict(os.environ):
+            mirrored = mirror.mirror(directory, self.evidence)
+        self.assertEqual(mirrored["status"], "success")
+        tags = client.create_run.call_args.kwargs["tags"]
+        params = {call.args[1]: call.args[2] for call in client.log_param.call_args_list}
+        for record in (tags, params):
+            self.assertEqual(record["subject_git_commit"], commit)
+            self.assertEqual(record["harness_git_commit"], result["harness_git_commit"])
+            self.assertEqual(record["benchmark_profile"], "pipeann-b9ec4ba")
+            self.assertEqual(record["benchmark_profile_version"], "pipeann-b9ec4ba/v1")
+            self.assertEqual(record["parser_version"], "search-table/v1")
+        metrics = {call.args[1]: call.args[2] for call in client.log_metric.call_args_list}
+        self.assertEqual(metrics["p99_latency_us"], 1500.25)
+        self.assertNotIn("p999_latency_us", metrics)
 
 
 if __name__ == "__main__":

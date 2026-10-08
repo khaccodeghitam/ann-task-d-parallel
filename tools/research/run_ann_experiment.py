@@ -30,10 +30,41 @@ QUERY_COLUMNS = ("schema_version", "run_id", "query_id", "latency_us", "hops",
                  "ios", "recall", "trace_mode")
 SYSTEM_COLUMNS = ("schema_version", "run_id", "collector", "sample_time_local",
                   "entity", "metric", "value", "unit")
-INDEX_COLUMNS = ("run_id", "timestamp_start", "timestamp_end", "git_commit",
+V1_INDEX_COLUMNS = ("run_id", "timestamp_start", "timestamp_end", "git_commit",
                  "git_dirty", "dataset_id", "index_id", "threads", "wcap", "k",
                  "l_search", "mem_l", "trace_mode", "repetition", *METRICS,
                  "wall_time_s", "exit_code", "run_status", "mlflow_status", "mlflow_run_id")
+PROVENANCE_COLUMNS = tuple(f"{namespace}_{field}" for namespace in ("harness", "subject")
+                           for field in ("repo_root", "repo_remote", "git_commit", "git_branch", "git_dirty"))
+PROFILE_COLUMNS = ("benchmark_profile", "benchmark_profile_version", "parser_version",
+                   "printed_latency_percentile")
+INDEX_COLUMNS = (*V1_INDEX_COLUMNS, *PROFILE_COLUMNS, *PROVENANCE_COLUMNS)
+
+# Source-audited contracts; the shared output label cannot identify its percentile.
+BENCHMARK_PROFILES = {
+    "legacy-research": {
+        "version": "legacy-research/v1", "parser_version": "search-table/v1",
+        "neighbor_types": None, "percentile": 0.999, "latency_metric": "p999_latency_us",
+        "memory_suffixes": ("_mem.index", "_mem.index.data", "_mem.index.tags"),
+        "argv_fields": ("data_type", "index_prefix", "threads", "wcap", "query", "ground_truth",
+                        "k", "distance_metric", "search_mode", "mem_l", "l_search"),
+    },
+    "pipeann-b9ec4ba": {
+        "version": "pipeann-b9ec4ba/v1", "parser_version": "search-table/v1",
+        "neighbor_types": ("pq", "rabitq", "rabitq3", "rabitq4", "rabitq5", "dummy"),
+        "percentile": 0.99, "latency_metric": "p99_latency_us",
+        "memory_suffixes": ("_mem.index",),  # Upstream loads vectors/graph from this disk-format file.
+        "argv_fields": ("data_type", "index_prefix", "threads", "wcap", "query", "ground_truth",
+                        "k", "distance_metric", "neighbor_type", "search_mode", "mem_l", "l_search"),
+    },
+}
+
+
+def profile_metadata(name):
+    profile = BENCHMARK_PROFILES[name]
+    return {"benchmark_profile": name, "benchmark_profile_version": profile["version"],
+            "parser_version": profile["parser_version"],
+            "printed_latency_percentile": profile["percentile"]}
 
 
 def utc_now():
@@ -65,13 +96,30 @@ def run_id(dataset, threads, wcap, trace_mode, repetition):
     return f"P0_{safe}_T{threads}_W{wcap}_{trace_mode}_R{repetition:03d}_{timestamp}_{uuid.uuid4().hex}"
 
 
-def git_value(*args):
+def git_value(*args, repo=REPO):
     try:
-        result = subprocess.run(["git", "-C", str(REPO), *args], capture_output=True,
+        result = subprocess.run(["git", "-C", str(repo), *args], capture_output=True,
                                 text=True, timeout=5, check=True)
         return result.stdout.strip()
     except (OSError, subprocess.SubprocessError):
         return None
+
+
+def git_provenance(repo, namespace):
+    result = {f"{namespace}_{field}": None for field in
+              ("repo_root", "repo_remote", "git_commit", "git_branch", "git_dirty")}
+    if repo is None or git_value("rev-parse", "--is-inside-work-tree", repo=repo) != "true":
+        return result
+    root = git_value("rev-parse", "--show-toplevel", repo=repo)
+    if root is None:
+        return result
+    dirty = git_value("status", "--porcelain", repo=root)
+    result.update({f"{namespace}_repo_root": str(Path(root).resolve()),
+                   f"{namespace}_repo_remote": git_value("remote", "get-url", "origin", repo=root),
+                   f"{namespace}_git_commit": git_value("rev-parse", "HEAD", repo=root),
+                   f"{namespace}_git_branch": git_value("branch", "--show-current", repo=root) or None,
+                   f"{namespace}_git_dirty": None if dirty is None else bool(dirty)})
+    return result
 
 
 def host_info():
@@ -100,6 +148,8 @@ def host_info():
 def parser():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--executable", required=True)
+    p.add_argument("--benchmark-profile", required=True, choices=BENCHMARK_PROFILES)
+    p.add_argument("--subject-repo", help="Git worktree that produced the ANN executable; overrides discovery")
     p.add_argument("--dataset-id", default="sift1m")
     p.add_argument("--dataset-path", required=True, help="Existing dataset directory or file")
     p.add_argument("--query", required=True)
@@ -112,9 +162,9 @@ def parser():
     p.add_argument("--wcap", type=int, default=32)
     p.add_argument("--k", type=int, default=10)
     p.add_argument("--l-search", type=int, default=20, help="Exactly one L per experiment")
-    p.add_argument("--mem-l", type=int, default=10, help="PipeANN OVERLAP_INIT needs a memory entry index")
+    p.add_argument("--mem-l", type=int, default=10, help="Legacy OVERLAP_INIT needs mem_L>0; canonical supports 0")
     p.add_argument("--distance-metric", choices=("l2", "cosine"), default="l2")
-    p.add_argument("--neighbor-type", help="Optional known build annotation; not a benchmark CLI flag")
+    p.add_argument("--neighbor-type", help="Required positional nbr_type for pipeann-b9ec4ba; legacy annotation only")
     p.add_argument("--trace-mode", choices=("OFF", "LIGHT", "DETAIL"), default="OFF")
     p.add_argument("--repetition", type=int, default=1)
     p.add_argument("--evidence-root", default=os.environ.get("ANN_EVIDENCE_ROOT", "~/ann-research/research-v3"))
@@ -127,6 +177,9 @@ def parser():
 
 
 def resolve(args):
+    profile = BENCHMARK_PROFILES[args.benchmark_profile]
+    if profile["neighbor_types"] is not None and args.neighbor_type not in profile["neighbor_types"]:
+        raise ValueError("pipeann-b9ec4ba requires --neighbor-type from: " + ", ".join(profile["neighbor_types"]))
     for name in ("threads", "wcap", "k", "l_search", "repetition", "telemetry_interval", "timeout", "mlflow_timeout"):
         value = getattr(args, name)
         if not math.isfinite(value) or value <= 0:
@@ -137,6 +190,13 @@ def resolve(args):
         setattr(args, name, Path(getattr(args, name)).expanduser().resolve())
     if not args.executable.is_file() or not os.access(args.executable, os.X_OK):
         raise ValueError(f"Not an executable: {args.executable}")
+    if args.subject_repo is not None:
+        args.subject_repo = Path(args.subject_repo).expanduser().resolve()
+        if not args.subject_repo.is_dir() or git_value(
+                "rev-parse", "--is-inside-work-tree", repo=args.subject_repo) != "true":
+            raise ValueError(f"--subject-repo must be an existing Git worktree: {args.subject_repo}")
+    args.subject_provenance = git_provenance(
+        args.subject_repo if args.subject_repo is not None else args.executable.parent, "subject")
     if not args.dataset_path.exists():
         raise ValueError(f"Dataset path missing: {args.dataset_path}")
     if not args.query.is_file():
@@ -145,9 +205,19 @@ def resolve(args):
                          else Path(args.ground_truth).expanduser().resolve())
     if args.ground_truth is not None and not args.ground_truth.is_file():
         raise ValueError(f"Ground truth missing: {args.ground_truth}")
-    suffixes = ["_disk.index", "_disk.index.tags", "_pq_compressed.bin", "_pq_pivots.bin"]
+    suffixes = ["_disk.index", "_disk.index.tags"]
+    if profile["neighbor_types"] is None or args.neighbor_type == "pq":
+        suffixes.extend(("_pq_compressed.bin", "_pq_pivots.bin"))
+    elif args.neighbor_type.startswith("rabitq"):
+        suffixes.extend("_rabitq_" + part + ".bin" for part in
+                        ("metadata", "rotator", "pivots", "compressed"))
     if args.mem_l:
-        suffixes.extend(("_mem.index", "_mem.index.data", "_mem.index.tags"))
+        suffixes.extend(profile["memory_suffixes"])
+        if args.benchmark_profile == "pipeann-b9ec4ba":
+            # Upstream accepts absent tags (identity mapping); record them when present.
+            tag_path = Path(str(args.index_prefix) + "_mem.index.tags")
+            if tag_path.is_file():
+                suffixes.append("_mem.index.tags")
     args.index_files = []
     for suffix in suffixes:
         path = Path(str(args.index_prefix) + suffix)
@@ -179,9 +249,11 @@ def resolve(args):
 
 
 def benchmark_argv(args):
-    return [str(args.executable), args.data_type, str(args.index_prefix), str(args.threads),
-            str(args.wcap), str(args.query), str(args.ground_truth) if args.ground_truth else "null",
-            str(args.k), args.distance_metric, str(args.search_mode), str(args.mem_l), str(args.l_search)]
+    profile = BENCHMARK_PROFILES[args.benchmark_profile]
+    if profile["neighbor_types"] is not None and args.neighbor_type not in profile["neighbor_types"]:
+        raise ValueError("Canonical profile requires a valid --neighbor-type")
+    return [str(args.executable), *(str(getattr(args, field)) if getattr(args, field) is not None
+                                    else "null" for field in profile["argv_fields"])]
 
 
 def collector_availability(trace_mode):
@@ -192,21 +264,23 @@ def collector_availability(trace_mode):
 
 
 def make_manifest(args, identity, argv, collectors):
-    dirty = git_value("status", "--porcelain")
+    harness = git_provenance(REPO, "harness")
     build_directory = args.executable.parent.parent
     build_metadata = {}
-    for relative in ("CMakeCache.txt", "compile_commands.json", "src/CMakeFiles/diskann.dir/flags.make"):
+    for relative in ("CMakeCache.txt", "compile_commands.json", "src/CMakeFiles/diskann.dir/flags.make",
+                     "src/CMakeFiles/pipeann.dir/flags.make"):
         path = build_directory / relative
         if path.is_file():
             build_metadata[relative] = {"path": str(path), "sha256": sha256(path)}
             if relative.endswith("flags.make"):
                 build_metadata[relative]["flags"] = [line for line in path.read_text().splitlines()
                                                      if line.startswith(("CXX_DEFINES", "CXX_FLAGS", "CXX_INCLUDES"))]
-    return {"schema_version": 1, "run_id": identity, "timestamp_start": utc_now(),
-            "timestamp_end": None, "git_commit": git_value("rev-parse", "HEAD"),
-            "git_dirty": None if dirty is None else bool(dirty),
-            "git_branch": git_value("branch", "--show-current"),
-            "repo_remote": git_value("remote", "get-url", "origin"),
+    return {"schema_version": 2, "run_id": identity, "timestamp_start": utc_now(),
+            "timestamp_end": None, **harness, **args.subject_provenance,
+            **profile_metadata(args.benchmark_profile),
+            # Deprecated v1 aliases identify the harness ONLY, never the ANN subject.
+            "git_commit": harness["harness_git_commit"], "git_dirty": harness["harness_git_dirty"],
+            "git_branch": harness["harness_git_branch"], "repo_remote": harness["harness_repo_remote"],
             "executable": str(args.executable), "executable_sha256": sha256(args.executable),
             "build_metadata": build_metadata,
             "argv": argv, "exact_command": shlex.join(argv), "cwd": str(REPO),
@@ -234,12 +308,12 @@ def make_manifest(args, identity, argv, collectors):
             "mlflow_error": None, "status": "running", "error": None}
 
 
-def parse_benchmark_output(text, l_search, wcap, k, has_truth):
+def parse_benchmark_output(text, l_search, wcap, k, has_truth, benchmark_profile):
     """Accept only the audited benchmark table and a single matching result row.
 
-    P99 Lat is really percentile 0.999 in tests/search_disk_index.cpp.
-    Keep p99 null; add p999_latency_us instead of relabeling the measurement.
+    The explicit source-audited profile determines the printed latency semantics.
     """
+    profile = BENCHMARK_PROFILES[benchmark_profile]
     metrics = dict.fromkeys(METRICS)
     header_seen = False
     rows = []
@@ -267,15 +341,20 @@ def parse_benchmark_output(text, l_search, wcap, k, has_truth):
     if len(rows) != 1:
         return metrics, f"Expected one benchmark row, found {len(rows)}"
     values = rows[0]
-    metrics.update(qps=values[2], mean_latency_us=values[3], p999_latency_us=values[4],
+    metrics[profile["latency_metric"]] = values[4]
+    metrics.update(qps=values[2], mean_latency_us=values[3],
                    mean_hops=values[5], mean_ios=values[6], recall=values[7] if has_truth else None)
     return metrics, None
 
 
-def make_summary(identity, metrics, wall_time, exit_code, status, parse_error):
-    return {"schema_version": 1, "run_id": identity, **metrics, "wall_time_s": wall_time,
+def make_summary(identity, metrics, wall_time, exit_code, status, parse_error, benchmark_profile):
+    profile = BENCHMARK_PROFILES[benchmark_profile]
+    return {"schema_version": 2, "run_id": identity, **metrics, "wall_time_s": wall_time,
+            **profile_metadata(benchmark_profile), "printed_latency_metric": profile["latency_metric"],
             "exit_code": exit_code, "run_status": status, "parse_error": parse_error,
-            "recall_unit": "percent", "latency_note": "Printed P99 Lat is p99.9; p50/p95/p99 unavailable"}
+            "recall_unit": "percent", "latency_note":
+            f"Printed P99 Lat maps to {profile['latency_metric']} at percentile {profile['percentile']}; "
+            "all other unreported percentiles remain null"}
 
 
 def stop_process(process):
@@ -420,7 +499,7 @@ def update_run_index(root, manifest, summary):
         if path.exists():
             with path.open(newline="") as stream:
                 reader = csv.DictReader(stream)
-                if reader.fieldnames != list(INDEX_COLUMNS):
+                if reader.fieldnames not in (list(INDEX_COLUMNS), list(V1_INDEX_COLUMNS)):
                     raise ValueError("Existing run_index.csv schema differs; preserved without overwriting")
                 rows = [old for old in reader if old["run_id"] != row["run_id"]]
         rows.append(row)
@@ -476,6 +555,8 @@ def run(args):
     directory = args.evidence_root / "runs" / identity
     collectors = collector_availability(args.trace_mode)
     preview = {"run_id": identity, "executable": str(args.executable),
+               **profile_metadata(args.benchmark_profile),
+               **git_provenance(REPO, "harness"), **args.subject_provenance,
                "dataset": str(args.dataset_path), "query": str(args.query),
                "index": str(args.index_prefix), "exact_command": shlex.join(argv),
                "run_directory": str(directory), "trace_mode": args.trace_mode,
@@ -532,11 +613,11 @@ def run(args):
         output_path = directory / "stdout.log"
         metrics, parse_error = parse_benchmark_output(
             output_path.read_text(errors="replace") if output_path.exists() else "",
-            args.l_search, args.wcap, args.k, args.ground_truth is not None)
+            args.l_search, args.wcap, args.k, args.ground_truth is not None, args.benchmark_profile)
         if status not in ("interrupted", "timed_out"):
             status = "success" if exit_code == 0 and parse_error is None and manifest["error"] is None else "failed"
         manifest.update(status=status, termination_signal=received_signal)
-        summary = make_summary(identity, metrics, wall, exit_code, status, parse_error)
+        summary = make_summary(identity, metrics, wall, exit_code, status, parse_error, args.benchmark_profile)
         write_json(directory / "summary.json", summary)
         if args.trace_mode != "OFF":
             write_trace_artifacts(directory, manifest)

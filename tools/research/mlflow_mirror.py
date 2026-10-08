@@ -28,16 +28,21 @@ def mirror(directory, root):
         experiment = client.get_experiment(experiment_id)
         if not experiment.artifact_location.startswith(artifacts.as_uri() + "/") and experiment.artifact_location != artifacts.as_uri():
             raise ValueError("Existing MLflow experiment artifact location is outside the local artifact root")
+        provenance = ("harness_git_commit", "subject_git_commit", "harness_git_dirty", "subject_git_dirty")
+        profiles = ("benchmark_profile", "benchmark_profile_version", "parser_version")
         run_id = client.create_run(experiment_id, tags={
             "mlflow.runName": manifest["run_id"], "phase": "P0", "dataset": manifest["dataset_id"],
             "variant": "baseline", "trace_mode": manifest["trace_mode"],
             "local_run_dir": str(directory), "local_run_id": manifest["run_id"],
-            "ann_run_status": summary["run_status"], "git_dirty": str(manifest["git_dirty"])}).info.run_id
+            "ann_run_status": summary["run_status"],
+            **{key: "unknown" if manifest.get(key) is None else str(manifest[key])
+               for key in (*provenance, *profiles)}}).info.run_id
         keys = {"dataset": "dataset_id", "threads": "threads", "wcap": "wcap", "L": "l_search",
                 "K": "k", "mem_L": "mem_l", "metric": "distance_metric", "neighbor_type": "neighbor_type",
-                "trace_mode": "trace_mode", "git_commit": "git_commit", "search_mode": "search_mode"}
+                "trace_mode": "trace_mode", "search_mode": "search_mode",
+                **{key: key for key in (*provenance, *profiles, "printed_latency_percentile")}}
         for target, source in keys.items():
-            value = manifest[source]
+            value = manifest.get(source)
             client.log_param(run_id, target, "unknown" if value is None else value)
         for metric in ("qps", "recall", "mean_latency_us", "p99_latency_us", "p999_latency_us",
                        "mean_hops", "mean_ios", "wall_time_s"):

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:parallel-ann:p0:summary:1",
-  "title": "P0 summary",
+  "$id": "urn:parallel-ann:p0:summary:2",
+  "title": "P0 summary v2",
   "type": "object",
   "required": [
     "qps",
@@ -17,7 +17,12 @@
     "run_id",
     "wall_time_s",
     "exit_code",
-    "run_status"
+    "run_status",
+    "benchmark_profile",
+    "benchmark_profile_version",
+    "parser_version",
+    "printed_latency_percentile",
+    "printed_latency_metric"
   ],
   "properties": {
     "qps": {
@@ -86,7 +91,7 @@
     },
     "schema_version": {
       "type": "integer",
-      "const": 1
+      "const": 2
     },
     "run_id": {
       "type": "string"
@@ -108,7 +113,89 @@
         "interrupted",
         "timed_out"
       ]
+    },
+    "benchmark_profile": {
+      "enum": [
+        "legacy-research",
+        "pipeann-b9ec4ba"
+      ]
+    },
+    "benchmark_profile_version": {
+      "type": "string"
+    },
+    "parser_version": {
+      "type": "string"
+    },
+    "printed_latency_percentile": {
+      "enum": [
+        0.99,
+        0.999
+      ]
+    },
+    "printed_latency_metric": {
+      "enum": [
+        "p99_latency_us",
+        "p999_latency_us"
+      ]
     }
   },
-  "additionalProperties": true
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "benchmark_profile": {
+            "const": "legacy-research"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "benchmark_profile_version": {
+            "const": "legacy-research/v1"
+          },
+          "printed_latency_percentile": {
+            "const": 0.999
+          },
+          "parser_version": {
+            "const": "search-table/v1"
+          },
+          "p99_latency_us": {
+            "type": "null"
+          },
+          "printed_latency_metric": {
+            "const": "p999_latency_us"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "benchmark_profile": {
+            "const": "pipeann-b9ec4ba"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "benchmark_profile_version": {
+            "const": "pipeann-b9ec4ba/v1"
+          },
+          "printed_latency_percentile": {
+            "const": 0.99
+          },
+          "parser_version": {
+            "const": "search-table/v1"
+          },
+          "p999_latency_us": {
+            "type": "null"
+          },
+          "printed_latency_metric": {
+            "const": "p99_latency_us"
+          }
+        }
+      }
+    }
+  ]
 }
