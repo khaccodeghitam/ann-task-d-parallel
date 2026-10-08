@@ -4,7 +4,7 @@ Issue [#1](https://github.com/Irthn1311/Parallel_ANN_Research/issues/1) adds an
 external-process harness around the existing `search_disk_index` executable.
 Local JSON/CSV/JSONL files and captured stdout/stderr are the source of truth.
 Local MLflow mirrors run metadata and available metrics for visualization and
-comparison. An MLflow error does not change the ANN run's success status.
+comparison. An MLflow transport error does not change the experiment's run_status.
 
 The harness leaves this repository's ANN core unchanged. Issue #4 adds observational
 causal tracing in the separate canonical `PipeANN-p0` subject; see
@@ -84,6 +84,26 @@ and printed percentile. Summaries also name the available latency metric.
 Unreported p50/p95 and the other tail percentile remain null. Historical v1
 schemas are retained as `manifest.v1.schema.json` and `summary.v1.schema.json`.
 
+Finalized schema-v2 evidence now also records `benchmark_status` (ANN execution
+plus benchmark parsing: success/failed/interrupted/timed_out), `trace_valid`
+(true/false/null) and `run_status` (overall experiment result). Overall success
+requires benchmark_status=success and either no required causal tracing or
+trace_valid=true. An ANN process exiting 0 with a valid benchmark row but invalid
+required tracing records benchmark_status=success, run_status=failed and runner
+exit 1, while preserving metrics and diagnostics. A parse failure still fails the
+benchmark even if its native exit is 0. `exit_code` in summary/finalized manifest
+is the native ANN process returncode, negative for signal termination and null
+if no process started; it is not the harness exit code. Manifest `status` remains
+running until finalization and then aliases overall run_status. Interruptions and
+timeouts preserve their respective benchmark/overall statuses.
+
+This is an additive schema-v2 correction, identified by presence of benchmark_status.
+Older v2 JSON without that field still validates, but its recorded run_status may
+only describe benchmark execution/parsing. No historical status is silently
+reinterpreted; consumers must inspect trace_valid for older causal records before
+using their recorded success as experiment validity. No finalized JSON, checksums
+or existing MLflow records are migrated in place.
+
 Use `--subject-repo <Git worktree>` to declare the repository that produced the
 ANN executable. It must exist and be a Git worktree; it overrides optional
 Git discovery from the resolved executable directory. Failed discovery leaves
@@ -104,10 +124,14 @@ changes before research comparison. Deprecated `git_commit`, `git_branch`,
 `git_dirty`, and `repo_remote` remain compatibility aliases for **harness only**.
 Do not interpret those old fields as external algorithm provenance.
 
-The derived run index adds profile/version/parser and both provenance namespaces.
-Its known v1 header migrates under the lock by appending columns, preserving
-all historical values. New historical cells stay empty; source manifests and
-summaries are never rewritten or retroactively assigned subject provenance.
+The derived run index adds profile/version/parser, both provenance namespaces and
+benchmark_status/trace_valid/causal_trace_enabled. Known v1 and pre-correction v2
+headers migrate under the lock by appending columns, preserving all historical
+cells, including their recorded run_status. New historical cells stay empty;
+source manifests and summaries are never rewritten or retroactively assigned
+subject provenance or benchmark status. Rebuilding copies fields actually present
+in canonical evidence, leaving missing benchmark_status null/empty rather than
+inferring it from an old run_status or exit_code.
 Rebuilding accepts finalized v1 and v2 runs. MLflow records profile/version/parser
 and both commits separately as params and tags; missing provenance is marked
 `unknown` in the mirror, while authoritative JSON uses null.
@@ -256,6 +280,13 @@ The run's benchmark status remains independent of its mirror status. Failed
 mirrors may have an ID if MLflow created a partial run before logging failed.
 Do not treat a partial MLflow run as the authoritative record.
 
+The MLflow run itself is FINISHED only when overall run_status=success; otherwise
+FAILED, even when mlflow_status=success means the transport completed. Tags expose
+benchmark_status, trace_valid (true/false/null) and run_status. The deprecated
+ann_run_status tag aliases benchmark_status in new mirrors. When an old record
+does not supply benchmark_status, that tag is unknown rather than inferred; an
+explicit historical re-mirror retains its recorded run_status meaning.
+
 ```bash
 EVIDENCE_ROOT="${ANN_EVIDENCE_ROOT:-$HOME/ann-research/research-v3}"
 .venv-research/bin/mlflow ui \
@@ -296,7 +327,8 @@ caught: an unfinished manifest remains recognizable as `status=running`.
 
 The index uses an exclusive `flock` and atomic file replacement. Repeated
 updates upsert by run ID. Failed/interrupted runs also get rows. A known v1
-CSV header migrates additively; an unknown incompatible header is preserved and reported in the manifest. To rebuild
+or pre-correction v2 CSV header migrates additively; an unknown incompatible header
+is preserved and reported in the manifest. To rebuild
 a compatible derived index from canonical finalized runs, use:
 
 ```bash

@@ -2,6 +2,35 @@
 
 Completed on 2026-10-08 using existing SIFT1M data/indexes. This validates the measurement infrastructure and characterizes instrumentation overhead; it is not an algorithmic or novelty result. No D1/D2/D3/D4/D6 instrumentation solution, adaptive width, admission control, or SIFT10M work is included.
 
+## Forward evidence-status correction after PR review
+
+The 23-run campaign below is historical evidence from the pre-fix harness
+implementation published at `b53b2aecce6f435e07a2467c9a9421af4086a8d7` (its
+manifests truthfully record parent b379a926 with dirty=true during validation).
+At that version, run_status described benchmark execution/parsing and did not
+fail a successful benchmark whose required trace was invalid. Every required
+causal trace in this campaign was valid, so its results require no recomputation.
+All 23 finalized directories, checksums and MLflow records remain unchanged.
+
+The follow-up is a forward evidence-status correction only: benchmark_status is
+the process plus parsing result; trace_valid is causal evidence validity;
+run_status is overall validity. A successful benchmark with invalid required
+tracing now records success/false/failed respectively and returns 1. Native
+exit_code and measured metrics remain intact. A completed MLflow mirror may report
+mlflow_status=success while the MLflow run terminates FAILED for overall failure.
+New tags distinguish all three fields. Additive schema/index migration preserves
+older recorded cells and does not invent benchmark_status for historical records.
+
+All 56 research Python tests pass for this correction (the original 51 plus five
+status/migration regressions), using
+`.venv-research/bin/python -m unittest discover -s tests/research -v`.
+`git diff --check` passes. Validation uses synthetic missing-PANTRC01 and valid sampled
+DETAIL binaries, including MLflow FAILED/FINISHED-state checks and schema/index
+compatibility; no E0 or sentinel campaign is rerun. ANN tracer source and timing
+hooks are unchanged. IO_SUBMIT remains after SQE preparation, immediately before
+io_uring_submit(); IO_CQE_SEEN remains at CQE/user_data processing in userspace.
+Their difference is a userspace-observed I/O interval, not device hardware latency.
+
 ## Reproducible sources and build
 
 - Research branch: `research/p0-causal-instrumentation`; parent `b379a9260cb310e1ed1f7bdd3325c41a3a86e649` (merged Issue #1 harness). The containing research commit versions the tested harness patch.

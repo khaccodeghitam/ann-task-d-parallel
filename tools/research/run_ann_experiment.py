@@ -40,7 +40,8 @@ PROVENANCE_COLUMNS = tuple(f"{namespace}_{field}" for namespace in ("harness", "
                            for field in ("repo_root", "repo_remote", "git_commit", "git_branch", "git_dirty"))
 PROFILE_COLUMNS = ("benchmark_profile", "benchmark_profile_version", "parser_version",
                    "printed_latency_percentile")
-INDEX_COLUMNS = (*V1_INDEX_COLUMNS, *PROFILE_COLUMNS, *PROVENANCE_COLUMNS)
+V2_INDEX_COLUMNS = (*V1_INDEX_COLUMNS, *PROFILE_COLUMNS, *PROVENANCE_COLUMNS)
+INDEX_COLUMNS = (*V2_INDEX_COLUMNS, "benchmark_status", "trace_valid", "causal_trace_enabled")
 
 # Source-audited contracts; the shared output label cannot identify its percentile.
 BENCHMARK_PROFILES = {
@@ -306,6 +307,7 @@ def make_manifest(args, identity, argv, collectors):
                             ("OMP_NUM_THREADS", "OMP_PROC_BIND", "OMP_PLACES", "MKL_NUM_THREADS")},
             "trace_environment": args.trace_environment,
             "causal_trace_enabled": args.causal_trace,
+            "trace_valid": None,
             "trace_config": {"protocol": "PANTRC01/v1", "detail_first_n": args.trace_detail_first_n,
                              "event_capacity": args.trace_event_capacity} if args.causal_trace else None,
             **host_info(), "dataset_id": args.dataset_id, "dataset_path": str(args.dataset_path),
@@ -369,11 +371,21 @@ def parse_benchmark_output(text, l_search, wcap, k, has_truth, benchmark_profile
     return metrics, None
 
 
-def make_summary(identity, metrics, wall_time, exit_code, status, parse_error, benchmark_profile):
+def overall_run_status(benchmark_status, causal_trace_enabled, trace_valid):
+    if benchmark_status != "success":
+        return benchmark_status
+    return "success" if not causal_trace_enabled or trace_valid is True else "failed"
+
+
+def make_summary(identity, metrics, wall_time, exit_code, benchmark_status, parse_error,
+                 benchmark_profile, causal_trace_enabled=False):
     profile = BENCHMARK_PROFILES[benchmark_profile]
     return {"schema_version": 2, "run_id": identity, **metrics, "wall_time_s": wall_time,
             **profile_metadata(benchmark_profile), "printed_latency_metric": profile["latency_metric"],
-            "exit_code": exit_code, "run_status": status, "parse_error": parse_error,
+            "exit_code": exit_code, "benchmark_status": benchmark_status,
+            "causal_trace_enabled": causal_trace_enabled, "trace_valid": None,
+            "run_status": overall_run_status(benchmark_status, causal_trace_enabled, None),
+            "parse_error": parse_error,
             "recall_unit": "percent", "latency_note":
             f"Printed P99 Lat maps to {profile['latency_metric']} at percentile {profile['percentile']}; "
             "all other unreported percentiles remain null"}
@@ -522,7 +534,7 @@ def update_run_index(root, manifest, summary):
         if path.exists():
             with path.open(newline="") as stream:
                 reader = csv.DictReader(stream)
-                if reader.fieldnames not in (list(INDEX_COLUMNS), list(V1_INDEX_COLUMNS)):
+                if reader.fieldnames not in (list(INDEX_COLUMNS), list(V2_INDEX_COLUMNS), list(V1_INDEX_COLUMNS)):
                     raise ValueError("Existing run_index.csv schema differs; preserved without overwriting")
                 rows = [old for old in reader if old["run_id"] != row["run_id"]]
         rows.append(row)
@@ -601,7 +613,7 @@ def run(args):
     telemetry = Telemetry(directory / "telemetry", collectors, args.telemetry_interval)
     process = None
     received_signal = None
-    status = "failed"
+    benchmark_status = "failed"
     exit_code = None
     def handle_signal(number, _frame):
         nonlocal received_signal
@@ -622,17 +634,17 @@ def run(args):
                 telemetry.start(process.pid)
             while process is not None and process.poll() is None:
                 if received_signal is not None:
-                    status = "interrupted"
+                    benchmark_status = "interrupted"
                     break
                 if time.monotonic() - start > args.timeout:
-                    status = "timed_out"
+                    benchmark_status = "timed_out"
                     break
                 try:
                     process.wait(timeout=0.2)
                 except subprocess.TimeoutExpired:
                     pass
             if received_signal is not None:
-                status = "interrupted"
+                benchmark_status = "interrupted"
     except Exception as error:
         manifest["error"] = f"{type(error).__name__}: {error}"
     finally:
@@ -646,11 +658,10 @@ def run(args):
         metrics, parse_error = parse_benchmark_output(
             output_path.read_text(errors="replace") if output_path.exists() else "",
             args.l_search, args.wcap, args.k, args.ground_truth is not None, args.benchmark_profile)
-        if status not in ("interrupted", "timed_out"):
-            status = "success" if exit_code == 0 and parse_error is None and manifest["error"] is None else "failed"
-        manifest.update(status=status, termination_signal=received_signal)
-        summary = make_summary(identity, metrics, wall, exit_code, status, parse_error, args.benchmark_profile)
-        write_json(directory / "summary.json", summary)
+        if benchmark_status not in ("interrupted", "timed_out"):
+            benchmark_status = "success" if exit_code == 0 and parse_error is None and manifest["error"] is None else "failed"
+        summary = make_summary(identity, metrics, wall, exit_code, benchmark_status, parse_error,
+                               args.benchmark_profile, args.causal_trace)
         if args.trace_mode != "OFF":
             write_trace_artifacts(directory, manifest)
         trace_valid = None
@@ -661,15 +672,18 @@ def run(args):
                                            str(directory)], capture_output=True, text=True, timeout=60)
                 (directory / "trace_export.log").write_text(exported.stdout + exported.stderr)
                 health = json.loads((directory / "trace_health.json").read_text())
-                trace_valid = exported.returncode == 0 and health["trace_valid"]
+                trace_valid = exported.returncode == 0 and health["trace_valid"] is True
                 summary.update(trace_valid=trace_valid, trace_events_written=health["events_written"],
                                trace_events_dropped=health["events_dropped"])
             except (OSError, ValueError, subprocess.SubprocessError) as error:
                 trace_valid = False
                 write_json(directory / "trace_health.json", {"trace_valid": False, "health_error": str(error)})
                 summary.update(trace_valid=False)
-            manifest["trace_valid"] = trace_valid
-            write_json(directory / "summary.json", summary)
+        status = overall_run_status(benchmark_status, args.causal_trace, trace_valid)
+        summary.update(run_status=status, trace_valid=trace_valid)
+        manifest.update(status=status, run_status=status, benchmark_status=benchmark_status,
+                        exit_code=exit_code, trace_valid=trace_valid, termination_signal=received_signal)
+        write_json(directory / "summary.json", summary)
         write_json(directory / "manifest.json", manifest)
         if args.mlflow and received_signal is None:
             try:
@@ -689,9 +703,10 @@ def run(args):
         manifest["termination_signal"] = received_signal
         write_json(directory / "manifest.json", manifest)
         checksums(directory)
-        print(json.dumps({**preview, "run_status": status, "summary": summary,
+        print(json.dumps({**preview, "benchmark_status": benchmark_status, "trace_valid": trace_valid,
+                          "run_status": status, "summary": summary,
                           "mlflow_status": manifest["mlflow_status"], "mlflow_run_id": manifest["mlflow_run_id"]}, indent=2))
-        return 128 + received_signal if received_signal else 0 if status == "success" and trace_valid is not False else 1
+        return 128 + received_signal if received_signal else 0 if status == "success" else 1
     finally:
         for number, handler in handlers.items():
             signal.signal(number, handler)

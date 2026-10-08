@@ -73,10 +73,14 @@
       "subject_repo_remote",
       "subject_git_commit",
       "subject_git_branch",
-      "subject_git_dirty"
+      "subject_git_dirty",
+      "benchmark_status",
+      "trace_valid",
+      "causal_trace_enabled"
     ],
-    "policy": "Derived index under flock and atomic replacement. Known v1 header migrates additively, preserving old cells; new fields for historical runs stay empty. Unknown headers are preserved and reported.",
-    "legacy_git_fields": "git_commit/git_dirty mean harness provenance only. Use subject_git_commit for algorithm comparisons."
+    "policy": "Derived index under flock and atomic replacement. Known v1/v2 headers migrate additively, preserving every old cell; appended fields stay empty for historical rows. Rebuild copies only recorded fields, never infers benchmark_status or reclassifies historical run_status. Unknown headers are preserved and reported.",
+    "legacy_git_fields": "git_commit/git_dirty mean harness provenance only. Use subject_git_commit for algorithm comparisons.",
+    "status_semantics": "benchmark_status: ANN process plus parsing; exit_code: native ANN returncode; trace_valid: true/false/null (empty cell); run_status: overall validity for records with benchmark_status. Older records keep pre-correction semantics."
   },
   "causal_query_metrics.v2": {
     "filename": "query_metrics.csv",

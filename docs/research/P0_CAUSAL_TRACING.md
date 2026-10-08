@@ -19,10 +19,32 @@ Causal tracing adds no positional arguments. `--causal-trace` passes and records
 
 The harness clears ambient trace settings when opt-in is absent. A stock binary
 cannot silently satisfy opt-in: missing/truncated raw output makes `trace_valid=false`
-and the runner returns nonzero. ANN `run_status` independently describes benchmark
-execution; invalid tracing does not fabricate an ANN process failure. MLflow failure
-also remains independent. Validate both ANN success and trace validity before using
-causal evidence.
+and the runner returns nonzero. Finalized evidence separates three fields:
+
+- `benchmark_status`: ANN process execution plus benchmark parsing result;
+  success, failed, interrupted or timed_out.
+- `trace_valid`: true/false for required causal evidence, null when tracing is
+  not enabled. Pending validation also starts as null.
+- `run_status`: overall experiment validity. It is success **iff** benchmark_status
+  is success and (tracing is not required or trace_valid is true). Manifest `status`
+  is a finalized alias of run_status; it remains running during execution.
+
+A successful benchmark with a missing/corrupt/dropped/invariant-invalid required
+trace has benchmark_status=success, trace_valid=false and run_status=failed; the
+runner returns 1. Metrics, stdout and trace diagnostics are retained. `exit_code`
+in summary and finalized manifest is the native ANN process returncode (negative
+for signal termination, null if no process started), not the runner's return code.
+Interrupted/timed_out benchmark states remain the overall state.
+
+MLflow transport remains independent: mlflow_status=success means the mirror
+completed. Its run terminal state is FINISHED only for overall run_status=success,
+otherwise FAILED. Tags expose benchmark_status, trace_valid and run_status.
+
+This is an additive schema-v2 forward correction. Presence of benchmark_status
+identifies the new contract; older v2 records without it retain their recorded
+pre-fix status semantics and are not rewritten or assigned an inferred benchmark
+status. See [migration details](P0_EXPERIMENTS.md) and the
+[historical campaign note](P0_CAUSAL_VALIDATION.md).
 
 OFF initializes the runtime and dumps only protocol metadata, with no event clocks,
 arrays, query rows or correlation operations. Its trace health zeros mean **zero
@@ -52,8 +74,11 @@ expand. Expansion remains node-level with request_seq=null; no guessed source-re
 mapping is asserted. Worker buffers are exported in worker order; JSONL is not claimed
 to be globally timestamp-sorted. Timestamps are monotonic nanoseconds, not UTC.
 
-- L_observed_io = t_cqe_seen - t_submit: userspace-observed completion, including
-  observation/poll scheduling delay; **not device hardware completion latency**.
+- IO_SUBMIT timestamps after SQE preparation and immediately before the existing
+  io_uring_submit() call. IO_CQE_SEEN timestamps when CQE/user_data is processed by
+  the userspace poll loop, not necessarily the exact batch-peek instant.
+- L_observed_io = t_cqe_seen - t_submit: **userspace-observed I/O interval**,
+  including observation/poll scheduling delay; **not device hardware latency**.
 - L_HOL = t_publish - t_cqe_seen: application publication delay.
 - L_ready = t_expand - t_publish when a source-request mapping is independently
   established. This first patch deliberately leaves expansion request_seq unknown.

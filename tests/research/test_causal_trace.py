@@ -1,14 +1,17 @@
 """Synthetic causal protocol tests; no dataset, root, or ANN executable required."""
 import contextlib
 import copy
+import csv
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
 from unittest import mock
 
@@ -69,6 +72,19 @@ def raw_trace(events=None, mode="DETAIL", dropped=0):
     if mode != "OFF":
         output += struct.pack(f"<{len(trace.COUNTER_FIELDS)}Q", *(counters[k] for k in trace.COUNTER_FIELDS))
     return output
+
+
+def valid_trace_benchmark(fixture):
+    from test_run_ann_experiment import TABLE
+    fixture.executable.write_text(
+        "#!/usr/bin/env python3\nimport os\nfrom pathlib import Path\n"
+        "Path(os.environ['PIPEANN_TRACE_OUTPUT']).write_bytes(" + repr(raw_trace()) + ")\n"
+        "print(" + repr(TABLE) + ")\n")
+
+
+CAUSAL_OPTIONS = ("--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", "pq",
+                  "--causal-trace", "--trace-mode", "DETAIL", "--threads", "1",
+                  "--trace-detail-first-n", "1", "--trace-event-capacity", "32")
 
 
 class CausalTests(unittest.TestCase):
@@ -229,11 +245,94 @@ class CausalTests(unittest.TestCase):
             self.assertFalse(fixture.evidence.exists())
             code, result = fixture.execute("--benchmark-profile", "pipeann-b9ec4ba", "--neighbor-type", "pq", "--causal-trace")
             self.assertEqual(code, 1)
-            self.assertEqual(result["run_status"], "success")  # ANN succeeded; tracing is separately invalid.
-            health = json.loads((Path(result["run_directory"]) / "trace_health.json").read_text())
+            self.assertEqual(result["benchmark_status"], "success")
+            self.assertIs(result["trace_valid"], False)
+            self.assertEqual(result["run_status"], "failed")
+            directory = Path(result["run_directory"])
+            for name in ("manifest", "summary"):
+                metadata = json.loads((directory / f"{name}.json").read_text())
+                self.assertEqual(metadata["benchmark_status"], "success")
+                self.assertEqual(metadata["exit_code"], 0)
+                self.assertIs(metadata["trace_valid"], False)
+                self.assertEqual(metadata["run_status"], "failed")
+                Draft202012Validator(json.loads((REPO / f"schemas/research/{name}.schema.json").read_text())).validate(metadata)
+            self.assertEqual(metadata["qps"], 1234.5)
+            self.assertEqual(metadata["recall"], 90.5)
+            self.assertEqual(metadata["p99_latency_us"], 1500.25)
+            self.assertIn("1234.50", (directory / "stdout.log").read_text())
+            self.assertEqual(json.loads((directory / "manifest.json").read_text())["status"], "failed")
+            health = json.loads((directory / "trace_health.json").read_text())
             self.assertFalse(health["trace_valid"])
+            with (fixture.evidence / "summaries/run_index.csv").open() as stream:
+                row = next(csv.DictReader(stream))
+            self.assertEqual(row["benchmark_status"], "success")
+            self.assertEqual(row["run_status"], "failed")
+            self.assertEqual(row["trace_valid"], "False")
+            fixture.check_checksums(directory)
         finally:
             fixture.tearDown()
+
+    def test_valid_required_trace_keeps_overall_success(self):
+        from test_run_ann_experiment import RunnerTests
+        fixture = RunnerTests(); fixture.setUp()
+        try:
+            valid_trace_benchmark(fixture)
+            code, result = fixture.execute(*CAUSAL_OPTIONS)
+            self.assertEqual(code, 0)
+            self.assertEqual(result["benchmark_status"], "success")
+            self.assertIs(result["trace_valid"], True)
+            self.assertEqual(result["run_status"], "success")
+            directory = Path(result["run_directory"])
+            for name in ("manifest", "summary"):
+                metadata = json.loads((directory / f"{name}.json").read_text())
+                self.assertEqual(metadata["benchmark_status"], "success")
+                self.assertIs(metadata["trace_valid"], True)
+                self.assertEqual(metadata["run_status"], "success")
+            fixture.check_checksums(directory)
+        finally:
+            fixture.tearDown()
+
+    def test_mlflow_terminal_state_uses_overall_validity(self):
+        from test_run_ann_experiment import RunnerTests, runner as fixture_runner
+        fixture = RunnerTests(); fixture.setUp()
+        spec = importlib.util.spec_from_file_location("status_mirror", REPO / "tools/research/mlflow_mirror.py")
+        mirror = importlib.util.module_from_spec(spec); spec.loader.exec_module(mirror)
+        client = mock.Mock()
+        client.get_experiment_by_name.return_value = types.SimpleNamespace(experiment_id="1")
+        client.get_experiment.return_value = types.SimpleNamespace(
+            artifact_location=(fixture.evidence / "mlflow/artifacts").as_uri())
+        client.create_run.return_value = types.SimpleNamespace(info=types.SimpleNamespace(run_id="synthetic-mirror"))
+        def mirror_locally(directory, root, *_args, **_kwargs):
+            with mock.patch.dict(sys.modules, {"mlflow": types.SimpleNamespace(MlflowClient=lambda **kwargs: client)}), \
+                    mock.patch.dict(os.environ):
+                return mirror.mirror(directory, root)
+        try:
+            for valid, terminal in ((False, "FAILED"), (True, "FINISHED")):
+                with self.subTest(valid=valid):
+                    if valid: valid_trace_benchmark(fixture)
+                    with mock.patch.object(fixture_runner, "mirror_mlflow", side_effect=mirror_locally):
+                        code, result = fixture.execute(*CAUSAL_OPTIONS, "--mlflow")
+                    self.assertEqual(code, 0 if valid else 1)
+                    self.assertEqual(result["benchmark_status"], "success")
+                    self.assertIs(result["trace_valid"], valid)
+                    self.assertEqual(result["run_status"], "success" if valid else "failed")
+                    self.assertEqual(result["mlflow_status"], "success")
+                    client.set_terminated.assert_called_with("synthetic-mirror", status=terminal)
+                    tags = client.create_run.call_args.kwargs["tags"]
+                    self.assertEqual(tags["benchmark_status"], "success")
+                    self.assertEqual(tags["trace_valid"], json.dumps(valid))
+                    self.assertEqual(tags["run_status"], result["run_status"])
+                    self.assertIn(mock.call("synthetic-mirror", "qps", 1234.5), client.log_metric.call_args_list)
+        finally:
+            fixture.tearDown()
+
+    def test_overall_status_rule_including_unknown_trace(self):
+        for benchmark in ("success", "failed", "interrupted", "timed_out"):
+            for enabled in (False, True):
+                for valid in (None, False, True):
+                    with self.subTest(benchmark=benchmark, enabled=enabled, valid=valid):
+                        expected = benchmark if benchmark != "success" else "success" if not enabled or valid is True else "failed"
+                        self.assertEqual(runner.overall_run_status(benchmark, enabled, valid), expected)
 
 
 if __name__ == "__main__":

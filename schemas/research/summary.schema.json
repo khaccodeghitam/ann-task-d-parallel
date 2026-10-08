@@ -104,15 +104,18 @@
       "type": [
         "integer",
         "null"
-      ]
+      ],
+      "description": "Native ANN process returncode (negative for signal termination), null when no process started. This is not the runner return code."
     },
     "run_status": {
+      "type": "string",
       "enum": [
         "success",
         "failed",
         "interrupted",
         "timed_out"
-      ]
+      ],
+      "description": "Overall experiment result. Success iff benchmark_status is success and tracing is not required or trace_valid is true. Historical v2 records lacking benchmark_status retain their original pre-correction meaning."
     },
     "benchmark_profile": {
       "enum": [
@@ -142,7 +145,8 @@
       "type": [
         "boolean",
         "null"
-      ]
+      ],
+      "description": "Required causal evidence validity; null when causal tracing is not enabled or validation is pending."
     },
     "trace_events_written": {
       "type": [
@@ -157,6 +161,19 @@
         "null"
       ],
       "minimum": 0
+    },
+    "benchmark_status": {
+      "type": "string",
+      "enum": [
+        "success",
+        "failed",
+        "interrupted",
+        "timed_out"
+      ],
+      "description": "ANN process execution plus benchmark parsing result; independent of required causal trace validity."
+    },
+    "causal_trace_enabled": {
+      "type": "boolean"
     }
   },
   "additionalProperties": true,
@@ -215,6 +232,21 @@
             "const": "p99_latency_us"
           }
         }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "benchmark_status"
+        ]
+      },
+      "then": {
+        "required": [
+          "run_status",
+          "trace_valid",
+          "causal_trace_enabled",
+          "exit_code"
+        ]
       }
     }
   ]
