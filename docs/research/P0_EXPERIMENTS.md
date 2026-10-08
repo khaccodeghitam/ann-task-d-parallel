@@ -6,7 +6,10 @@ Local JSON/CSV/JSONL files and captured stdout/stderr are the source of truth.
 Local MLflow mirrors run metadata and available metrics for visualization and
 comparison. An MLflow error does not change the ANN run's success status.
 
-No ANN core code is changed. D1/D2/D3/D4/D6 instrumentation is not implemented.
+The harness leaves this repository's ANN core unchanged. Issue #4 adds observational
+causal tracing in the separate canonical `PipeANN-p0` subject; see
+[P0_CAUSAL_TRACING.md](P0_CAUSAL_TRACING.md). D1/D2/D3/D4/D6 algorithmic solutions
+are not implemented.
 Search order, candidate pools, beam-width behavior, io_uring, completion handling,
 frontiers, and termination remain those of the selected executable/build.
 SIFT10M is outside this issue.
@@ -147,6 +150,10 @@ UUID; run directories are created exclusively and never reused or overwritten.
 | DETAIL | LIGHT plus harness start/end events. Sampled ANN event infrastructure is scaffolded only; unsuitable for headline QPS. |
 
 No `width_timeseries.csv` is produced because widths are not exported.
+Without `--causal-trace`, the query/event scaffold remains as described above.
+Opt-in causal tracing exports real per-query counters and sampled numeric events
+using the same runner and external evidence root.
+
 Schema definitions are under `schemas/research/`. Query fields can be extended
 with versioned optional fields only when actual measurements become available.
 Telemetry is long form: sample time, CPU/PID/device, metric, numeric value, unit.

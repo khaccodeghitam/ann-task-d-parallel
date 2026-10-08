@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:parallel-ann:p0:causal-health:2",
+  "type": "object",
+  "required": [
+    "sample_requested",
+    "sample_observed",
+    "buffer_capacity",
+    "events_written",
+    "events_dropped",
+    "unmatched_submit",
+    "unmatched_cqe",
+    "unmatched_publish",
+    "ordering_violations",
+    "negative_hidden_count",
+    "outstanding_at_query_end",
+    "table_overflows",
+    "submitted",
+    "cqe_seen",
+    "published",
+    "expanded",
+    "schema_version",
+    "trace_mode",
+    "sample_policy",
+    "trace_valid"
+  ],
+  "properties": {
+    "sample_requested": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sample_observed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "buffer_capacity": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "events_written": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "events_dropped": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unmatched_submit": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unmatched_cqe": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "unmatched_publish": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "ordering_violations": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "negative_hidden_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "outstanding_at_query_end": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "table_overflows": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "submitted": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cqe_seen": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "published": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "expanded": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "schema_version": {
+      "const": 2
+    },
+    "trace_mode": {
+      "enum": [
+        "OFF",
+        "LIGHT",
+        "DETAIL"
+      ]
+    },
+    "sample_policy": {
+      "type": "object"
+    },
+    "trace_valid": {
+      "type": "boolean"
+    }
+  },
+  "additionalProperties": true
+}

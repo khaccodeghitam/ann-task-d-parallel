@@ -328,6 +328,30 @@
         "boolean",
         "null"
       ]
+    },
+    "causal_trace_enabled": {
+      "type": "boolean"
+    },
+    "trace_environment": {
+      "type": "object",
+      "additionalProperties": {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "trace_config": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "trace_valid": {
+      "type": [
+        "boolean",
+        "null"
+      ]
     }
   },
   "additionalProperties": true,

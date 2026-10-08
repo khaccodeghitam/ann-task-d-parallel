@@ -137,6 +137,26 @@
         "p99_latency_us",
         "p999_latency_us"
       ]
+    },
+    "trace_valid": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "trace_events_written": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "trace_events_dropped": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
     }
   },
   "additionalProperties": true,

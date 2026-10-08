@@ -77,5 +77,43 @@
     ],
     "policy": "Derived index under flock and atomic replacement. Known v1 header migrates additively, preserving old cells; new fields for historical runs stay empty. Unknown headers are preserved and reported.",
     "legacy_git_fields": "git_commit/git_dirty mean harness provenance only. Use subject_git_commit for algorithm comparisons."
+  },
+  "causal_query_metrics.v2": {
+    "filename": "query_metrics.csv",
+    "columns": [
+      "schema_version",
+      "run_id",
+      "trace_mode",
+      "query_id",
+      "worker_id",
+      "linux_tid",
+      "is_sampled",
+      "selected",
+      "submitted",
+      "cqe_seen",
+      "published",
+      "expanded",
+      "poll_calls",
+      "cqe_count",
+      "max_completed_hidden",
+      "initial_width",
+      "final_width",
+      "width_change_count",
+      "max_inflight",
+      "events_dropped",
+      "unmatched_submit",
+      "unmatched_cqe",
+      "unmatched_publish",
+      "ordering_violations",
+      "negative_hidden_count",
+      "outstanding_at_query_end",
+      "cache_ready",
+      "cache_published",
+      "latency_ns",
+      "table_overflows",
+      "events_written",
+      "latency_us"
+    ],
+    "availability": "Real per-query counters and existing ANN QueryStats latency when --causal-trace is enabled; OFF emits header only. Fixed numeric rows exported after search."
   }
 }

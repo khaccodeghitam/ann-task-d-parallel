@@ -1,0 +1,20 @@
+{
+  "subject_base_commit": "b9ec4ba86ff5d70bec277984777197f28dc2cf42",
+  "subject_commit": "3bdcc064cb96aae4cd845bd2bb6adc5f5ba63e19",
+  "subject_tree": "68cb192a2a931676a95e5f63ac17a91ea505b193",
+  "subject_binary_sha256": "d51066cc5fe0cf2df71149e23910ce654dcc259ed271fea28ae7002c53a8bd18",
+  "golden_binary_sha256": "a02ce69d1467727344c8620a254b4cba51d12616d3da171ef7c1a6668a9e8bc5",
+  "patch_sha256": "a4da2bee667c8c017b82e08f543c85a68499a694a7f7fe863f5fe2617df4f640",
+  "commit_object_sha256": "482684d576cb73dd5b4bd155153e125b1781c6dc22cfcb0950609a09e396c707",
+  "branch": "research/p0-causal-instrumentation",
+  "pushed_to_upstream": false,
+  "compile_definitions": "-DBG_IO_THREAD -DNDEBUG -DUSE_AVX2 -DUSE_TCMALLOC -DUSE_URING",
+  "flags_match_golden_after_source_root_normalization": true,
+  "compiler": "GNU C++ 13.3.0",
+  "cmake_build_type": "",
+  "build_commands": [
+    "cd ~/ann-research/PipeANN-p0/third_party/liburing && ./configure && make library -j4",
+    "CPLUS_INCLUDE_PATH=\"$HOME/ann-research/Parallel_ANN_Research/.deps-research/usr/include\" cmake -S ~/ann-research/PipeANN-p0 -B ~/ann-research/PipeANN-p0/build -DIO_ENGINE=uring -DUSE_TCMALLOC=ON -DBUILD_PYTHON_INTERFACE=OFF",
+    "CPLUS_INCLUDE_PATH=\"$HOME/ann-research/Parallel_ANN_Research/.deps-research/usr/include\" cmake --build ~/ann-research/PipeANN-p0/build --target search_disk_index -j4"
+  ]
+}

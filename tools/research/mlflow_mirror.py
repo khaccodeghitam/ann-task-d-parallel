@@ -44,6 +44,11 @@ def mirror(directory, root):
         for target, source in keys.items():
             value = manifest.get(source)
             client.log_param(run_id, target, "unknown" if value is None else value)
+        if manifest.get("causal_trace_enabled"):
+            client.log_param(run_id, "trace_protocol", manifest["trace_config"]["protocol"])
+            client.log_param(run_id, "trace_detail_first_n", manifest["trace_config"]["detail_first_n"])
+            client.log_param(run_id, "trace_event_capacity", manifest["trace_config"]["event_capacity"])
+            client.set_tag(run_id, "trace_valid", str(manifest.get("trace_valid")))
         for metric in ("qps", "recall", "mean_latency_us", "p99_latency_us", "p999_latency_us",
                        "mean_hops", "mean_ios", "wall_time_s"):
             if summary[metric] is not None:
