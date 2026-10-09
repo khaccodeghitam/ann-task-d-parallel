@@ -351,15 +351,25 @@ def validate_plan(plan):
 def validate_record(r,plan):
     m,s,h=r['manifest'],r['summary'],r['trace_health'];subject=plan['subjects']['instrumented']
     require(r['runner_return_code']==0 and r['run_id']==m['run_id']==s['run_id'] and m['repetition']==r['round'],'Execution identity mismatch')
-    require(m['harness_git_commit']==plan['harness_commit'] and m['harness_git_dirty'] is False and m['harness_git_branch']=='research/g0c2-sift10m-detail-d6','Harness provenance mismatch')
+    require(m['harness_repo_root']==str(Path(subject['root']).parent/'Parallel_ANN_Research') and m['harness_git_commit']==plan['harness_commit'] and m['harness_git_dirty'] is False and m['harness_git_branch']=='research/g0c2-sift10m-detail-d6','Harness provenance mismatch')
     require(m['subject_git_commit']==subject['commit'] and m['subject_git_dirty'] is False and m['subject_repo_root']==subject['root'] and m['executable_sha256']==subject['binary_sha256'] and m['executable']==str(Path(subject['root'])/'build/tests/search_disk_index'),'Subject provenance mismatch')
     require(m['subject_git_branch']==plan['subject_branch'],'Subject branch mismatch')
     for kind in EXPECTED_PACKAGES:require(m[kind+'_package_manifest_sha256']==plan[kind+'_package_sha256'],'Package mismatch')
     require(all(m.get(k)==v for k,v in {**SEARCH,**SENTINELS[r['config']]}.items()),'Search configuration mismatch')
     env={**plan['environment'],'OMP_NUM_THREADS':str(m['threads'])}
-    for snapenv in [m['environment'],*(x.get('benchmark_environment') for x in r['runtime_snapshots'] if x.get('benchmark_environment'))]:
-        for k in ('OMP_NUM_THREADS','MKL_NUM_THREADS','OMP_DYNAMIC','OMP_PROC_BIND','OMP_PLACES','GOMP_CPU_AFFINITY'):
-            require(snapenv.get(k)==env[k],'Native runtime environment mismatch')
+    snapshots=[x['benchmark_environment'] for x in r['runtime_snapshots'] if x.get('benchmark_environment')]
+    keys=('OMP_NUM_THREADS','MKL_NUM_THREADS','OMP_DYNAMIC','OMP_PROC_BIND','OMP_PLACES','GOMP_CPU_AFFINITY')
+    # Historical manifests capture a narrower environment than /proc observers.
+    # Never synthesize missing manifest fields: verify independent runtime reads.
+    # load_run additionally verifies every explicit export/unset in command.sh.
+    for k in keys:
+        if k in m['environment']:
+            require(m['environment'][k]==env[k],'Native manifest environment mismatch')
+        else:
+            require(snapshots and all(k in snap and snap[k]==env[k] for snap in snapshots),
+                    'Missing independent native environment evidence')
+    for snapenv in snapshots:
+        require(all(k in snapenv and snapenv[k]==env[k] for k in keys),'Native runtime environment mismatch')
     require(m['trace_mode']=='DETAIL' and m['causal_trace_enabled'] is True and all(m['trace_config'][k]==plan['trace'][k] for k in ('detail_first_n','event_capacity','sample_policy')),'Trace config mismatch')
     require(m['status']==s['run_status']=='success' and m['benchmark_status']==s['benchmark_status']=='success' and m['trace_valid'] is s['trace_valid'] is True,'Benchmark/trace failure')
     require(h['trace_valid'] is True and h['schema_version']==3 and h['trace_mode']=='DETAIL' and h['sample_requested']==h['sample_observed']==16 and h['requested_sample_qids']==h['observed_sample_qids']==QIDS and h['sample_policy']==plan['trace']['sample_policy'],'Trace sample health mismatch')
@@ -381,9 +391,10 @@ def load_detail(record,plan):
     m,h=r['manifest'],r['trace_health'];paths=plan['paths']
     require(m['argv']==[m['executable'],'uint8',paths['index_prefix'],str(m['threads']),str(m['wcap']),paths['query'],paths['ground_truth'],'10','l2','pq','2','0','100'],'Canonical argv mismatch')
     config,raw_events,rows=read_raw(directory/'ann_trace.bin')
-    require(config['protocol_version']==2 and config['sample_policy']==plan['trace']['sample_policy'] and config['trace_mode']=='DETAIL' and config['workers']==m['threads'] and config['buffer_capacity']==65536 and config['queries']==10000,'PANTRC02 configuration mismatch')
+    require(config['protocol_version']==2 and config['sample_policy']==plan['trace']['sample_policy'] and config['trace_mode']=='DETAIL' and config['workers']==m['threads'] and config['buffer_capacity']==65536 and config['queries']==10000 and config['first_n']==16,'PANTRC02 configuration mismatch')
     events=[json.loads(line) for line in (directory/'events.jsonl').read_text().splitlines()]
     require(events==[{**e,'run_id':record['run_id']} for e in raw_events],'Raw/event export disagreement')
+    require(all(e.get('wcap') is None or e['wcap']==m['wcap'] for e in events),'Event Wcap configuration mismatch')
     require(read_json(directory/'trace_check.json')['trace_valid'] is True and check_events(events,expected_qids=QIDS)['trace_valid'],'Causal/FIFO checker failed')
     with (directory/'query_metrics.csv').open() as stream:csv_rows=list(csv.DictReader(stream))
     require(len(rows)==len(csv_rows)==10000 and {q['query_id'] for q in rows}==set(range(10000)),'Missing/duplicate query counters')
@@ -397,11 +408,19 @@ def load_detail(record,plan):
     for k in ('selected','submitted','cqe_seen','published','expanded','cache_ready','cache_published','events_written','width_change_count'):
         require(sum(q[k] for q in rows)==h[k],'Raw/health total disagreement')
     require(sum(q['events_written'] for q in rows)==len(events),'Event count disagreement')
+    require(dict(Counter(e['event'] for e in events))==h['event_counts'] and h['sampling_sha256']==SAMPLE_SHA,'Event count/sampling digest health mismatch')
+    for k in ('max_inflight','max_completed_hidden'):
+        require(max(q[k] for q in rows)==h[k],'Maximum query/health disagreement')
+    worker_tids={}
+    for q in rows:
+        require(worker_tids.setdefault(q['worker_id'],q['linux_tid'])==q['linux_tid'],'Worker/TID inconsistency')
+    require(len(set(worker_tids.values()))==len(worker_tids),'Duplicate worker TID')
     require(all(config[k]==h[k] for k in ('benchmark_origin_ns','benchmark_end_ns')),'Benchmark phase metadata disagreement')
     r['detail']=describe_detail(events,config['benchmark_origin_ns'],config['benchmark_end_ns'])
     for q in r['detail']['queries']:
         raw=next(row for row in rows if row['query_id']==q['query_id'])
         require(all(raw[k]==v for k,v in q['logical_work'].items() if k!='published_not_expanded'),'Query/event count disagreement')
+        require(raw['final_width']==q['width']['final'] and raw['initial_width']==q['width']['initial'] and raw['width_change_count']==q['width']['changes'],'Width counter/event mismatch')
         require(raw['worker_id']==q['worker_id'] and raw['linux_tid']==q['linux_tid'],'Query/event identity mismatch')
     r['telemetry_coverage']=telemetry_coverage(directory,1)
     r['whole_workload_counters']={k:sum(q[k] for q in rows) for k in ('selected','submitted','cqe_seen','published','expanded','cache_ready','cache_published')}
@@ -435,17 +454,22 @@ def analyze_campaign(campaign):
     for name,sha in plan['code_sha256'].items():require(digest(campaign/name)==sha,'Frozen execution code changed')
     integrity=read_json(campaign/'INTEGRITY.json');require(all(integrity[k] for k in ('full_package_audits_pass','subjects_and_binaries_unchanged','frozen_plan_unchanged')),'Campaign integrity failed')
     mirror=read_json(campaign/'mlflow_readback.json');require(mirror['all_finished_and_bound'] is True and mirror['checked_runs']==15,'MLflow readback failure')
-    summaries={c:{k:distribution(r['detail'][k]['p95'] for r in rows) for k in ('publication_hol_us','observed_io_us')} for c,rows in groups.items()}
+    summaries={c:{k:distribution(r['detail'][k]['p95'] for r in rows if r['detail'][k]['p95'] is not None) for k in ('publication_hol_us','observed_io_us')} for c,rows in groups.items()}
     comparisons={}
     for reference,target in (('B','C'),('B','D'),('D','E'),('A','B')):
         paired=[]
         for a,b in zip(groups[reference],groups[target]):
             row=dict(round=a['round'],reference_run_id=a['run_id'],target_run_id=b['run_id'])
             for k in ('publication_hol_us','observed_io_us'):
-                ref=a['detail'][k]['p95'];tar=b['detail'][k]['p95'];row[k+'_p95_delta_us']=tar-ref;row[k+'_p95_ratio']=tar/ref if ref>0 else None
+                ref=a['detail'][k]['p95'];tar=b['detail'][k]['p95'];row[k+'_p95_delta_us']=tar-ref if tar is not None and ref is not None else None;row[k+'_p95_ratio']=tar/ref if tar is not None and ref is not None and ref>0 else None
             row['hidden_fraction_delta']=b['detail']['median_query_hidden_gt0_fraction']-a['detail']['median_query_hidden_gt0_fraction'];paired.append(row)
         comparisons[target+'_vs_'+reference]=paired
-    return dict(campaign_valid=True,classification='G0C2_COMPLETE',campaign_id=plan['campaign_id'],plan_sha256=digest(campaign/'PLAN.json'),sampled_D6=gate,system_wide_D6='INCONCLUSIVE',D1_observability='NO',D4_selector_gate='NOT TESTED',runs=records,groups=summaries,comparisons=comparisons,package_audits=audits,integrity=integrity,source='Local finalized evidence; requests nested in query/run/configuration',exclusions=[])
+    amendments=[]
+    for path in sorted(campaign.glob('AMENDMENT_*.json')):
+        amendment=read_json(path)
+        require(amendment['plan_sha256']==digest(campaign/'PLAN.json') and amendment['scientific_thresholds_changed'] is False and amendment['ANN_modified'] is False and digest(campaign/amendment['script'])==amendment['script_sha256'],'Technical amendment integrity mismatch')
+        amendments.append(amendment)
+    return dict(amendments=amendments,campaign_valid=True,classification='G0C2_COMPLETE',campaign_id=plan['campaign_id'],plan_sha256=digest(campaign/'PLAN.json'),sampled_D6=gate,system_wide_D6='INCONCLUSIVE',D1_observability='NO',D4_selector_gate='NOT TESTED',runs=records,groups=summaries,comparisons=comparisons,package_audits=audits,integrity=integrity,source='Local finalized evidence; requests nested in query/run/configuration',exclusions=[])
 
 
 def main():

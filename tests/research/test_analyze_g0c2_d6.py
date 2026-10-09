@@ -185,12 +185,10 @@ class Integrity(unittest.TestCase):
             with self.assertRaises(ValueError):c2.verify_sums(p)
     def test_provenance_and_package_rejected_first(self):
         plan=dict(harness_commit='correct')
-        r=dict(manifest=dict(run_id='r',repetition=1,harness_git_commit='wrong'),summary=dict(run_id='r'),trace_health={},runner_return_code=0,run_id='r',round=1)
-        plan['subjects']=dict(instrumented={})
+        r=dict(manifest=dict(run_id='r',repetition=1,harness_git_commit='wrong',harness_repo_root='/test/Parallel_ANN_Research'),summary=dict(run_id='r'),trace_health={},runner_return_code=0,run_id='r',round=1)
+        plan['subjects']=dict(instrumented={'root':'/test/PipeANN-p0'})
         with self.assertRaisesRegex(ValueError,'Harness provenance'):c2.validate_record(r,plan)
 
-
-if __name__=='__main__':unittest.main()
 
 class RecordValidation(unittest.TestCase):
     def fixture(self):
@@ -220,3 +218,28 @@ class RecordValidation(unittest.TestCase):
     def test_plan_threshold_rejected(self):
         p,r=self.fixture();p['thresholds']={**p['thresholds'],'material_scale_ratio':.30}
         with self.assertRaisesRegex(ValueError,'threshold'):c2.validate_plan(p)
+
+class EnvironmentCompatibility(unittest.TestCase):
+    fixture=RecordValidation.fixture
+    def test_narrow_manifest_with_independent_snapshot(self):
+        p,r=self.fixture();r['runtime_snapshots']=[{'benchmark_environment':r['manifest']['environment'].copy()}]
+        del r['manifest']['environment']['OMP_DYNAMIC'];del r['manifest']['environment']['GOMP_CPU_AFFINITY']
+        original=copy.deepcopy(r['manifest']);c2.validate_record(r,p)
+        self.assertEqual(r['manifest'],original)
+    def test_narrow_manifest_without_runtime_rejected(self):
+        p,r=self.fixture();del r['manifest']['environment']['OMP_DYNAMIC']
+        with self.assertRaisesRegex(ValueError,'Missing independent'):c2.validate_record(r,p)
+    def test_runtime_dynamic_mismatch_rejected(self):
+        p,r=self.fixture();r['runtime_snapshots']=[{'benchmark_environment':{**r['manifest']['environment'],'OMP_DYNAMIC':'TRUE'}}]
+        with self.assertRaisesRegex(ValueError,'runtime'):c2.validate_record(r,p)
+    def test_v1_v2_reader_compatibility(self):
+        from test_causal_trace import raw_trace
+        from test_distributed_sampling import v2_raw
+        with tempfile.TemporaryDirectory() as name:
+            path=Path(name)/'raw'
+            for version,raw in ((1,raw_trace()),(2,v2_raw())):
+                path.write_bytes(raw);config,events,rows=c2.read_raw(path)
+                self.assertEqual(config['protocol_version'],version);self.assertEqual(len(rows),1)
+                self.assertEqual(c2.analyze_events(events)['queries'][0]['query_id'],0)
+
+if __name__=='__main__':unittest.main()
