@@ -248,11 +248,11 @@ def load_run(record, plan):
     return result
 
 
-def analyze_campaign(campaign):
+def analyze_campaign(campaign, *, issue=10, record_analyzer=analyze_records):
     if digest(campaign / 'PLAN.json') != (campaign / 'PLAN.sha256').read_text().split()[0]:
         raise ValueError('Frozen plan SHA mismatch')
     plan = read_json(campaign / 'PLAN.json')
-    if plan['schema_version'] != 1 or plan['issue'] != 10:
+    if plan['schema_version'] != 1 or plan['issue'] != issue:
         raise ValueError('Unsupported campaign protocol version')
     records = [load_run(r, plan) for r in read_json(campaign / 'results.json')]
     audits = {}
@@ -277,7 +277,7 @@ def analyze_campaign(campaign):
                        for pos, case in enumerate(order) if i < 12 or pos < 2]
     if [(p['after_block'], p['after_case'], p['requested_s']) for p in pauses] != expected_pauses or any(p['elapsed_s'] < p['requested_s'] for p in pauses):
         raise ValueError('Frozen pause policy violated')
-    result = analyze_records(records, plan)
+    result = record_analyzer(records, plan)
     return {**result, 'campaign_id': plan['campaign_id'], 'plan_sha256': digest(campaign / 'PLAN.json'),
             'package_audits': audits, 'runs': records, 'exclusions': [],
             'source': 'Local authoritative finalized files only; no MLflow reads'}
