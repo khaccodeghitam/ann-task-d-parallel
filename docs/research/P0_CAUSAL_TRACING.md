@@ -198,3 +198,7 @@ Generated runs/raw traces/MLflow/builds/data/indexes remain external or ignored.
 artifacts are committed. Large index files >64 MiB still have sha256=null; cached/full
 hashing remains a follow-up before official SIFT10M. The original Issue #1 smoke artifacts
 remain immutable and retain their legacy infrastructure classification.
+
+## G0-C1 explicit DETAIL sampling
+
+Opt in with `--causal-trace --trace-mode DETAIL --trace-sample-policy explicit_qids --trace-sample-qids 1000,3000,5000,7000,9000`. IDs must be canonical, strictly increasing, unique and in range. Configuration is parsed once; full query/request lifecycles are retained. Default first-N and PANTRC01 remain supported. Explicit sampling uses PANTRC02/v2 and derived schema-v3 events/health, with exact IDs and canonical SHA256. The run index gains additive sampling identity columns; historical cells stay blank. MLflow mirrors only policy/digest/count. See [sampler design](G0C1_SAMPLER_DESIGN.md). Query-relative timestamps provide coarse phase context, not active-query occupancy or proof of steady state. IO_SUBMIT to IO_CQE_SEEN remains a userspace-observed I/O interval.

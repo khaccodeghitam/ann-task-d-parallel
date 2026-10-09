@@ -5,6 +5,8 @@ from pathlib import Path
 import struct
 import sys
 
+from trace_sampling import explicit_policy, requested_ids
+
 from check_causal_trace import check_events, EVENTS
 
 NA = (1 << 64) - 1
@@ -32,39 +34,58 @@ def read_raw(path):
     if len(raw) < HEADER.size:
         raise ValueError("Missing/truncated raw trace header")
     magic, version, mode, workers, capacity, first_n, queries, nevents, nrows, ef, cf = HEADER.unpack_from(raw)
-    if magic != b"PANTRC01" or version != 1 or mode >= len(MODES) or ef != len(EVENT_FIELDS) or cf != len(COUNTER_FIELDS):
+    if (magic, version) not in ((b"PANTRC01", 1), (b"PANTRC02", 2)) or mode >= len(MODES) or ef != len(EVENT_FIELDS) or cf != len(COUNTER_FIELDS):
         raise ValueError("Unknown raw trace protocol/layout")
     if not workers or not capacity or nevents > workers * capacity or nrows != (0 if mode == 0 else queries):
         raise ValueError("Invalid raw trace dimensions")
+    start = HEADER.size
+    phase = {}
+    policy = {"kind": "first_n", "first_n": first_n}
+    if version == 2:
+        if mode != 2 or len(raw) < start + 32:
+            raise ValueError("v2 requires explicit DETAIL metadata")
+        kind, nids, origin, end = struct.unpack_from("<4Q", raw, start); start += 32
+        if kind != 1 or not 1 <= nids <= 1024 or not 0 < origin <= end or len(raw) < start + nids*8 + 32:
+            raise ValueError("Invalid v2 sampling/phase metadata")
+        ids = list(struct.unpack_from(f"<{nids}Q", raw, start)); start += nids*8
+        policy = explicit_policy(ids, queries)
+        if raw[start:start+32].hex() != policy["sha256"]:
+            raise ValueError("Raw sampling digest mismatch")
+        start += 32
+        phase = {"benchmark_origin_ns": origin, "benchmark_end_ns": end}
     event_size, row_size = ef * 8, cf * 8
-    expected = HEADER.size + nevents * event_size + nrows * row_size
+    expected = start + nevents * event_size + nrows * row_size
     if len(raw) != expected:
         raise ValueError("Truncated/trailing raw trace data")
     events = []
-    for offset in range(HEADER.size, HEADER.size + nevents * event_size, event_size):
+    for offset in range(start, start + nevents * event_size, event_size):
         values = struct.unpack_from(f"<{ef}Q", raw, offset)
         kind = values[0]
         if not 1 <= kind <= len(EVENTS): raise ValueError("Unknown event code")
         event = {field: None if value == NA else value for field, value in zip(EVENT_FIELDS, values)}
         event.pop("type")
-        event.update(schema_version=2, source="ann", event=EVENTS[kind - 1])
+        event.update(schema_version=3 if version == 2 else 2, source="ann", event=EVENTS[kind - 1])
         if kind == 7:  # CQE result is signed, including -1 (otherwise NA in unused fields).
             result = values[-1]
             event["cqe_result"] = result - (1 << 64) if result >= (1 << 63) else result
+        if version == 2:
+            if not phase["benchmark_origin_ns"] <= event["timestamp_ns"] <= phase["benchmark_end_ns"]:
+                raise ValueError("Event outside benchmark phase bounds")
+            event["benchmark_relative_ns"] = event["timestamp_ns"] - phase["benchmark_origin_ns"]
         events.append(event)
     rows = []
-    begin = HEADER.size + nevents * event_size
+    begin = start + nevents * event_size
     for offset in range(begin, len(raw), row_size):
         values = struct.unpack_from(f"<{cf}Q", raw, offset)
         rows.append({field: None if value == NA else value for field, value in zip(COUNTER_FIELDS, values)})
     return {"trace_mode": MODES[mode], "workers": workers, "buffer_capacity": capacity,
-            "first_n": first_n, "queries": queries}, events, rows
+            "first_n": first_n, "queries": queries, "protocol_version": version, "sample_policy": policy, **phase}, events, rows
 
 
 def export_trace(directory, manifest):
     directory = Path(directory)
     base = {"schema_version": 2, "trace_mode": manifest["trace_mode"],
-            "sample_policy": {"kind": "first_n", "first_n": manifest["trace_config"]["detail_first_n"]},
+            "sample_policy": manifest["trace_config"].get("sample_policy", {"kind": "first_n", "first_n": manifest["trace_config"]["detail_first_n"]}),
             "sample_requested": 0, "sample_observed": 0,
             "buffer_capacity": manifest["trace_config"]["event_capacity"],
             "events_written": 0, "trace_valid": False, "ann_events_available": False,
@@ -75,11 +96,19 @@ def export_trace(directory, manifest):
             raise ValueError("Raw trace mode/query/worker count disagrees with manifest")
         if config["first_n"] != manifest["trace_config"]["detail_first_n"] or config["buffer_capacity"] != manifest["trace_config"]["event_capacity"]:
             raise ValueError("Raw trace sampling/capacity disagrees with manifest")
-        requested = min(config["first_n"], config["queries"]) if config["trace_mode"] == "DETAIL" else 0
+        if config["sample_policy"] != base["sample_policy"]:
+            raise ValueError("Raw/manifest sample identity mismatch")
+        requested_qids = requested_ids(config["sample_policy"], config["queries"], config["trace_mode"])
+        requested_set = set(requested_qids); requested = len(requested_qids)
+        if config["protocol_version"] == 2:
+            base.update(schema_version=3, requested_sample_qids=requested_qids,
+                        sampling_sha256=config["sample_policy"]["sha256"],
+                        benchmark_origin_ns=config["benchmark_origin_ns"], benchmark_end_ns=config["benchmark_end_ns"],
+                        benchmark_duration_ns=config["benchmark_end_ns"]-config["benchmark_origin_ns"])
         if len({r["query_id"] for r in rows}) != len(rows) or any(r["query_id"] != i for i, r in enumerate(rows)):
             raise ValueError("Missing/duplicate query counter rows")
         if any(r["worker_id"] >= config["workers"] or r["linux_tid"] <= 0 or
-               r["is_sampled"] != int(config["trace_mode"] == "DETAIL" and r["query_id"] < config["first_n"]) for r in rows):
+               r["is_sampled"] != int(config["trace_mode"] == "DETAIL" and r["query_id"] in requested_set) for r in rows):
             raise ValueError("Invalid worker/sample query counters")
         with (directory / "events.jsonl").open("w") as stream:
             for event in events:
@@ -88,10 +117,17 @@ def export_trace(directory, manifest):
         with (directory / "query_metrics.csv").open("w", newline="") as stream:
             writer = csv.DictWriter(stream, QUERY_COLUMNS); writer.writeheader()
             for row in rows:
-                writer.writerow({"schema_version": 2, "run_id": manifest["run_id"],
+                writer.writerow({"schema_version": base["schema_version"], "run_id": manifest["run_id"],
                                  "trace_mode": manifest["trace_mode"], **row,
                                  "latency_us": row["latency_ns"] / 1000 if row["latency_ns"] is not None else None})
-        checked = check_events(events)
+        checked = check_events(events, expected_qids=requested_qids)
+        if config["protocol_version"] == 2:
+            base["observed_sample_qids"] = [r["query_id"] for r in rows if r["is_sampled"]]
+            base["sampled_query_phase"] = [{"query_id": qid,
+                "start_relative_ns": next(e["benchmark_relative_ns"] for e in events if e["query_id"] == qid and e["event"] == "QUERY_START"),
+                "end_relative_ns": next(e["benchmark_relative_ns"] for e in events if e["query_id"] == qid and e["event"] == "QUERY_END")}
+                for qid in requested_qids if any(e["query_id"] == qid and e["event"] == "QUERY_START" for e in events)
+                and any(e["query_id"] == qid and e["event"] == "QUERY_END" for e in events)]
         sums = {field: sum(r[field] or 0 for r in rows) for field in COUNTER_FIELDS if field not in
                 ("query_id", "worker_id", "linux_tid", "initial_width", "final_width", "latency_ns")}
         if sums["events_written"] != len(events):

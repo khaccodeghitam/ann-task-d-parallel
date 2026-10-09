@@ -59,6 +59,10 @@ def mirror(directory, root):
             client.log_param(run_id, "trace_protocol", manifest["trace_config"]["protocol"])
             client.log_param(run_id, "trace_detail_first_n", manifest["trace_config"]["detail_first_n"])
             client.log_param(run_id, "trace_event_capacity", manifest["trace_config"]["event_capacity"])
+        for key in ("trace_sample_policy", "trace_sample_sha256", "trace_sample_count"):
+            if manifest.get(key) is not None:
+                client.log_param(run_id, key, manifest[key])
+                client.set_tag(run_id, key, str(manifest[key]))
         for metric in ("qps", "recall", "mean_latency_us", "p99_latency_us", "p999_latency_us",
                        "mean_hops", "mean_ios", "wall_time_s"):
             if summary[metric] is not None:

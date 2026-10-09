@@ -1,0 +1,301 @@
+{
+  "bootstrap": {
+    "block_count": 12,
+    "ci_percent": 90,
+    "method": "random.Random(seed).randrange(12) x12 for each resample; same index draws for each comparison/metric; median resample; linear interpolation at 0.05 and 0.95",
+    "samples": 20000,
+    "seed": 20261008,
+    "unit": "block"
+  },
+  "campaign_id": "G0C1_SIFT10M_20261009T073827804239Z",
+  "campaign_stop": "Stop at draft PR after sampler correctness and new-subject E0. No G0-C2, D6 classification or D1/D4.",
+  "code_sha256": {
+    "check_mlflow.py": "d2e968fb05dc07164d2e39b9bf35f4c28f5c667a673118e1e06830571fb9364e",
+    "detail_smoke.py": "21f2e6102a052541823e1e86e5ec50eaff5444c1214971cff54df5edb02df4cd",
+    "execute.py": "d555df242a45fdf26148faadc70fca16d88f03aa5df9f0a43a42feb3dca8f469",
+    "host_snapshot.py": "7c9b4042dff8d0f45e54af68cfa6b70cab05d5ca8c8fbd64bcab6547e3209572",
+    "post_audit.py": "e808938318670a7a56320cb50c437f7ff7ac0f50f854342bebfbde5e6e3f9e27",
+    "preflight.py": "af7412dd79f7e3b10df8c5629add849d65729674c626c57b2f2a23fd296c8bfa"
+  },
+  "decision": {
+    "overall": "Required trace or relative metric/recall FAIL => E0C_FAIL. Otherwise any relative INCONCLUSIVE or native sanity failure => E0C_INCONCLUSIVE. Otherwise E0C_PROCEED. Missing block/order/package/config/provenance/telemetry mismatch => INVALID/STOP.",
+    "performance": "PROCEED iff abs(median)<=margin and CI90 subset [-margin,+margin]; FAIL iff CI entirely >+margin or entirely <-margin; otherwise INCONCLUSIVE",
+    "recall": "PROCEED iff CI90 subset [-0.02,+0.02]; FAIL iff CI fully outside same direction; otherwise INCONCLUSIVE"
+  },
+  "delta_math": "Performance 100*(target/reference-1); recall target-reference percentage points. Decimal of printed metric strings before float conversion avoids boundary roundoff.",
+  "detail_smoke": {
+    "capacity_estimate": {
+      "all_sampled_on_one_worker": 17232,
+      "headroom_ratio": 3.8031569173630455,
+      "observed_historical_max_per_query": 1077
+    },
+    "event_capacity_per_worker": 65536,
+    "phase_observation": "Existing sampled boundaries relative to two explicit-DETAIL benchmark clock readings; active occupancy/dispatch progress unavailable",
+    "policy": {
+      "kind": "explicit_qids",
+      "qids": [
+        1000,
+        1533,
+        2066,
+        2600,
+        3133,
+        3666,
+        4200,
+        4733,
+        5266,
+        5800,
+        6333,
+        6866,
+        7400,
+        7933,
+        8466,
+        9000
+      ],
+      "sha256": "bb12f3bd4c1a370786765e1ebe6f5ef9883b6deab2d4437392090e3c3556deda"
+    },
+    "protocol": "PANTRC02/v2",
+    "purpose": "Non-headline correctness only, not official G0-C2/D6",
+    "qids": [
+      1000,
+      1533,
+      2066,
+      2600,
+      3133,
+      3666,
+      4200,
+      4733,
+      5266,
+      5800,
+      6333,
+      6866,
+      7400,
+      7933,
+      8466,
+      9000
+    ],
+    "threads": [
+      1,
+      8,
+      16
+    ],
+    "wcap": 32
+  },
+  "effect_margins_percent": {
+    "LIGHT_vs_OFF": 5,
+    "OFF_vs_STOCK": 3
+  },
+  "environment": {
+    "GOMP_CPU_AFFINITY": null,
+    "LC_ALL": "C",
+    "MKL_NUM_THREADS": "8",
+    "OMP_DISPLAY_AFFINITY": null,
+    "OMP_DISPLAY_ENV": null,
+    "OMP_DYNAMIC": "FALSE",
+    "OMP_NUM_THREADS": "8",
+    "OMP_PLACES": null,
+    "OMP_PROC_BIND": null,
+    "S_TIME_FORMAT": "ISO"
+  },
+  "frozen_at": "2026-10-09T07:38:27.805870+00:00",
+  "harness_commit": "a31228e4d73a06bb588e8f23d668d20c2bda4f1b",
+  "harness_dirty": false,
+  "harness_file_sha256": {
+    "tools/research/acquire_bigann_prefix.py": "96c8fec9a5bdfb9bd3c5377a2a560f2fe57347d827d0624e0bc8f6ce585ed927",
+    "tools/research/analyze_e0b.py": "ffc79878f1eb03a90fae69852afb7a7e737e3ccdffc4a3dc9b254e32a7c3b14c",
+    "tools/research/analyze_e0c.py": "60e2de74e251df986a0bcf202f77e99eb6f41351f23716f84f75a4dbec7aec2c",
+    "tools/research/analyze_g0_causal.py": "930bf8db16efa0277add54985bead0bc46c96065372eac57a48020635d45e303",
+    "tools/research/analyze_g0b_light.py": "a8f563115ac6b7c3e58991da53730af0f75e02266eff5020495bfcbd0db5af71",
+    "tools/research/analyze_g0c1.py": "c15adea8315ec700213b17290b31ffd09a3bec1636dd167eb97fb45d2d87778b",
+    "tools/research/causal_trace.py": "906f3581ef2b2a7ee81a208c0a26e0770f28ac7aa42ef38706c1f614d48802e4",
+    "tools/research/check_causal_trace.py": "5963e4073f7dd95501590f979efd8e0e240da7801052030675efd7b847361ed9",
+    "tools/research/finalize_bigann_index.py": "5f5f55b2dbaf55128e93bd3820623d6d63f21b6fc15357789eedbba54b050b01",
+    "tools/research/mlflow_mirror.py": "d0567487747af85c5f432046f102ffb31bb715920b52c11ff5ce04db274a710b",
+    "tools/research/package_manifest.py": "2b27debef0900f637ced96e9d61b3514718f4a082569c3b62fbd226bb438b0b9",
+    "tools/research/prepare_bigann_package.py": "a390c4c1c984aa2b7b0d6a12bcd35a0956f42115aecb3b0e547ac0460093267d",
+    "tools/research/rebuild_run_index.py": "4671a4960581d97adc97eebfbc4ffb1786bc1725d886001b0268bfa8f9a114ca",
+    "tools/research/run_ann_experiment.py": "ded8f542b65c36f24139c3f9eee7ab57f134cab60c308025fbd2175142b474c0",
+    "tools/research/trace_sampling.py": "3c29b9b264fde77b7c11390c6b8267f9795bbe23eea800abca1516a83e65a982"
+  },
+  "host_exclusion_rule": "NONE; exclude no runs based on load, performance, temperature or frequency. Preserve all observations.",
+  "index_package_sha256": "8955f8bca0c8ebb5afbd2a69e9760fc829d22ba76a4ef7b482339e88b2489595",
+  "input_package_sha256": "47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3",
+  "issue": 16,
+  "issue_sha256": null,
+  "main_base_commit": "36cc84b98418e9051c4d7c798ffaae20b06f8a3e",
+  "native_sanity": {
+    "meaning": "Broad factor-of-two operating regime only; not equivalence",
+    "reference_issue8_stock_median_mean_latency_us": 1606.41,
+    "reference_issue8_stock_median_qps": 4942.84,
+    "stock_median_mean_latency_us_max": 3212.82,
+    "stock_median_qps_min": 2471.42
+  },
+  "observer": {
+    "pidstat_threads_argv": [
+      "pidstat",
+      "-h",
+      "-t",
+      "-u",
+      "-w",
+      "-p",
+      "PID",
+      "1"
+    ],
+    "scope": "Uniform external observers for ALL variants, including host before/after, ps relevant benchmark/iou rows, task CPU/affinity/context switches and fdinfo when readable. Kernel metadata unavailable is diagnostic, not invalidation.",
+    "snapshot_delays_s": [
+      0.35,
+      1.2
+    ]
+  },
+  "orders": [
+    [
+      "STOCK",
+      "OFF",
+      "LIGHT"
+    ],
+    [
+      "STOCK",
+      "LIGHT",
+      "OFF"
+    ],
+    [
+      "OFF",
+      "STOCK",
+      "LIGHT"
+    ],
+    [
+      "OFF",
+      "LIGHT",
+      "STOCK"
+    ],
+    [
+      "LIGHT",
+      "STOCK",
+      "OFF"
+    ],
+    [
+      "LIGHT",
+      "OFF",
+      "STOCK"
+    ],
+    [
+      "STOCK",
+      "OFF",
+      "LIGHT"
+    ],
+    [
+      "STOCK",
+      "LIGHT",
+      "OFF"
+    ],
+    [
+      "OFF",
+      "STOCK",
+      "LIGHT"
+    ],
+    [
+      "OFF",
+      "LIGHT",
+      "STOCK"
+    ],
+    [
+      "LIGHT",
+      "STOCK",
+      "OFF"
+    ],
+    [
+      "LIGHT",
+      "OFF",
+      "STOCK"
+    ]
+  ],
+  "paths": {
+    "dataset": "/home/irthn/ann-research/data/bigann/sift10m/canonical/base_10m.bbin",
+    "ground_truth": "/home/irthn/ann-research/data/bigann/sift10m/canonical/gt_10m.bin",
+    "index_manifest": "/home/irthn/ann-research/indexes/sift10m/INDEX_PACKAGE.json",
+    "index_prefix": "/home/irthn/ann-research/indexes/sift10m/sift10m",
+    "input_manifest": "/home/irthn/ann-research/data/bigann/sift10m/manifests/INPUT_PACKAGE.json",
+    "query": "/home/irthn/ann-research/data/bigann/sift10m/canonical/query.bbin"
+  },
+  "pause": {
+    "basis": "After prior harness finalization, including MLflow; no final pause",
+    "between_blocks_s": 15,
+    "within_block_s": 5
+  },
+  "placement": {
+    "manual_affinity": false,
+    "numactl": false,
+    "policy": "native/unbound",
+    "selection_reason": "Issue #12 contract; runtime placement diagnostic only, no placement selection by QPS",
+    "taskset": false
+  },
+  "recall_tolerance_percentage_points": 0.02,
+  "schema_version": 1,
+  "search": {
+    "benchmark_profile": "pipeann-b9ec4ba",
+    "data_type": "uint8",
+    "dataset_id": "sift10m",
+    "distance_metric": "l2",
+    "k": 10,
+    "l_search": 100,
+    "mem_l": 0,
+    "neighbor_type": "pq",
+    "query_count": 10000,
+    "search_mode": 2,
+    "threads": 8,
+    "wcap": 32
+  },
+  "subjects": {
+    "STOCK": {
+      "binary_sha256": "a02ce69d1467727344c8620a254b4cba51d12616d3da171ef7c1a6668a9e8bc5",
+      "commit": "b9ec4ba86ff5d70bec277984777197f28dc2cf42",
+      "root": "/home/irthn/ann-research/PipeANN"
+    },
+    "instrumented": {
+      "binary_sha256": "f5795e43c3be1f2515bd37e21ad1fbab45b2849c859724629a8c6edea5e418dd",
+      "commit": "35222026893ff7d1b45586fcdd8165a5ce592cd3",
+      "root": "/home/irthn/ann-research/PipeANN-p0"
+    }
+  },
+  "system_settings_changed": false,
+  "telemetry": {
+    "collectors": [
+      "mpstat",
+      "pidstat",
+      "iostat"
+    ],
+    "host_telemetry_requested": true,
+    "interval_s": 1,
+    "same_for_all_variants": true
+  },
+  "trace": {
+    "detail_executed": true,
+    "detail_first_n": 16,
+    "e0_sample_policy": "first_n (OFF/LIGHT do not sample)",
+    "event_capacity": 65536
+  },
+  "trace_health_zero_fields": [
+    "events_dropped",
+    "ordering_violations",
+    "negative_hidden_count",
+    "unmatched_submit",
+    "unmatched_cqe",
+    "unmatched_publish",
+    "outstanding_at_query_end",
+    "table_overflows"
+  ],
+  "variants": {
+    "LIGHT": {
+      "causal_trace_enabled": true,
+      "trace_mode": "LIGHT"
+    },
+    "OFF": {
+      "causal_trace_enabled": true,
+      "trace_mode": "OFF"
+    },
+    "STOCK": {
+      "causal_trace_enabled": false,
+      "trace_mode": "OFF"
+    }
+  },
+  "warmup_policy": "No ANN warmup, cache flush or QPS-based placement trial. Pre package hashes necessarily read components, equally preceding frozen order."
+}

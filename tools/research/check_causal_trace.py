@@ -10,7 +10,7 @@ EVENTS = ("QUERY_START", "QUERY_END", "WIDTH_INIT", "WIDTH_CHANGE", "IO_SELECT",
           "IO_SUBMIT", "IO_CQE_SEEN", "IO_PUBLISH", "NODE_EXPAND", "TRACE_HEALTH", "IO_CACHE_READY")
 
 
-def check_events(events):
+def check_events(events, expected_qids=None):
     groups = defaultdict(list)
     errors = []
     counts = defaultdict(int)
@@ -21,6 +21,8 @@ def check_events(events):
             continue
         groups[qid].append(event)
         counts[event.get("event")] += 1
+    if expected_qids is not None and (len(expected_qids) != len(set(expected_qids)) or set(groups) != set(expected_qids)):
+        errors.append("Exact requested/observed sample membership mismatch")
     for qid, rows in groups.items():
         requests, queue, published_nodes = {}, deque(), set()
         started = ended = health = initialized = False
@@ -152,9 +154,25 @@ def main():
     parser.add_argument("--health", type=Path, help="Also require zero loss/unmatched and valid sampling")
     args = parser.parse_args()
     try:
-        result = check_events(json.loads(line) for line in args.events.read_text().splitlines() if line.strip())
+        events = [json.loads(line) for line in args.events.read_text().splitlines() if line.strip()]
+        health = json.loads(args.health.read_text()) if args.health else None
+        expected = health.get("requested_sample_qids") if health else None
+        result = check_events(events, expected_qids=expected)
         if args.health:
             health = json.loads(args.health.read_text())
+            if health.get("schema_version") == 3:
+                from trace_sampling import explicit_policy
+                policy = health["sample_policy"]
+                validated = explicit_policy(policy["qids"], health["query_rows"])
+                if policy != validated or health["sampling_sha256"] != validated["sha256"] or expected != policy["qids"] or health["observed_sample_qids"] != expected:
+                    raise ValueError("Sample health identity/digest mismatch")
+                origin, end = health["benchmark_origin_ns"], health["benchmark_end_ns"]
+                if not 0 < origin <= end or health["benchmark_duration_ns"] != end-origin:
+                    raise ValueError("Invalid benchmark phase bounds")
+                if any(e.get("benchmark_relative_ns") != e["timestamp_ns"]-origin or not origin <= e["timestamp_ns"] <= end for e in events):
+                    raise ValueError("Invalid benchmark-relative event time")
+                if any(health.get(k, 0) for k in ("events_dropped", "table_overflows", "unmatched_submit", "unmatched_cqe", "unmatched_publish", "ordering_violations", "negative_hidden_count", "outstanding_at_query_end")):
+                    raise ValueError("Nonzero trace failure counter")
             if not health.get("trace_valid") or health.get("sample_observed") != health.get("sample_requested"):
                 result["trace_valid"] = False
                 result["errors"].append("trace health invalid/incomplete sampling")

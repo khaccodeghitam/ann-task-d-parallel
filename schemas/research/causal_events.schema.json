@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:parallel-ann:p0:causal-events:2",
+  "$id": "urn:parallel-ann:p0:causal-events:2-3",
   "type": "object",
   "required": [
     "schema_version",
@@ -228,7 +228,10 @@
       "minimum": 0
     },
     "schema_version": {
-      "const": 2
+      "enum": [
+        2,
+        3
+      ]
     },
     "source": {
       "const": "ann"
@@ -256,7 +259,27 @@
         "integer",
         "null"
       ]
+    },
+    "benchmark_relative_ns": {
+      "type": "integer",
+      "minimum": 0
     }
   },
-  "additionalProperties": false
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": 3
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "benchmark_relative_ns"
+        ]
+      }
+    }
+  ]
 }

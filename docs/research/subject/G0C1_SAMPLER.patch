@@ -1,0 +1,271 @@
+diff --git a/include/causal_sample_digest.h b/include/causal_sample_digest.h
+new file mode 100644
+index 0000000..efc1e62
+--- /dev/null
++++ b/include/causal_sample_digest.h
+@@ -0,0 +1,48 @@
++#pragma once
++// SHA256 for bounded pre-search sampler metadata only; no ANN event calls.
++#include <array>
++#include <cstdint>
++#include <string>
++#include <vector>
++namespace pipeann::trace {
++inline std::array<uint8_t, 32> sample_sha256(const std::string &text) {
++  constexpr uint32_t k[] = {
++    0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
++    0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
++    0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
++    0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
++    0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
++    0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
++    0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
++    0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2};
++  uint32_t h[] = {0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19};
++  std::vector<uint8_t> bytes(text.begin(), text.end());
++  uint64_t bits = static_cast<uint64_t>(bytes.size()) * 8;
++  bytes.push_back(0x80);
++  while (bytes.size() % 64 != 56) bytes.push_back(0);
++  for (int i = 7; i >= 0; --i) bytes.push_back(static_cast<uint8_t>(bits >> (8 * i)));
++  auto rotate = [](uint32_t x, unsigned n) { return (x >> n) | (x << (32 - n)); };
++  for (size_t offset = 0; offset < bytes.size(); offset += 64) {
++    uint32_t w[64];
++    for (int i = 0; i < 16; ++i) {
++      const auto *p = bytes.data() + offset + 4 * i;
++      w[i] = (uint32_t(p[0]) << 24) | (uint32_t(p[1]) << 16) | (uint32_t(p[2]) << 8) | p[3];
++    }
++    for (int i = 16; i < 64; ++i) {
++      auto s0 = rotate(w[i-15],7) ^ rotate(w[i-15],18) ^ (w[i-15] >> 3);
++      auto s1 = rotate(w[i-2],17) ^ rotate(w[i-2],19) ^ (w[i-2] >> 10);
++      w[i] = w[i-16] + s0 + w[i-7] + s1;
++    }
++    uint32_t a=h[0],b=h[1],c=h[2],d=h[3],e=h[4],f=h[5],g=h[6],z=h[7];
++    for (int i=0;i<64;++i) {
++      uint32_t t1=z+(rotate(e,6)^rotate(e,11)^rotate(e,25))+((e&f)^(~e&g))+k[i]+w[i];
++      uint32_t t2=(rotate(a,2)^rotate(a,13)^rotate(a,22))+((a&b)^(a&c)^(b&c));
++      z=g;g=f;f=e;e=d+t1;d=c;c=b;b=a;a=t1+t2;
++    }
++    h[0]+=a;h[1]+=b;h[2]+=c;h[3]+=d;h[4]+=e;h[5]+=f;h[6]+=g;h[7]+=z;
++  }
++  std::array<uint8_t,32> result{};
++  for (int i=0;i<8;++i) for(int j=0;j<4;++j) result[4*i+j]=static_cast<uint8_t>(h[i] >> (24-8*j));
++  return result;
++}
++}
+diff --git a/include/causal_trace.h b/include/causal_trace.h
+index 939f787..5990537 100644
+--- a/include/causal_trace.h
++++ b/include/causal_trace.h
+@@ -42,12 +42,17 @@ struct WorkerState {
+   bool sampled = false;
+   QueryCounters counters{};
+ };
+-struct Config { Mode mode = OFF; uint64_t first_n = 8, capacity = 16384, queries = 0, workers = 0; };
++struct Config { Mode mode = OFF; uint64_t first_n = 8, capacity = 16384, queries = 0, workers = 0;
++  bool explicit_qids = false; const uint8_t *membership = nullptr;
++  uint64_t benchmark_origin_ns = 0, benchmark_end_ns = 0;
++};
+ extern Config config;
+ extern std::vector<WorkerState> workers;
+ extern std::vector<QueryCounters> summaries;
+ extern thread_local WorkerState *current;
+ void prepare(uint64_t worker_count, uint64_t query_count);
++void benchmark_begin();
++void benchmark_end();
+ void dump();  // Exclusive binary dump after the measured loop; may throw outside hot path.
+ 
+ inline uint64_t now_ns() {
+@@ -104,7 +109,7 @@ inline void begin(uint64_t qid, uint64_t worker) {
+   auto &s = workers[worker];
+   s.requests = {}; s.counters = {}; s.seq = 0; s.next_publish = 1;
+   s.inflight = 0; s.width = s.wcap = s.ring = NA; s.query_event_start = s.count;
+-  s.sampled = config.mode == DETAIL && qid < config.first_n;
++  s.sampled = config.mode == DETAIL && (config.explicit_qids ? config.membership[qid] != 0 : qid < config.first_n);
+   if (!s.tid) s.tid = syscall(SYS_gettid);
+   s.counters[C_QID] = qid; s.counters[C_WORKER] = worker; s.counters[C_TID] = s.tid;
+   s.counters[C_SAMPLED] = s.sampled; current = &s;
+diff --git a/src/utils/causal_trace.cpp b/src/utils/causal_trace.cpp
+index 60fbe6e..59ca039 100644
+--- a/src/utils/causal_trace.cpp
++++ b/src/utils/causal_trace.cpp
+@@ -1,4 +1,5 @@
+ #include "causal_trace.h"
++#include "causal_sample_digest.h"
+ #include <cstdio>
+ #include <cerrno>
+ #include <cstdlib>
+@@ -12,6 +13,41 @@ std::vector<WorkerState> workers;
+ std::vector<QueryCounters> summaries;
+ thread_local WorkerState *current = nullptr;
+ static std::string output;
++static std::vector<uint64_t> selected_qids;
++static std::vector<uint8_t> membership;
++static std::array<uint8_t, 32> sampling_digest;
++static void parse_sampling(uint64_t query_count) {
++  selected_qids.clear(); membership.clear();
++  const char *policy = std::getenv("PIPEANN_TRACE_SAMPLE_POLICY");
++  const char *ids = std::getenv("PIPEANN_TRACE_SAMPLE_QIDS");
++  if (!policy || strcmp(policy, "first_n") == 0) {
++    if (ids) throw std::runtime_error("QIDS requires explicit_qids policy");
++    return;
++  }
++  if (strcmp(policy, "explicit_qids") != 0 || config.mode != DETAIL || !ids ||
++      !*ids || strnlen(ids, 16385) > 16384 || query_count > 1000000)
++    throw std::runtime_error("Invalid explicit_qids configuration");
++  std::string canonical;
++  const char *cursor = ids;
++  while (*cursor) {
++    const char *start = cursor;
++    while (*cursor >= '0' && *cursor <= '9') ++cursor;
++    if (start == cursor || (cursor-start > 1 && *start == '0') || (*cursor && *cursor != ','))
++      throw std::runtime_error("Noncanonical query ID");
++    errno = 0; char *end = nullptr; uint64_t qid = strtoull(start, &end, 10);
++    if (errno || end != cursor || qid >= query_count ||
++        (!selected_qids.empty() && qid <= selected_qids.back()) || selected_qids.size() == 1024)
++      throw std::runtime_error("Unsorted/duplicate/out-of-range query IDs");
++    selected_qids.push_back(qid);
++    if (!canonical.empty()) canonical += ',';
++    canonical.append(start, cursor-start);
++    if (*cursor && !*++cursor) throw std::runtime_error("Trailing sample separator");
++  }
++  sampling_digest = sample_sha256(canonical + "\n");
++  membership.assign(query_count, 0);
++  for (auto qid : selected_qids) membership[qid] = 1;
++  config.explicit_qids = true; config.membership = membership.data();
++}
+ 
+ static uint64_t number(const char *name, uint64_t fallback, uint64_t maximum) {
+   const char *value = std::getenv(name);
+@@ -32,7 +68,8 @@ void prepare(uint64_t worker_count, uint64_t query_count) {
+   }
+   config.first_n = number("PIPEANN_TRACE_DETAIL_FIRST_N", 8, 1000000);
+   config.capacity = number("PIPEANN_TRACE_EVENT_CAPACITY", 16384, 1048576);
+-  if (!config.capacity || (config.mode == DETAIL && !config.first_n)) throw std::runtime_error("Invalid trace capacity/sample");
++  parse_sampling(query_count);
++  if (!config.capacity || (config.mode == DETAIL && !config.explicit_qids && !config.first_n)) throw std::runtime_error("Invalid trace capacity/sample");
+   const char *path = std::getenv("PIPEANN_TRACE_OUTPUT"); output = path ? path : "";
+   if (config.mode != OFF && output.empty()) throw std::runtime_error("PIPEANN_TRACE_OUTPUT required");
+   config.workers = worker_count; config.queries = query_count;
+@@ -43,6 +80,12 @@ void prepare(uint64_t worker_count, uint64_t query_count) {
+     if (config.mode == DETAIL) s.events = std::make_unique<TraceEvent[]>(config.capacity);
+   }
+ }
++void benchmark_begin() {
++  if (config.mode == DETAIL && config.explicit_qids) config.benchmark_origin_ns = now_ns();
++}
++void benchmark_end() {
++  if (config.mode == DETAIL && config.explicit_qids) config.benchmark_end_ns = now_ns();
++}
+ void dump() {
+   if (output.empty()) return;
+   uint64_t event_count = 0;
+@@ -50,11 +93,17 @@ void dump() {
+   // Fixed protocol is little-endian uint64 arrays on the canonical Linux x86-64 host.
+   const uint16_t endian = 1;
+   if (*reinterpret_cast<const uint8_t *>(&endian) != 1) throw std::runtime_error("Trace protocol requires little endian");
+-  uint64_t header[] = {1, config.mode, config.workers, config.capacity, config.first_n,
++  uint64_t header[] = {config.explicit_qids ? 2ull : 1ull, config.mode, config.workers, config.capacity, config.first_n,
+                        config.queries, event_count, summaries.size(), EVENT_FIELDS, COUNTER_FIELDS};
+   FILE *f = std::fopen(output.c_str(), "wbx");
+   if (!f) throw std::runtime_error("Cannot create exclusive trace output");
+-  bool ok = fwrite("PANTRC01", 8, 1, f) == 1 && fwrite(header, sizeof(header), 1, f) == 1;
++  bool ok = fwrite(config.explicit_qids ? "PANTRC02" : "PANTRC01", 8, 1, f) == 1 && fwrite(header, sizeof(header), 1, f) == 1;
++  if (config.explicit_qids) {
++    uint64_t extension[] = {1, selected_qids.size(), config.benchmark_origin_ns, config.benchmark_end_ns};
++    ok = ok && fwrite(extension, sizeof(extension), 1, f) == 1 &&
++         fwrite(selected_qids.data(), sizeof(uint64_t), selected_qids.size(), f) == selected_qids.size() &&
++         fwrite(sampling_digest.data(), sampling_digest.size(), 1, f) == 1;
++  }
+   for (auto &s : workers) if (s.count) ok = ok && fwrite(s.events.get(), sizeof(TraceEvent), s.count, f) == s.count;
+   if (!summaries.empty()) ok = ok && fwrite(summaries.data(), sizeof(QueryCounters), summaries.size(), f) == summaries.size();
+   ok = (fclose(f) == 0) && ok;
+diff --git a/tests/search_disk_index.cpp b/tests/search_disk_index.cpp
+index bd8ca9a..5c55655 100644
+--- a/tests/search_disk_index.cpp
++++ b/tests/search_disk_index.cpp
+@@ -110,6 +110,7 @@ int search_disk_index(int argc, char **argv) {
+     std::vector<uint64_t> query_result_tags_64(recall_at * query_num);
+     std::vector<uint32_t> query_result_tags_32(recall_at * query_num);
+     if (search_mode == SearchMode::PIPE_SEARCH) pipeann::trace::prepare(num_threads, query_num);
++    if (search_mode == SearchMode::PIPE_SEARCH) pipeann::trace::benchmark_begin();
+     auto s = std::chrono::high_resolution_clock::now();
+ 
+     if (search_mode == SearchMode::PIPE_SEARCH) {
+@@ -161,6 +162,7 @@ int search_disk_index(int argc, char **argv) {
+     }
+ 
+     auto e = std::chrono::high_resolution_clock::now();
++    if (search_mode == SearchMode::PIPE_SEARCH) pipeann::trace::benchmark_end();
+     std::chrono::duration<double> diff = e - s;
+     if (search_mode == SearchMode::PIPE_SEARCH) pipeann::trace::dump();
+     float qps = (float) ((1.0 * (double) query_num) / (1.0 * (double) diff.count()));
+diff --git a/tests/test_causal_trace.cpp b/tests/test_causal_trace.cpp
+index 820c0b1..cad48e4 100644
+--- a/tests/test_causal_trace.cpp
++++ b/tests/test_causal_trace.cpp
+@@ -1,5 +1,7 @@
+ // Standalone numeric tracer test: no dataset, ANN library, io_uring or root needed.
+ #include "causal_trace.h"
++#include "causal_sample_digest.h"
++#include <string>
+ #include <cassert>
+ #include <cstdlib>
+ #include <cstdio>
+@@ -12,7 +14,7 @@ static void configure(const char *mode, const char *capacity = "128") {
+   setenv("PIPEANN_TRACE_EVENT_CAPACITY", capacity, 1);
+   prepare(1, 2);
+ }
+-int main() {
++int main(int argc, char **argv) {
+   configure("OFF"); begin(0, 0); width_init(4, 32, nullptr);
+   select(reinterpret_cast<void *>(8), 1, 2, 3, 0, 4096, 0);
+   submit(reinterpret_cast<void *>(8)); cqe(reinterpret_cast<void *>(8), 1, 4096);
+@@ -51,5 +53,48 @@ int main() {
+   }
+   bool threw = false; try { configure("DETAIL", "-1"); } catch (const std::runtime_error &) { threw = true; }
+   assert(threw);
++  // Known SHA vectors; metadata digest never executes in event emission.
++  auto hex = [](const std::array<uint8_t,32> &bytes) {
++    std::string result; char pair[3];
++    for (auto byte : bytes) { snprintf(pair, sizeof(pair), "%02x", byte); result += pair; }
++    return result;
++  };
++  assert(hex(sample_sha256("")) == "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
++  assert(hex(sample_sha256("abc")) == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad");
++  assert(hex(sample_sha256(std::string(1000000, 'a'))) == "cdc76e5c9914fb9281a1c7e284d73e67f1809a48a497200e046d39ccc7112cd0");
++  setenv("PIPEANN_TRACE_SAMPLE_POLICY", "explicit_qids", 1);
++  for (const char *bad : {"", "0,0", "1,0", "2", "-1", "+1", " 1", "01", "0,", "0,,1", "x", "18446744073709551616"}) {
++    setenv("PIPEANN_TRACE_SAMPLE_QIDS", bad, 1);
++    bool invalid = false; try { configure("DETAIL"); } catch (const std::runtime_error &) { invalid = true; }
++    assert(invalid);
++  }
++  std::string too_many;
++  for (int i=0;i<1025;++i) { if(i) too_many += ','; too_many += std::to_string(i); }
++  setenv("PIPEANN_TRACE_SAMPLE_QIDS", too_many.c_str(), 1);
++  threw=false;try{prepare(1,2000);}catch(const std::runtime_error &){threw=true;}assert(threw);
++  std::string too_long(16385,'1');setenv("PIPEANN_TRACE_SAMPLE_QIDS",too_long.c_str(),1);
++  threw=false;try{prepare(1,2000);}catch(const std::runtime_error &){threw=true;}assert(threw);
++  setenv("PIPEANN_TRACE_SAMPLE_QIDS", "1", 1);
++  for (const char *mode : {"OFF", "LIGHT"}) {
++    threw=false;try{configure(mode);}catch(const std::runtime_error &){threw=true;}assert(threw);
++  }
++  configure("DETAIL"); benchmark_begin();
++  begin(0,0);width_init(4,32,nullptr);end();assert(workers[0].count==0 && summaries[0][C_SAMPLED]==0);
++  begin(1,0);assert(current->sampled);width_init(4,32,nullptr);
++  select(a,1,10,11,0,4096,0);submit(a);poll_result(1);cqe(a,1,4096);publish(a,1);expand(1,0);end(123000);
++  benchmark_end();assert(config.benchmark_origin_ns>0 && config.benchmark_end_ns>=config.benchmark_origin_ns);
++  assert(summaries[1][C_SAMPLED]==1 && workers[0].count==9);
++  if (argc==2) { setenv("PIPEANN_TRACE_OUTPUT", argv[1], 1); // prepare would erase data; output path is fixed at prepare.
++    // Re-run a complete synthetic lifecycle with exclusive requested output.
++    prepare(1,2);benchmark_begin();begin(0,0);width_init(4,32,nullptr);end();
++    begin(1,0);width_init(4,32,nullptr);select(a,1,10,11,0,4096,0);submit(a);poll_result(1);cqe(a,1,4096);publish(a,1);expand(1,0);end(123000);benchmark_end();dump();
++  }
++  unsetenv("PIPEANN_TRACE_SAMPLE_POLICY");unsetenv("PIPEANN_TRACE_SAMPLE_QIDS");
++  configure("OFF");benchmark_begin();benchmark_end();assert(config.membership==nullptr && config.benchmark_origin_ns==0 && workers.empty());
++  configure("LIGHT");benchmark_begin();benchmark_end();assert(config.membership==nullptr && config.benchmark_origin_ns==0 && !workers[0].events);
++  volatile uint64_t clock_sink=0;auto clock_start=now_ns();
++  for(int i=0;i<1000000;++i) clock_sink=now_ns();
++  auto clock_duration=now_ns()-clock_start;
++  std::printf("observer clock benchmark: %.3f ns/call (1M calls; diagnostic only), sink=%llu\n",clock_duration/1000000.0,static_cast<unsigned long long>(clock_sink));
+   std::puts("causal tracer tests passed: OFF, sampling, correlation reuse/FIFO, cache, width, LIGHT, overflow, config");
+ }

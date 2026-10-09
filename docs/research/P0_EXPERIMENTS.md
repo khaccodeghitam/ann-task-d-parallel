@@ -383,3 +383,7 @@ OFF with host telemetry writes raw collector logs and system_metrics.csv,
 without adding ANN events or stub query metrics. OFF without telemetry keeps
 its historical artifact behavior. LIGHT/DETAIL retain existing trace exports.
 Collection remains outside the ANN process; no search/timing hooks changed.
+
+## G0-C1 explicit DETAIL sampling
+
+Opt in with `--causal-trace --trace-mode DETAIL --trace-sample-policy explicit_qids --trace-sample-qids 1000,3000,5000,7000,9000`. IDs must be canonical, strictly increasing, unique and in range. Configuration is parsed once; full query/request lifecycles are retained. Default first-N and PANTRC01 remain supported. Explicit sampling uses PANTRC02/v2 and derived schema-v3 events/health, with exact IDs and canonical SHA256. The run index gains additive sampling identity columns; historical cells stay blank. MLflow mirrors only policy/digest/count. See [sampler design](G0C1_SAMPLER_DESIGN.md). Query-relative timestamps provide coarse phase context, not active-query occupancy or proof of steady state. IO_SUBMIT to IO_CQE_SEEN remains a userspace-observed I/O interval.
