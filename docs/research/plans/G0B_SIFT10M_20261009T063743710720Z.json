@@ -1,0 +1,239 @@
+{
+  "accepted_run_count": 25,
+  "analysis": {
+    "comparisons": [
+      [
+        "B",
+        "C"
+      ],
+      [
+        "B",
+        "D"
+      ],
+      [
+        "D",
+        "E"
+      ],
+      [
+        "A",
+        "B"
+      ]
+    ],
+    "delta": "100*(target median/reference median-1); recall target-reference percentage points; descriptive, no equivalence gate or p-values",
+    "io": "Physical submit/CQE/publish separate from cache_ready/cache_published and node expansion",
+    "statistical_unit": "RUN; five runs per sentinel; query distribution nested within each run",
+    "statistics": [
+      "all five values",
+      "mean",
+      "median",
+      "min",
+      "max",
+      "sample SD (n-1)"
+    ],
+    "telemetry": "Per-series sample count, timestamps, observed span and nominal interval coverage; no steady-state or causality claim from short samples",
+    "width": "Initial/final distribution, changes, end-at-Wcap fraction; no LIGHT time-weighted width"
+  },
+  "campaign_id": "G0B_SIFT10M_20261009T063743710720Z",
+  "campaign_stop": "Stop after Draft PR. No G0-C execution, D1/D4, subject modifications, dataset/index rebuild, SIFT100M or novelty.",
+  "classification": {
+    "D1": "NO",
+    "D4": "NOT TESTED",
+    "D6": "D6_INCONCLUSIVE: LIGHT lacks per-request CQE-to-publication timing",
+    "complete": "25 accepted validated runs, all integrity and bracketing full-content audits pass",
+    "inconclusive": "Technical incompleteness or insufficient diagnostic evidence; never promote invalidity to COMPLETE",
+    "invalid": "Package/provenance/order/configuration/checksum/trace integrity failure: STOP and preserve"
+  },
+  "code_sha256": {
+    "check_mlflow.py": "2a7ff1ff26c759aeb1a77f8236888092b2a75537d2d7048dddb8ea6743ad1e0e",
+    "execute.py": "bbae7951373e5ede19e16ec957db6e7ed8345d73ec88a15f46cede1722fea625",
+    "host_snapshot.py": "7c9b4042dff8d0f45e54af68cfa6b70cab05d5ca8c8fbd64bcab6547e3209572",
+    "post_audit.py": "b74a88942d2921901129eb938f0d14d05e170a5fcd6eb628b916fad979990940",
+    "preflight.py": "ae5914cc5876453f51e0d78ce2391e04ffe65681927bf310f584850284ce949f"
+  },
+  "environment": {
+    "GOMP_CPU_AFFINITY": null,
+    "LC_ALL": "C",
+    "MKL_NUM_THREADS": "8",
+    "OMP_DISPLAY_AFFINITY": null,
+    "OMP_DISPLAY_ENV": null,
+    "OMP_DYNAMIC": "FALSE",
+    "OMP_NUM_THREADS": "REQUESTED_T",
+    "OMP_PLACES": null,
+    "OMP_PROC_BIND": null,
+    "S_TIME_FORMAT": "ISO"
+  },
+  "environment_rule": "Per-run OMP_NUM_THREADS=str(sentinel.threads); all other frozen values identical; affinity keys unset",
+  "frozen_at": "2026-10-09T06:38:26.716966+00:00",
+  "harness_commit": "b7ba71e6fc7b20630ca2a7efe6d95cd36a75f2cf",
+  "harness_dirty": false,
+  "harness_file_sha256": {
+    "tools/research/acquire_bigann_prefix.py": "96c8fec9a5bdfb9bd3c5377a2a560f2fe57347d827d0624e0bc8f6ce585ed927",
+    "tools/research/analyze_e0b.py": "ffc79878f1eb03a90fae69852afb7a7e737e3ccdffc4a3dc9b254e32a7c3b14c",
+    "tools/research/analyze_e0c.py": "60e2de74e251df986a0bcf202f77e99eb6f41351f23716f84f75a4dbec7aec2c",
+    "tools/research/analyze_g0_causal.py": "930bf8db16efa0277add54985bead0bc46c96065372eac57a48020635d45e303",
+    "tools/research/causal_trace.py": "70a3654375f16ecc0e21d5b180511622f23f718864a35e1277d909f036d2a48f",
+    "tools/research/check_causal_trace.py": "7c7416833f4c93fab69e0ca77948c320157d4c3ff87f9a663327e246cf31e1f1",
+    "tools/research/finalize_bigann_index.py": "5f5f55b2dbaf55128e93bd3820623d6d63f21b6fc15357789eedbba54b050b01",
+    "tools/research/mlflow_mirror.py": "ca3acd48b3f7d1735aa2294fe32cd0d69194195c94c62210bc8cfe645fabb031",
+    "tools/research/package_manifest.py": "2b27debef0900f637ced96e9d61b3514718f4a082569c3b62fbd226bb438b0b9",
+    "tools/research/prepare_bigann_package.py": "a390c4c1c984aa2b7b0d6a12bcd35a0956f42115aecb3b0e547ac0460093267d",
+    "tools/research/rebuild_run_index.py": "4671a4960581d97adc97eebfbc4ffb1786bc1725d886001b0268bfa8f9a114ca",
+    "tools/research/run_ann_experiment.py": "c1906ed1afd7b66de4d6bb05b45b149c177457c58ed1c1471923a7beb8706bb7"
+  },
+  "host_exclusion_rule": "NONE; exclude no runs based on load, performance, temperature or frequency. Preserve all observations.",
+  "index_package_sha256": "8955f8bca0c8ebb5afbd2a69e9760fc829d22ba76a4ef7b482339e88b2489595",
+  "input_package_sha256": "47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3",
+  "issue": 14,
+  "issue_sha256": "530a2eae0e3432d3fc7404772a6a0380d20b5f2be3cde2c96a42939c630eae5d",
+  "main_base_commit": "b7ba71e6fc7b20630ca2a7efe6d95cd36a75f2cf",
+  "observer": {
+    "pidstat_threads_argv": [
+      "pidstat",
+      "-h",
+      "-t",
+      "-u",
+      "-w",
+      "-p",
+      "PID",
+      "1"
+    ],
+    "scope": "Uniform external observers for ALL variants, including host before/after, ps relevant benchmark/iou rows, task CPU/affinity/context switches and fdinfo when readable. Kernel metadata unavailable is diagnostic, not invalidation.",
+    "snapshot_delays_s": [
+      0.35,
+      1.2
+    ]
+  },
+  "orders": [
+    [
+      "A",
+      "B",
+      "C",
+      "D",
+      "E"
+    ],
+    [
+      "B",
+      "C",
+      "D",
+      "E",
+      "A"
+    ],
+    [
+      "C",
+      "D",
+      "E",
+      "A",
+      "B"
+    ],
+    [
+      "D",
+      "E",
+      "A",
+      "B",
+      "C"
+    ],
+    [
+      "E",
+      "A",
+      "B",
+      "C",
+      "D"
+    ]
+  ],
+  "paths": {
+    "dataset": "/home/irthn/ann-research/data/bigann/sift10m/canonical/base_10m.bbin",
+    "ground_truth": "/home/irthn/ann-research/data/bigann/sift10m/canonical/gt_10m.bin",
+    "index_manifest": "/home/irthn/ann-research/indexes/sift10m/INDEX_PACKAGE.json",
+    "index_prefix": "/home/irthn/ann-research/indexes/sift10m/sift10m",
+    "input_manifest": "/home/irthn/ann-research/data/bigann/sift10m/manifests/INPUT_PACKAGE.json",
+    "query": "/home/irthn/ann-research/data/bigann/sift10m/canonical/query.bbin"
+  },
+  "pause": {
+    "after_finalized_run_s": 5,
+    "basis": "Including harness/MLflow finalization, no final pause"
+  },
+  "placement": {
+    "manual_affinity": false,
+    "numactl": false,
+    "policy": "native/unbound",
+    "selection_reason": "Issue #12 contract; runtime placement diagnostic only, no placement selection by QPS",
+    "taskset": false
+  },
+  "repetitions": 5,
+  "schema_version": 1,
+  "search": {
+    "benchmark_profile": "pipeann-b9ec4ba",
+    "data_type": "uint8",
+    "dataset_id": "sift10m",
+    "distance_metric": "l2",
+    "k": 10,
+    "l_search": 100,
+    "mem_l": 0,
+    "neighbor_type": "pq",
+    "query_count": 10000,
+    "search_mode": 2
+  },
+  "sentinels": {
+    "A": {
+      "threads": 1,
+      "wcap": 32
+    },
+    "B": {
+      "threads": 8,
+      "wcap": 32
+    },
+    "C": {
+      "threads": 8,
+      "wcap": 64
+    },
+    "D": {
+      "threads": 16,
+      "wcap": 32
+    },
+    "E": {
+      "threads": 16,
+      "wcap": 16
+    }
+  },
+  "subjects": {
+    "STOCK": {
+      "binary_sha256": "a02ce69d1467727344c8620a254b4cba51d12616d3da171ef7c1a6668a9e8bc5",
+      "commit": "b9ec4ba86ff5d70bec277984777197f28dc2cf42",
+      "root": "/home/irthn/ann-research/PipeANN"
+    },
+    "instrumented": {
+      "binary_sha256": "d51066cc5fe0cf2df71149e23910ce654dcc259ed271fea28ae7002c53a8bd18",
+      "commit": "3bdcc064cb96aae4cd845bd2bb6adc5f5ba63e19",
+      "root": "/home/irthn/ann-research/PipeANN-p0"
+    }
+  },
+  "system_settings_changed": false,
+  "telemetry": {
+    "collectors": [
+      "mpstat",
+      "pidstat",
+      "iostat"
+    ],
+    "host_telemetry_requested": true,
+    "interval_s": 1,
+    "same_for_all_variants": true
+  },
+  "trace": {
+    "causal_trace_enabled": true,
+    "detail_executed": false,
+    "detail_first_n": 16,
+    "event_capacity": 65536,
+    "mode": "LIGHT"
+  },
+  "trace_health_zero_fields": [
+    "events_dropped",
+    "ordering_violations",
+    "negative_hidden_count",
+    "unmatched_submit",
+    "unmatched_cqe",
+    "unmatched_publish",
+    "outstanding_at_query_end",
+    "table_overflows"
+  ],
+  "warmup_policy": "No ANN warmup, cache flush or QPS-based placement trial. Pre package hashes necessarily read components, equally preceding frozen order."
+}
