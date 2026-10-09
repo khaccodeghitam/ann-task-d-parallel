@@ -1,0 +1,78 @@
+{
+  "D1_hypothesis": "UNTESTED",
+  "else": "INCONCLUSIVE",
+  "executed": false,
+  "index_package_sha256": "8955f8bca0c8ebb5afbd2a69e9760fc829d22ba76a4ef7b482339e88b2489595",
+  "input_package_sha256": "47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3",
+  "issue": 20,
+  "loss_or_conservation_failure": "INVALID",
+  "measurement_unit": "run; preserve query clustering",
+  "minimum_per_query_state_phase_coverage_fraction": 0.95,
+  "no_go": {
+    "median_upper_fraction_max": 0.02,
+    "minimum_runs_each_configuration": 4,
+    "p95_upper_fraction_max": 0.05
+  },
+  "optimistic_elapsed_bound": "1/(1-f_upper); not achievable speedup or throughput prediction",
+  "prioritize_further_test": {
+    "median_lower_fraction_min": 0.1,
+    "minimum_target_runs": 4,
+    "query_fraction_with_lower_at_least_0_05_min": 0.75,
+    "target_minus_reference_fraction_min": 0.05,
+    "target_to_reference_fraction_min": 2.0,
+    "zero_reference_requires_absolute_difference_and_explicit_reporting": true
+  },
+  "proposed_common_qids": [
+    1000,
+    1533,
+    2066,
+    2600,
+    3133,
+    3666,
+    4200,
+    4733,
+    5266,
+    5800,
+    6333,
+    6866,
+    7400,
+    7933,
+    8466,
+    9000
+  ],
+  "proposed_configurations": {
+    "reference": {
+      "threads": 8,
+      "wcap": 32
+    },
+    "target": {
+      "threads": 16,
+      "wcap": 32
+    }
+  },
+  "proposed_runs_per_configuration": 5,
+  "protocol": "D1-KILL-DESIGN-v1",
+  "required_controls": [
+    "ready-unselected low inflight",
+    "I/O wait",
+    "FIFO hidden",
+    "cache-only publication",
+    "selected-before-send lock/resource span",
+    "pool eviction and residual publication",
+    "host on/off CPU coverage",
+    "complete mutation and phase coverage"
+  ],
+  "requires_separate_authorization_and_validated_observer": true,
+  "role": "Prospective scientific design only; not a measurement campaign",
+  "search": {
+    "data_type": "uint8",
+    "dataset": "sift10m",
+    "k": 10,
+    "l_search": 100,
+    "mem_l": 0,
+    "metric": "l2",
+    "neighbor_type": "pq",
+    "query_count": 10000,
+    "search_mode": 2
+  }
+}
