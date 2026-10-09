@@ -24,9 +24,11 @@ import tempfile
 import time
 import uuid
 
+from trace_sampling import parse_explicit_qids
+
 REPO = Path(__file__).resolve().parents[2]
 TRACE_ENV_KEYS = ("PIPEANN_TRACE_MODE", "PIPEANN_TRACE_OUTPUT", "PIPEANN_TRACE_DETAIL_FIRST_N",
-                  "PIPEANN_TRACE_EVENT_CAPACITY")
+                  "PIPEANN_TRACE_EVENT_CAPACITY", "PIPEANN_TRACE_SAMPLE_POLICY", "PIPEANN_TRACE_SAMPLE_QIDS")
 METRICS = ("qps", "recall", "mean_latency_us", "p50_latency_us",
            "p95_latency_us", "p99_latency_us", "p999_latency_us", "mean_hops", "mean_ios")
 QUERY_COLUMNS = ("schema_version", "run_id", "query_id", "latency_us", "hops",
@@ -42,7 +44,8 @@ PROVENANCE_COLUMNS = tuple(f"{namespace}_{field}" for namespace in ("harness", "
 PROFILE_COLUMNS = ("benchmark_profile", "benchmark_profile_version", "parser_version",
                    "printed_latency_percentile")
 V2_INDEX_COLUMNS = (*V1_INDEX_COLUMNS, *PROFILE_COLUMNS, *PROVENANCE_COLUMNS)
-INDEX_COLUMNS = (*V2_INDEX_COLUMNS, "benchmark_status", "trace_valid", "causal_trace_enabled")
+V2_STATUS_INDEX_COLUMNS = (*V2_INDEX_COLUMNS, "benchmark_status", "trace_valid", "causal_trace_enabled")
+INDEX_COLUMNS = (*V2_STATUS_INDEX_COLUMNS, "trace_sample_policy", "trace_sample_sha256", "trace_sample_count")
 
 # Source-audited contracts; the shared output label cannot identify its percentile.
 BENCHMARK_PROFILES = {
@@ -174,6 +177,8 @@ def parser():
     p.add_argument("--trace-mode", choices=("OFF", "LIGHT", "DETAIL"), default="OFF")
     p.add_argument("--causal-trace", action="store_true", help="Require PANTRC01 output from the instrumented canonical subject")
     p.add_argument("--trace-detail-first-n", type=int, default=8)
+    p.add_argument("--trace-sample-policy", choices=("first_n", "explicit_qids"), default="first_n")
+    p.add_argument("--trace-sample-qids", help="Strict ascending canonical CSV IDs; explicit_qids causal DETAIL only")
     p.add_argument("--trace-event-capacity", type=int, default=16384, help="Numeric event capacity per worker")
     p.add_argument("--repetition", type=int, default=1)
     p.add_argument("--evidence-root", default=os.environ.get("ANN_EVIDENCE_ROOT", "~/ann-research/research-v3"))
@@ -192,8 +197,12 @@ def resolve(args):
         raise ValueError("--causal-trace requires canonical pipeann-b9ec4ba profile and search-mode 2")
     if not 0 <= args.trace_detail_first_n <= 1000000 or not 1 <= args.trace_event_capacity <= 1048576:
         raise ValueError("Invalid trace sampling/event capacity")
-    if args.causal_trace and args.trace_mode == "DETAIL" and args.trace_detail_first_n == 0:
+    if args.causal_trace and args.trace_mode == "DETAIL" and args.trace_sample_policy == "first_n" and args.trace_detail_first_n == 0:
         raise ValueError("DETAIL causal tracing requires a positive first-n sample")
+    if args.trace_sample_policy == "explicit_qids" and (not args.causal_trace or args.trace_mode != "DETAIL"):
+        raise ValueError("explicit_qids requires --causal-trace --trace-mode DETAIL")
+    if args.trace_sample_policy == "first_n" and args.trace_sample_qids is not None:
+        raise ValueError("--trace-sample-qids requires explicit_qids")
     profile = BENCHMARK_PROFILES[args.benchmark_profile]
     if profile["neighbor_types"] is not None and args.neighbor_type not in profile["neighbor_types"]:
         raise ValueError("pipeann-b9ec4ba requires --neighbor-type from: " + ", ".join(profile["neighbor_types"]))
@@ -262,6 +271,7 @@ def resolve(args):
         if size not in (8 + truth_count * truth_k * 4, 8 + truth_count * truth_k * 8):
             raise ValueError("Unsupported/truncated ground truth format")
     args.query_count, args.query_dimension = count, dimension
+    args.sample_policy = parse_explicit_qids(args.trace_sample_qids, count) if args.trace_sample_policy == "explicit_qids" else {"kind": "first_n", "first_n": args.trace_detail_first_n}
     spec = importlib.util.spec_from_file_location("ann_packages", Path(__file__).with_name("package_manifest.py"))
     packages = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(packages)
@@ -272,8 +282,12 @@ def resolve(args):
 def trace_environment(args, directory):
     if not args.causal_trace:
         return dict.fromkeys(TRACE_ENV_KEYS)  # Clear ambient tracing rather than silently enable it.
-    return dict(zip(TRACE_ENV_KEYS, (args.trace_mode, str(directory / "ann_trace.bin"),
+    environment = dict.fromkeys(TRACE_ENV_KEYS)
+    environment.update(zip(TRACE_ENV_KEYS[:4], (args.trace_mode, str(directory / "ann_trace.bin"),
                     str(args.trace_detail_first_n), str(args.trace_event_capacity))))
+    if args.trace_sample_policy == "explicit_qids":
+        environment.update(PIPEANN_TRACE_SAMPLE_POLICY="explicit_qids", PIPEANN_TRACE_SAMPLE_QIDS=",".join(map(str, args.sample_policy["qids"])))
+    return environment
 
 
 def benchmark_argv(args):
@@ -318,7 +332,11 @@ def make_manifest(args, identity, argv, collectors):
             "trace_environment": args.trace_environment,
             "causal_trace_enabled": args.causal_trace,
             "trace_valid": None,
-            "trace_config": {"protocol": "PANTRC01/v1", "detail_first_n": args.trace_detail_first_n,
+            "trace_sample_policy": args.sample_policy["kind"] if args.causal_trace else None,
+            "trace_sample_sha256": args.sample_policy.get("sha256") if args.causal_trace else None,
+            "trace_sample_count": len(args.sample_policy["qids"]) if args.causal_trace and args.trace_sample_policy == "explicit_qids" else None,
+            "trace_config": {"protocol": "PANTRC02/v2" if args.trace_sample_policy == "explicit_qids" else "PANTRC01/v1",
+                             "sample_policy": args.sample_policy, "detail_first_n": args.trace_detail_first_n,
                              "event_capacity": args.trace_event_capacity} if args.causal_trace else None,
             **host_info(), "dataset_id": args.dataset_id, "dataset_path": str(args.dataset_path),
             "dataset_hash": sha256(args.dataset_path) if args.dataset_path.is_file() and
@@ -553,7 +571,7 @@ def update_run_index(root, manifest, summary):
         if path.exists():
             with path.open(newline="") as stream:
                 reader = csv.DictReader(stream)
-                if reader.fieldnames not in (list(INDEX_COLUMNS), list(V2_INDEX_COLUMNS), list(V1_INDEX_COLUMNS)):
+                if reader.fieldnames not in (list(INDEX_COLUMNS), list(V2_STATUS_INDEX_COLUMNS), list(V2_INDEX_COLUMNS), list(V1_INDEX_COLUMNS)):
                     raise ValueError("Existing run_index.csv schema differs; preserved without overwriting")
                 rows = [old for old in reader if old["run_id"] != row["run_id"]]
         rows.append(row)

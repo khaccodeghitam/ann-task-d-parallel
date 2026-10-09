@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "urn:parallel-ann:p0:causal-health:2",
+  "$id": "urn:parallel-ann:p0:causal-health:2-3",
   "type": "object",
   "required": [
     "sample_requested",
@@ -90,7 +90,10 @@
       "minimum": 0
     },
     "schema_version": {
-      "const": 2
+      "enum": [
+        2,
+        3
+      ]
     },
     "trace_mode": {
       "enum": [
@@ -104,7 +107,67 @@
     },
     "trace_valid": {
       "type": "boolean"
+    },
+    "requested_sample_qids": {
+      "type": "array",
+      "maxItems": 1024,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "observed_sample_qids": {
+      "type": "array",
+      "maxItems": 1024,
+      "uniqueItems": true,
+      "items": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "sampling_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "benchmark_origin_ns": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "benchmark_end_ns": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "benchmark_duration_ns": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "sampled_query_phase": {
+      "type": "array",
+      "maxItems": 1024
     }
   },
-  "additionalProperties": true
+  "additionalProperties": true,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": 3
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "requested_sample_qids",
+          "observed_sample_qids",
+          "sampling_sha256",
+          "benchmark_origin_ns",
+          "benchmark_end_ns",
+          "benchmark_duration_ns",
+          "sampled_query_phase"
+        ]
+      }
+    }
+  ]
 }

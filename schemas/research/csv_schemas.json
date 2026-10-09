@@ -76,9 +76,12 @@
       "subject_git_dirty",
       "benchmark_status",
       "trace_valid",
-      "causal_trace_enabled"
+      "causal_trace_enabled",
+      "trace_sample_policy",
+      "trace_sample_sha256",
+      "trace_sample_count"
     ],
-    "policy": "Derived index under flock and atomic replacement. Known v1/v2 headers migrate additively, preserving every old cell; appended fields stay empty for historical rows. Rebuild copies only recorded fields, never infers benchmark_status or reclassifies historical run_status. Unknown headers are preserved and reported.",
+    "policy": "Derived index under flock and atomic replacement. Known v1/v2 headers migrate additively, preserving every old cell; appended fields stay empty for historical rows. Rebuild copies only recorded fields, never infers benchmark_status or reclassifies historical run_status. Unknown headers are preserved and reported. G0-C1 sampling identity columns are additive; old rows remain empty.",
     "legacy_git_fields": "git_commit/git_dirty mean harness provenance only. Use subject_git_commit for algorithm comparisons.",
     "status_semantics": "benchmark_status: ANN process plus parsing; exit_code: native ANN returncode; trace_valid: true/false/null (empty cell); run_status: overall validity for records with benchmark_status. Older records keep pre-correction semantics."
   },
@@ -119,5 +122,43 @@
       "latency_us"
     ],
     "availability": "Real per-query counters and existing ANN QueryStats latency when --causal-trace is enabled; OFF emits header only. Fixed numeric rows exported after search."
+  },
+  "causal_query_metrics.v3": {
+    "filename": "query_metrics.csv",
+    "columns": [
+      "schema_version",
+      "run_id",
+      "trace_mode",
+      "query_id",
+      "worker_id",
+      "linux_tid",
+      "is_sampled",
+      "selected",
+      "submitted",
+      "cqe_seen",
+      "published",
+      "expanded",
+      "poll_calls",
+      "cqe_count",
+      "max_completed_hidden",
+      "initial_width",
+      "final_width",
+      "width_change_count",
+      "max_inflight",
+      "events_dropped",
+      "unmatched_submit",
+      "unmatched_cqe",
+      "unmatched_publish",
+      "ordering_violations",
+      "negative_hidden_count",
+      "outstanding_at_query_end",
+      "cache_ready",
+      "cache_published",
+      "latency_ns",
+      "table_overflows",
+      "events_written",
+      "latency_us"
+    ],
+    "availability": "PANTRC02 explicit sampling: unchanged numeric counter columns, schema_version=3. Exact sampling and benchmark-relative query phases are in trace_health.json/events.jsonl."
   }
 }
