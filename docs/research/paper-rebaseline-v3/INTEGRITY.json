@@ -1,0 +1,131 @@
+{
+  "construction_protocols_unchanged": true,
+  "entry_post": {
+    "copied_to_new_prefix": false,
+    "files": 5,
+    "manifest_sha256": "65241ce227d29672df2468f36a403cf99d1dbf7822819a9e62c747b7917bb0a1",
+    "valid": true
+  },
+  "historical": {
+    "v1": {
+      "checksum_manifest_sha256": "5efbce1fee88cd80e83fc928bd39a859b0ebbddfd476c2f4fcf85717027b0dad",
+      "plan_sha256": "c79e74cb5e40fe59065c8de147ba582804f7557698b90f093d912f8d85ccf205",
+      "verified_files": 481
+    },
+    "v2": {
+      "checksum_manifest_sha256": "dab4dfdf1b76abae6a25ffea0fd3e0a221ea4769b2436ba1a6708d7158ef8b0e",
+      "plan_sha256": "4efa44b6e1b1eff5ac803f3977ff7c47a4e3264bbf6c3da81cb21de3abd620b8",
+      "verified_files": 103
+    }
+  },
+  "input_post_full_audit": {
+    "argv": [
+      ".venv-research/bin/python",
+      "tools/research/package_manifest.py",
+      "verify",
+      "/home/irthn/ann-research/data/bigann/sift10m/manifests/INPUT_PACKAGE.json",
+      "--full-components"
+    ],
+    "duration_s": 0.7392584150002222,
+    "end": "2026-10-12T17:18:39.176616+00:00",
+    "exit_code": 0,
+    "manifest_sha256": "47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3",
+    "start": "2026-10-12T17:18:38.437362+00:00"
+  },
+  "input_pre_full_audit": {
+    "argv": [
+      "/usr/bin/python3.12",
+      "tools/research/package_manifest.py",
+      "verify",
+      "/home/irthn/ann-research/data/bigann/sift10m/manifests/INPUT_PACKAGE.json",
+      "--full-components"
+    ],
+    "duration_s": 0.7485414700004185,
+    "end": "2026-10-12T16:29:35.392044+00:00",
+    "exit_code": 0,
+    "manifest_sha256": "47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3",
+    "start": "2026-10-12T16:29:34.643507+00:00"
+  },
+  "modern_post_full_audit": {
+    "argv": [
+      ".venv-research/bin/python",
+      "tools/research/package_manifest.py",
+      "verify",
+      "/home/irthn/ann-research/indexes/sift10m/INDEX_PACKAGE.json",
+      "--full-components"
+    ],
+    "duration_s": 2.36819289199957,
+    "end": "2026-10-12T17:18:41.545162+00:00",
+    "exit_code": 0,
+    "manifest_sha256": "8955f8bca0c8ebb5afbd2a69e9760fc829d22ba76a4ef7b482339e88b2489595",
+    "start": "2026-10-12T17:18:39.176977+00:00"
+  },
+  "modern_pre_full_audit": {
+    "argv": [
+      "/usr/bin/python3.12",
+      "tools/research/package_manifest.py",
+      "verify",
+      "/home/irthn/ann-research/indexes/sift10m/INDEX_PACKAGE.json",
+      "--full-components"
+    ],
+    "duration_s": 2.358448250000947,
+    "end": "2026-10-12T16:29:37.750992+00:00",
+    "exit_code": 0,
+    "manifest_sha256": "8955f8bca0c8ebb5afbd2a69e9760fc829d22ba76a4ef7b482339e88b2489595",
+    "start": "2026-10-12T16:29:35.392548+00:00"
+  },
+  "native_index_full_audit": "NOT_AVAILABLE_INCOMPLETE_NATIVE_INDEX",
+  "old_plans_unchanged": true,
+  "partial_output_hashes": [
+    {
+      "path": "/home/irthn/ann-research/indexes/sift10m-paper-v3/sift10m_pq_compressed.bin",
+      "sha256": "fd6d890d29780effcea21c962d2e720e43d742508a575d795e9af68ee0605245",
+      "size_bytes": 320000008,
+      "status": "FAILED_BUILD_PARTIAL_NOT_REUSABLE"
+    },
+    {
+      "path": "/home/irthn/ann-research/indexes/sift10m-paper-v3/sift10m_pq_pivots.bin",
+      "sha256": "7171975f20e00c44b9e2d368bff8ce4a3725eb0e311597e8a95fccda86eaeaa4",
+      "size_bytes": 136356,
+      "status": "FAILED_BUILD_PARTIAL_NOT_REUSABLE"
+    },
+    {
+      "path": "/home/irthn/ann-research/indexes/sift10m-paper-v3-t4/sift10m_pq_compressed.bin",
+      "sha256": "29647e60b577cfa6fa2f1c5ef065cc140db2d80cb464d3380c4730939de8608b",
+      "size_bytes": 320000008,
+      "status": "FAILED_BUILD_PARTIAL_NOT_REUSABLE"
+    },
+    {
+      "path": "/home/irthn/ann-research/indexes/sift10m-paper-v3-t4/sift10m_pq_pivots.bin",
+      "sha256": "c3a8b8da3ddf12e8413052e82608b125fd77aa682df46be1ead4a01fdb6a3799",
+      "size_bytes": 136356,
+      "status": "FAILED_BUILD_PARTIAL_NOT_REUSABLE"
+    }
+  ],
+  "source_provenance": {
+    "PipeANN": {
+      "clean": true,
+      "commit": "b9ec4ba86ff5d70bec277984777197f28dc2cf42",
+      "path": "/home/irthn/ann-research/PipeANN",
+      "tree": "6bb51b8b20d39adb8dd04b44a14348e7f5d7bb1a"
+    },
+    "PipeANN-p0": {
+      "clean": true,
+      "commit": "34a485bafae48b4a53e6da4eb7996e0c22c08140",
+      "path": "/home/irthn/ann-research/PipeANN-p0",
+      "tree": "6f70dbac98c1b12ada866346865a6db9c90bef5b"
+    },
+    "PipeANN-paper": {
+      "clean": true,
+      "commit": "d18dcd16fece1c9d1dea356d783ebba2ed649e54",
+      "path": "/home/irthn/ann-research/PipeANN-paper",
+      "tree": "8e6ee6b0dc71db7dfa9db742c2f7066929202bc2"
+    },
+    "PipeANN-paper-portable": {
+      "clean": true,
+      "commit": "c4cd32c6816c063f56ecc64f9d7b63c909202cab",
+      "path": "/home/irthn/ann-research/PipeANN-paper-portable",
+      "tree": "23fbb256528c67454cd4348bc58dfee700dffa06"
+    }
+  }
+}
