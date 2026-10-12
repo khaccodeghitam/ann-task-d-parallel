@@ -1,0 +1,6 @@
+tree 23fbb256528c67454cd4348bc58dfee700dffa06
+parent d18dcd16fece1c9d1dea356d783ebba2ed649e54
+author Parallel ANN Research <research@localhost> 1791819499 +0700
+committer Parallel ANN Research <research@localhost> 1791819499 +0700
+
+build: port AVX2 float L2 horizontal reduction to GCC13
