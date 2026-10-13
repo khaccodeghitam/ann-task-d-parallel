@@ -1,5 +1,7 @@
 # Paper-native paired benchmark protocol
 
+This page retains the PR28 historical18-core design. The new prospective T16-first contract and actual thermal-stop outcome are in [Issue29 workflow](ISSUE29_WORKFLOW.md) and [decision memo](research/ISSUE29_DECISION_MEMO.md). Do not rerun or relabel the failed historical campaign. New stock measurements were NOT_TESTED after Issue29's qualification-stage stop.
+
 One config-driven command, no rebuild:
 
 ```sh

@@ -1,9 +1,9 @@
 # Start here
 
-This workflow is introduced on `research/paper-baselines-algorithm-studies-20261013`. Until reviewed and merged, a default-main clone does not contain it. If that branch has not been pushed, use an owner-supplied Git bundle/local clone; publication status is in the final handoff.
+The reproducibility workflow from PR28 is merged into main at `5ec0841fcd04e9c06824ef3e10b59f4b08d58ed7`. The [Issue29 follow-up](ISSUE29_WORKFLOW.md) is on a separate Draft PR branch until reviewed/merged; it does not certify a stock baseline after its thermal stop.
 
 ```sh
-git clone --branch research/paper-baselines-algorithm-studies-20261013 https://github.com/Irthn1311/Parallel_ANN_Research.git
+git clone https://github.com/Irthn1311/Parallel_ANN_Research.git
 cd Parallel_ANN_Research
 python3 -m venv .venv
 .venv/bin/pip install -r requirements-lite.txt
@@ -35,4 +35,4 @@ Tests without real data:
 
 CPU-only synthetic CI requires no private package. A different CPU/toolchain produces its own binary hash (`-march=native`); bind that hash in the new protocol, do not impersonate the owner's executable. Currently tested sensor guard is Intel `coretemp` on native Linux; unsupported temperature/AC observations fail closed.
 
-Verified in this mission: a fresh detached checkout and fresh dependency-only virtualenv passed all430 synthetic tests, CLI/dry-run/missing-data checks and separate quality-probe compilation against the preserved local subject. No real ANN search was launched from that probe after the thermal stop. Full fresh upstream compilation and multi-GB artifact transfer on another host remain unexecuted; TEAM_CLONE_SMOKE is PARTIAL for those integration stages.
+Verified in PR28: a fresh detached checkout and fresh dependency-only virtualenv passed430 synthetic tests, CLI/dry-run/missing-data checks and separate quality-probe compilation. Issue29 ran that separate quality binary prospectively: T16 correctness passed; subsequent T8 hit100°C and stopped safely before stock runs. Full fresh upstream compilation and multi-GB artifact transfer/search on another host remain **NOT_VERIFIED**; TEAM_CLONE_SMOKE remains PARTIAL.

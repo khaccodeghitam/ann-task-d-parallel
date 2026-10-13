@@ -135,4 +135,7 @@ def execute(config, output):
 if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--config',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--dry-run',action='store_true');a=p.parse_args()
     if a.dry_run:print(json.dumps(schedule(),indent=2))
-    else:print(json.dumps(execute(json.loads(a.config.read_text()),a.output),indent=2))
+    else:
+        result=execute(json.loads(a.config.read_text()),a.output)
+        print(json.dumps(result,indent=2))
+        if result['status']!='QUALIFIED':raise SystemExit(2)

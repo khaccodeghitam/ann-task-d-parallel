@@ -1,5 +1,7 @@
 # Research roadmap: independent H lanes
 
+[Issue29 actual follow-up](research/ISSUE29_DECISION_MEMO.md): saved-state oracle audit executed; test gap is concentrated and fixed cheap-feature models give no utility improvement. No automatic online integration or broad replay is justified. Native T16 quality passed once; subsequent T8 thermal failure prevented all new stock runs. Earlier results below keep their original scope.
+
 Read [philosophy](../RESEARCH_PHILOSOPHY.md) first. PipeANN is a reference, not the target to optimize indefinitely. D1 UNTESTED, D4 NOT TESTED, D6 INCONCLUSIVE remain historical statuses; none is reclassified here.
 
 ## Executed small studies

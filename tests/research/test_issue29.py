@@ -81,4 +81,71 @@ class Offline(unittest.TestCase):
         with self.assertRaises(FileNotFoundError):oracle.load_rows('/does-not-exist')
 
 
+class Orchestration(unittest.TestCase):
+    def fake(self, fail=None, hot=False):
+        from contextlib import ExitStack
+        from paper_rebaseline import digest as real_digest
+        td=tempfile.TemporaryDirectory();self.addCleanup(td.cleanup);root=Path(td.name)
+        host=HostContract().baseline()
+        if hot:host['sensors']['p']['value_C']=85
+        c=dict(subject_repo=str(root),binary='stock',quality_binary='quality',quality_sha256='q',
+               input_package='input-package',index_package='index-package',manifest='bundle',data_root='data',index_root='index')
+        hashes={'stock':'5f5fa8d99cc83b523c71b7025e5f0b9aa61f45d42816804ed6d88755ebaa310b','quality':'q',
+                'input-package':'47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3',
+                'index-package':'7140a47ac53b0480752059b5cb428b4d56dc627533974803b5ae4413827a7470'}
+        def digest(p):return hashes[str(p)] if str(p) in hashes else real_digest(p)
+        def git(cmd,**kw):
+            if 'status' in cmd:return ''
+            return '23fbb256528c67454cd4348bc58dfee700dffa06' if 'HEAD^{tree}' in cmd else 'c4cd32c6816c063f56ecc64f9d7b63c909202cab'
+        calls=[]
+        def run(spec,d):
+            d=Path(d);d.mkdir();calls.append(d.name)
+            if spec.get('extra_environment'):Path(spec['extra_environment']['PAPER_QUALITY_OUTPUT']).write_text('fake')
+            failed=d.name==fail
+            m=dict(exit_code=-15 if failed else 0,guard_failure='Package>=99C' if failed else None)
+            (d/'manifest.json').write_text(json.dumps(m));(d/'stderr.log').write_text('')
+            (d/'stdout.log').write_text(f"Metadata: #pts = 10000, #dims = 128\n{spec['argv'][-1]} {spec['argv'][4]} 5000 1000 2000 0 100 99\n")
+            (d/'host.jsonl').write_text(json.dumps(host)+'\n');return m
+        with ExitStack() as stack:
+            for target,value in [('issue29_campaign.digest',digest),('issue29_campaign.snapshot',lambda *a:copy.deepcopy(host)),
+                ('issue29_campaign.subprocess.check_output',git),('issue29_campaign.run',run),
+                ('issue29_campaign.time.sleep',lambda *a:None),('issue29_campaign.unchanged',lambda *a:None),
+                ('issue29_campaign.verify',lambda *a:dict(valid=True,files={})),
+                ('issue29_campaign.quality_against_canonical',lambda *a:dict(recall=99,rows=100000))]:stack.enter_context(patch(target,value))
+            result=campaign.execute(c,root/'campaign')
+        return root/'campaign',calls,result
+    def test_complete_eligible_fake(self):
+        root,calls,result=self.fake();self.assertEqual(result['stock_qualified'],36)
+        self.assertEqual(calls[:2],['QUALIFICATION_T16','QUALIFICATION_T8'])
+        self.assertEqual(len([s for s in calls if s.startswith('R')]),36)
+        self.assertLess(calls.index('POST_CORE_T16'),calls.index('R13_T1_W32_L100'))
+    def test_first_quality_failure_no_stock(self):
+        root,calls,result=self.fake('QUALIFICATION_T16');self.assertEqual(calls,['QUALIFICATION_T16'])
+        self.assertEqual(result['stock_completed'],0);self.assertEqual(result['failed_job'],'QUALIFICATION_T16')
+    def test_second_quality_thermal_no_stock(self):
+        root,calls,result=self.fake('QUALIFICATION_T8');self.assertEqual(len(calls),2)
+        self.assertEqual(result['quality_completed'],1);self.assertEqual(result['stock_completed'],0)
+    def test_post_quality_failure_preserves_stock(self):
+        root,calls,result=self.fake('POST_CORE_T16');self.assertEqual(result['stock_completed'],12)
+        self.assertEqual(result['failed_job'],'POST_CORE_T16');self.assertEqual(result['stock_qualified'],0)
+        self.assertTrue(all(r['status']=='PROVISIONAL' for r in json.loads((root/'RUNS.json').read_text())))
+    def test_hot_preflight_no_invocations(self):
+        root,calls,result=self.fake(hot=True);self.assertEqual(calls,[]);self.assertEqual(result['status'],'SKIPPED_THERMAL')
+
+
+class ReadOnlyAnalysis(unittest.TestCase):
+    def test_tampered_seal_fails(self):
+        from analyze_issue29 import check_seal
+        from paper_portable_v2 import seal
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);(root/'evidence').write_text('first');seal(root);check_seal(root)
+            (root/'evidence').write_text('second')
+            with self.assertRaisesRegex(ValueError,'Checksum'):check_seal(root)
+    def test_unsafe_seal_fails(self):
+        from analyze_issue29 import check_seal
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);(root/'SHA256SUMS').write_text('abc  ../escape\n')
+            with self.assertRaisesRegex(ValueError,'Unsafe'):check_seal(root)
+
+
 if __name__=='__main__':unittest.main()

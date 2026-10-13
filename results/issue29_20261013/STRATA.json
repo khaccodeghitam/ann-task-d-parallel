@@ -1,0 +1,116 @@
+{
+  "scope": "Post-execution descriptive strata, no tuning or threshold change; timestamps are surrogate expansion steps, not ANN phases.",
+  "strata": {
+    "all_step8": {
+      "query_cluster_disagreement_mean": 0.75,
+      "disagreement_CI90": [
+        0.6458333333333334,
+        0.8541666666666666
+      ],
+      "mean_query_gap": 0.015281450587863062,
+      "gap_CI90": [
+        0.011694158555585196,
+        0.01913792591687905
+      ],
+      "total_gap": 0.733509628217427,
+      "top1_gap_share": 0.08891651428839221,
+      "top5_gap_share": 0.30218690272991844,
+      "positive_gap_queries": 36
+    },
+    "all_step24": {
+      "query_cluster_disagreement_mean": 0.25,
+      "disagreement_CI90": [
+        0.14583333333333334,
+        0.3541666666666667
+      ],
+      "mean_query_gap": 0.001136599243768778,
+      "gap_CI90": [
+        0.0005436603116654167,
+        0.0018128132524736348
+      ],
+      "total_gap": 0.054556763700901345,
+      "top1_gap_share": 0.2214685006744341,
+      "top5_gap_share": 0.733807380556476,
+      "positive_gap_queries": 12
+    },
+    "validation_step8": {
+      "query_cluster_disagreement_mean": 1,
+      "disagreement_CI90": [
+        1.0,
+        1.0
+      ],
+      "mean_query_gap": 0.019747663883226685,
+      "gap_CI90": [
+        0.013198859964470889,
+        0.026007392984375533
+      ],
+      "total_gap": 0.19747663883226685,
+      "top1_gap_share": 0.18561718846399397,
+      "top5_gap_share": 0.7566200343355978,
+      "positive_gap_queries": 10
+    },
+    "validation_step24": {
+      "query_cluster_disagreement_mean": 0.4,
+      "disagreement_CI90": [
+        0.2,
+        0.7
+      ],
+      "mean_query_gap": 0.0008016917670906065,
+      "gap_CI90": [
+        0.00010370589009568865,
+        0.0017205925151989893
+      ],
+      "total_gap": 0.008016917670906065,
+      "top1_gap_share": 0.6546767009472494,
+      "top5_gap_share": 1.0,
+      "positive_gap_queries": 4
+    },
+    "test_step8": {
+      "query_cluster_disagreement_mean": 0.6,
+      "disagreement_CI90": [
+        0.3,
+        0.8
+      ],
+      "mean_query_gap": 0.0077087742472161215,
+      "gap_CI90": [
+        0.0022658584136934475,
+        0.01394027986522379
+      ],
+      "total_gap": 0.07708774247216121,
+      "top1_gap_share": 0.4364193180636688,
+      "top5_gap_share": 0.97879276205716,
+      "positive_gap_queries": 6
+    },
+    "test_step24": {
+      "query_cluster_disagreement_mean": 0.2,
+      "disagreement_CI90": [
+        0.0,
+        0.4
+      ],
+      "mean_query_gap": 0.0006605829956763272,
+      "gap_CI90": [
+        0.0,
+        0.0019182921555302192
+      ],
+      "total_gap": 0.0066058299567632725,
+      "top1_gap_share": 0.9679793798739889,
+      "top5_gap_share": 1.0,
+      "positive_gap_queries": 2
+    }
+  },
+  "beneficial_oracle_rank_histogram": {
+    "2": 5,
+    "3": 8,
+    "4": 4,
+    "5": 8,
+    "6": 3,
+    "7": 2,
+    "8": 5,
+    "9": 5,
+    "10": 4,
+    "11": 1,
+    "12": 3
+  },
+  "median_normalized_distance_penalty": 0.08580685772148194,
+  "count_beneficial_states": 48
+}

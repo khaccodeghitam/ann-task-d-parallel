@@ -6,6 +6,8 @@ Research-first, evidence-driven exploration of new parallel ANN methods. PipeANN
 
 **Repeated-campaign status: UNCERTIFIED.**18 stock processes completed; mandatory T16 quality validation hit the thermal guard. Extension was not run. Published statistics are explicitly provisional; real-graph and synthetic studies did execute.
 
+**Issue29 follow-up:** [T16-first qualification and offline decision memo](docs/research/ISSUE29_DECISION_MEMO.md). T16 correctness passed, subsequent T8 quality hit100°C; no new stock campaign ran. Oracle-disagreement and branching controls executed; tested cheap features did not improve held-out selection utility.
+
 - [Start here](docs/START_HERE.md): clone, prerequisites, configurable paths and smoke.
 - [Subjects and versions](docs/BASELINES_AND_VERSIONS.md) · [datasets/artifacts](docs/DATASETS_AND_ARTIFACTS.md)
 - [Build and reproduce](docs/BUILD_AND_REPRODUCE.md) · [benchmark method](docs/BENCHMARK_METHOD.md)
