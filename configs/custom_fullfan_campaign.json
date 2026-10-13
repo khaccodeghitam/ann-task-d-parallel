@@ -1,4 +1,5 @@
 {
+  "protocol_id": "CUSTOM_FULLFAN_SIFT10M_v1",
   "manifest": "manifests/paper_native_sift10m.json",
   "subject_repo": "${PIPEANN_PAPER_ROOT}",
   "binary": "${PIPEANN_PAPER_ROOT}/build/tests/search_disk_index",

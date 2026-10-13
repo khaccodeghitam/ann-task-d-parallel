@@ -1,0 +1,342 @@
+{
+  "protocol": "CUSTOM_FULLFAN_SIFT10M_v1",
+  "created": "2026-10-13T11:54:25.959187+00:00",
+  "source_commit": "c4cd32c6816c063f56ecc64f9d7b63c909202cab",
+  "source_tree": "23fbb256528c67454cd4348bc58dfee700dffa06",
+  "harness_commit": "f9ab1dbb128c5b65a34455358164e7e3cbdc1fdd",
+  "code_sha256": "8edb351f6c0df700eb4f14d9dec7c4a73053c9e7233832b1243957edf79f7b3e",
+  "guard_sha256": "232ed904b54359af17161c2f785b81c77097aad4d99f68325e08faf88cfefcbb",
+  "expected_operating_condition": {
+    "mmio_PL1_W": 60,
+    "mmio_PL2_W": 90,
+    "platform_profile": "custom",
+    "tolerance_W": 1
+  },
+  "bootstrap": {
+    "CI": 0.9,
+    "quantile": "linear p*(n-1)",
+    "samples": 20000,
+    "seed": 20261029,
+    "unit": "paired block"
+  },
+  "order": [
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 1,
+      "sequence": 1,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 2,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 3,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 2,
+      "sequence": 4,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 3,
+      "sequence": 5,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 6,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 4,
+      "sequence": 7,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 4,
+      "sequence": 8,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 5,
+      "sequence": 9,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 5,
+      "sequence": 10,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 6,
+      "sequence": 11,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 6,
+      "sequence": 12,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 1,
+      "W": 32,
+      "block": 1,
+      "sequence": 13,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 4,
+      "W": 32,
+      "block": 1,
+      "sequence": 14,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 4,
+      "W": 32,
+      "block": 2,
+      "sequence": 15,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 1,
+      "W": 32,
+      "block": 2,
+      "sequence": 16,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 1,
+      "W": 32,
+      "block": 3,
+      "sequence": 17,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 4,
+      "W": 32,
+      "block": 3,
+      "sequence": 18,
+      "stage": "reference"
+    },
+    {
+      "L": 125,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 19,
+      "stage": "extension_L"
+    },
+    {
+      "L": 75,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 20,
+      "stage": "extension_L"
+    },
+    {
+      "L": 50,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 21,
+      "stage": "extension_L"
+    },
+    {
+      "L": 150,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 22,
+      "stage": "extension_L"
+    },
+    {
+      "L": 125,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 23,
+      "stage": "extension_L"
+    },
+    {
+      "L": 50,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 24,
+      "stage": "extension_L"
+    },
+    {
+      "L": 75,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 25,
+      "stage": "extension_L"
+    },
+    {
+      "L": 150,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 26,
+      "stage": "extension_L"
+    },
+    {
+      "L": 50,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 27,
+      "stage": "extension_L"
+    },
+    {
+      "L": 75,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 28,
+      "stage": "extension_L"
+    },
+    {
+      "L": 125,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 29,
+      "stage": "extension_L"
+    },
+    {
+      "L": 150,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 30,
+      "stage": "extension_L"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 64,
+      "block": 1,
+      "sequence": 31,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 16,
+      "block": 1,
+      "sequence": 32,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 16,
+      "block": 2,
+      "sequence": 33,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 64,
+      "block": 2,
+      "sequence": 34,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 16,
+      "block": 3,
+      "sequence": 35,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 64,
+      "block": 3,
+      "sequence": 36,
+      "stage": "extension_W"
+    }
+  ],
+  "acceptance": "No retries. All commands fixed policy/profile; quality every configuration before first use plus core postchecks; IDs/cardinality/all exact distances and tie-aware recall independently checked; recall>=95%, printed quality discrepancy<=0.011pp. Full post hash audit. Any failure leaves ALL completed stock outputs PROVISIONAL.",
+  "guards": "Same 1Hz rich guard/watchdog. Package >=99C once or >=97C for10s; startup >=85C rejects every command. AC,1GiB RAM,20GiB disk,swap,foreign ANN guards unchanged.",
+  "extension_condition": "Only after all prior gates, same fixed policy, startup<85C and total wall budget; no automatic cooling retries.",
+  "inference": "Stock IDs not exported; separate same-library quality probe establishes correctness per config, not identity of every nondeterministic stock result. Mixed-phase host telemetry; P99.9 only.",
+  "subject": {
+    "id": "PAPER_GCC13_PORTABLE",
+    "commit": "c4cd32c6816c063f56ecc64f9d7b63c909202cab",
+    "tree": "23fbb256528c67454cd4348bc58dfee700dffa06",
+    "search_sha256": "5f5fa8d99cc83b523c71b7025e5f0b9aa61f45d42816804ed6d88755ebaa310b"
+  },
+  "input_package_sha256": "47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3",
+  "index_package_sha256": "7140a47ac53b0480752059b5cb428b4d56dc627533974803b5ae4413827a7470",
+  "search": {
+    "dataset": "SIFT10M",
+    "datatype": "uint8",
+    "metric": "L2",
+    "neighbor": "PQ",
+    "mode": 2,
+    "K": 10,
+    "mem_L": 10,
+    "core_L": 100,
+    "core_W": 32,
+    "query_count": 10000
+  },
+  "owner_attestation": {
+    "recorded_at_UTC": "2026-10-13T11:54:03.886004+00:00",
+    "manual_full_fan_confirmed": true,
+    "fan_RPM": "NOT_MEASURED"
+  },
+  "execution_plan_sha256": "37bc6b41eb49eec856c5fd67a465bd56f327dfaeb8f28d289420b5a47e066c81"
+}
