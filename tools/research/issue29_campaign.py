@@ -39,6 +39,14 @@ def snapshot(root):
     s=host_snapshot(root)
     p=Path('/sys/firmware/acpi/platform_profile')
     s['platform_profile']=p.read_text().strip() if p.exists() else None
+    s['mmio_identity']={}
+    for key in s['rapl']:
+        if 'intel-rapl-mmio' in key:
+            try:
+                path=Path(key);stat=path.stat()
+                s['mmio_identity'][key]=dict(realpath=str(path.resolve(strict=True)),device=stat.st_dev,inode=stat.st_ino)
+            except OSError:
+                s['mmio_identity'][key]=None
     return s
 
 
@@ -66,13 +74,24 @@ def expected_host_violations(s, contract):
     entries = (s.get('rapl') or {})
     for i, label in enumerate(('PL1', 'PL2')):
         suffix = f'/constraint_{i}_power_limit_uw'
-        matches = [value for key, value in entries.items()
+        matches = [(key, value) for key, value in entries.items()
                    if 'intel-rapl-mmio' in str(key).lower() and str(key).lower().endswith(suffix)]
+        if len(matches) > 1:
+            # The powercap class exposes symlink aliases of the SAME register.
+            # Exempt duplicates only with positive file-lifetime identity AND
+            # identical sampled values. Distinct/unreadable registers fail closed.
+            try:
+                identities = {(Path(key).resolve(strict=True), Path(key).stat().st_dev,
+                               Path(key).stat().st_ino) for key, _ in matches}
+            except OSError:
+                identities = set()
+            if len(identities) == 1 and len({value for _, value in matches}) == 1:
+                matches = matches[:1]
         if len(matches) != 1:
             errors.append(f'EXPECTED_ENVIRONMENT: {label} MMIO sensor missing or ambiguous ({len(matches)})')
             continue
         try:
-            watts = int(matches[0]) / 1_000_000
+            watts = int(matches[0][1]) / 1_000_000
         except (TypeError, ValueError):
             errors.append(f'EXPECTED_ENVIRONMENT: {label} unreadable MMIO limit')
             continue
@@ -101,7 +120,7 @@ def execute(config, output):
     if subprocess.check_output(['git','status','--porcelain'],cwd=source): raise ValueError('Dirty subject')
     if digest(c['binary'])!='5f5fa8d99cc83b523c71b7025e5f0b9aa61f45d42816804ed6d88755ebaa310b': raise ValueError('Stock binary mismatch')
     if digest(c['quality_binary'])!=c['quality_sha256']: raise ValueError('Quality binary mismatch')
-    plan=dict(protocol='ISSUE29_T16_FIRST_v1',created=utc(),config=c,source_commit=commit,source_tree=tree,
+    plan=dict(protocol=c.get('protocol_id','ISSUE29_T16_FIRST_v1'),created=utc(),config=c,source_commit=commit,source_tree=tree,
               harness_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
               code_sha256=digest(__file__),guard_sha256=digest(Path(__file__).with_name('run_paper_fullfan_check.py')),
               initial_environment=initial,expected_operating_condition=c.get('expected_operating_condition'),order=rows,seed=20261029,

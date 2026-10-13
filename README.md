@@ -2,11 +2,13 @@
 
 Research-first, evidence-driven exploration of new parallel ANN methods. PipeANN is a reference and baseline, not the research destination.
 
-**Current primary subject:** OSDI'25 PipeANN 0.1.0 plus a minimal, explicit GCC13 portability patch (`PAPER_GCC13_PORTABLE`). A native SIFT10M disk+memory index is verified. The first T8 result was preliminary; repeated results and independent offline studies are indexed below. Modern 2026 PipeANN is a separate preserved reference.
+**Current primary subject:** OSDI'25 PipeANN 0.1.0 plus a minimal, explicit GCC13 portability patch (`PAPER_GCC13_PORTABLE`). A native SIFT10M disk+memory index is verified. An earlier single T8 result remains preliminary; the latest repeated results and independent offline studies are indexed below. Modern 2026 PipeANN is a separate preserved reference.
 
-**Repeated-campaign status: UNCERTIFIED.**18 stock processes completed; mandatory T16 quality validation hit the thermal guard. Extension was not run. Published statistics are explicitly provisional; real-graph and synthetic studies did execute.
+**Latest campaign:** Issue #32 completed and qualified 36/36 paper-stock runs under Custom Full-Fan 60/90 W. The six paired T16/T8 blocks show a median QPS change of −13.36% (90% block-bootstrap CI −14.35% to −11.49%); see the [campaign report](docs/research/CUSTOM_FULLFAN_SIFT10M_20261013.md). This result is specific to the paper-portable subject, native SIFT10M index and recorded host condition.
 
-**Default environment for NEW ANN runs:** [Custom Full-Fan Experimental Environment v1](docs/EXPERIMENTAL_ENVIRONMENT_V1.md), observed `platform_profile=custom` and MMIO PL1/PL2 = 60/90 W; power limits and sensors must be verified before any host command. This is a prospective contract, not a retroactive relabeling or claim of peak QPS. The existing Performance 115/135 W results remain separate evidence.\n\n**Issue29 follow-up:** [T16-first qualification and offline decision memo](docs/research/ISSUE29_DECISION_MEMO.md). T16 correctness passed, subsequent T8 quality hit100°C; no new stock campaign ran. Oracle-disagreement and branching controls executed; tested cheap features did not improve held-out selection utility.
+**Default environment for NEW ANN runs:** [Custom Full-Fan Experimental Environment v1](docs/EXPERIMENTAL_ENVIRONMENT_V1.md), observed `platform_profile=custom` and MMIO PL1/PL2 = 60/90 W; power limits and sensors must be verified before any host command. This is a prospective contract, not a retroactive relabeling or claim of peak QPS. The existing Performance 115/135 W results remain separate evidence.
+
+**Issue29 follow-up:** [T16-first qualification and offline decision memo](docs/research/ISSUE29_DECISION_MEMO.md). T16 correctness passed, subsequent T8 quality hit100°C; no new stock campaign ran. Oracle-disagreement and branching controls executed; tested cheap features did not improve held-out selection utility.
 
 - [Start here](docs/START_HERE.md): clone, prerequisites, configurable paths and smoke.
 - [Subjects and versions](docs/BASELINES_AND_VERSIONS.md) · [datasets/artifacts](docs/DATASETS_AND_ARTIFACTS.md)
