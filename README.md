@@ -6,7 +6,7 @@ Research-first, evidence-driven exploration of new parallel ANN methods. PipeANN
 
 **Repeated-campaign status: UNCERTIFIED.**18 stock processes completed; mandatory T16 quality validation hit the thermal guard. Extension was not run. Published statistics are explicitly provisional; real-graph and synthetic studies did execute.
 
-**Issue29 follow-up:** [T16-first qualification and offline decision memo](docs/research/ISSUE29_DECISION_MEMO.md). T16 correctness passed, subsequent T8 quality hit100°C; no new stock campaign ran. Oracle-disagreement and branching controls executed; tested cheap features did not improve held-out selection utility.
+**Default environment for NEW ANN runs:** [Custom Full-Fan Experimental Environment v1](docs/EXPERIMENTAL_ENVIRONMENT_V1.md), observed `platform_profile=custom` and MMIO PL1/PL2 = 60/90 W; power limits and sensors must be verified before any host command. This is a prospective contract, not a retroactive relabeling or claim of peak QPS. The existing Performance 115/135 W results remain separate evidence.\n\n**Issue29 follow-up:** [T16-first qualification and offline decision memo](docs/research/ISSUE29_DECISION_MEMO.md). T16 correctness passed, subsequent T8 quality hit100°C; no new stock campaign ran. Oracle-disagreement and branching controls executed; tested cheap features did not improve held-out selection utility.
 
 - [Start here](docs/START_HERE.md): clone, prerequisites, configurable paths and smoke.
 - [Subjects and versions](docs/BASELINES_AND_VERSIONS.md) · [datasets/artifacts](docs/DATASETS_AND_ARTIFACTS.md)

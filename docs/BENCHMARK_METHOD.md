@@ -27,3 +27,8 @@ Paper printed P99 is actually0.999 → P99.9. Modern uses0.99 → P99. Absent st
 Full content audits pre/post; cheap size/mtime checks between cases. Parse raw stdout/stderr independently, reject exit0 with read/CQE/error diagnostics, missing10K header, nonfinite metrics or zero recall. Preserve all failures. Local raw evidence is authoritative; no MLflow dependency or raw uploads.
 
 The executed v1 campaign stopped during post-core qualityT16 at100°C; no extension ran. Reviewed v2 adds a fixed5s gap and startup<85°C requirement before each quality command and attributes failures to the actual job. These corrections are synthetic-tested only; the v1 PLAN/results are not rewritten or rerun.
+
+
+## Prospective owner-host operating profile
+
+From 2026-10-13, new repeated SIFT10M experiments on this laptop default to the separately documented [Custom Full-Fan Experimental Environment v1](EXPERIMENTAL_ENVIRONMENT_V1.md): owner-selected full fan, observed Linux `platform_profile=custom`, and MMIO PL1/PL2 approximately60/90W. The `configs/custom_fullfan_campaign.json` entrypoint requires the mode/limits to be positively observed at qualification startup and before each process; a wrong/missing reading blocks execution without altering the machine. It inherits thermal guards and certified paired-block rules from Issue29. Prior `performance`115/135W runs remain preliminary historical evidence and cannot be pooled into this new campaign.
