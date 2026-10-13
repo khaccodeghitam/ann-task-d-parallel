@@ -34,3 +34,5 @@ Tests without real data:
 ```
 
 CPU-only synthetic CI requires no private package. A different CPU/toolchain produces its own binary hash (`-march=native`); bind that hash in the new protocol, do not impersonate the owner's executable. Currently tested sensor guard is Intel `coretemp` on native Linux; unsupported temperature/AC observations fail closed.
+
+Verified in this mission: a fresh detached checkout and fresh dependency-only virtualenv passed all430 synthetic tests, CLI/dry-run/missing-data checks and separate quality-probe compilation against the preserved local subject. No real ANN search was launched from that probe after the thermal stop. Full fresh upstream compilation and multi-GB artifact transfer on another host remain unexecuted; TEAM_CLONE_SMOKE is PARTIAL for those integration stages.
