@@ -87,7 +87,7 @@ def run_campaign(config,output):
         raise ValueError('Startup package >=85C; no automatic retry')
     rows=schedule(c.get('seed',20261013),c.get('extension',True))
     plan=dict(protocol='PAPER_PAIRED_NATIVE_v1',created=utc(),config=c,source_commit=source,source_tree=tree,
-              binary_sha256=binary_sha,quality_binary_sha256=digest(c['quality_binary']),bundle=fingerprint,
+              harness_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=Path(__file__).resolve().parents[2],text=True).strip(),binary_sha256=binary_sha,quality_binary_sha256=digest(c['quality_binary']),bundle=fingerprint,
               order=rows,pause_s=c.get('pause_s',5),between_block_s=c.get('between_block_s',15),
               bootstrap=dict(samples=20000,seed=20261013,CI=.90,unit='paired block',quantile='linear p*(n-1)'),
               monitor='rich 1Hz; same safety guard and watchdog in every stock run',
@@ -135,7 +135,8 @@ def run_campaign(config,output):
         for r in records:r['status']='VALID';r['quality_validation']=checked[(r['T'],r['W'],r['L'])]
     except BaseException as e:
         stop=f'{type(e).__name__}: {e}'
-        if records and records[-1]['status']=='INCOMPLETE':records[-1]['status']='INVALID'
+        if records and records[-1]['status']!='VALID':
+            records[-1]['status']='INVALID';records[-1]['failure_reason']=stop
     finally:
         try:post=verify(c['manifest'],c['data_root'],c['index_root'],True)
         except Exception as e:post={'valid':False,'error':str(e)};stop=stop or 'Post-package audit failed'
