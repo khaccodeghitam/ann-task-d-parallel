@@ -42,12 +42,52 @@ def snapshot(root):
     return s
 
 
-def qualify_start(s, baseline):
+def expected_host_violations(s, contract):
+    """Reject an unverified operating profile; never write to sysfs."""
+    if not contract:
+        return []
+    errors = []
+    target = str(contract.get('platform_profile', '')).strip().lower()
+    actual = str(s.get('platform_profile') or '').strip().lower()
+    if target != 'custom':
+        errors.append('EXPECTED_ENVIRONMENT: only the prospective custom profile is supported')
+    elif actual != target:
+        errors.append(f'EXPECTED_ENVIRONMENT: profile {actual!r}, required {target!r}')
+    try:
+        tol = float(contract.get('tolerance_W', 1))
+        if not 0 <= tol <= 1:
+            raise ValueError('tolerance must be within [0,1] W')
+        targets = [float(contract['mmio_PL1_W']), float(contract['mmio_PL2_W'])]
+        if targets != [60.0, 90.0]:
+            raise ValueError('fixed Custom v1 requires MMIO 60/90W')
+    except (TypeError, ValueError, KeyError) as e:
+        errors.append(f'EXPECTED_ENVIRONMENT: invalid frozen config ({e})')
+        return errors
+    entries = (s.get('rapl') or {})
+    for i, label in enumerate(('PL1', 'PL2')):
+        suffix = f'/constraint_{i}_power_limit_uw'
+        matches = [value for key, value in entries.items()
+                   if 'intel-rapl-mmio' in str(key).lower() and str(key).lower().endswith(suffix)]
+        if len(matches) != 1:
+            errors.append(f'EXPECTED_ENVIRONMENT: {label} MMIO sensor missing or ambiguous ({len(matches)})')
+            continue
+        try:
+            watts = int(matches[0]) / 1_000_000
+        except (TypeError, ValueError):
+            errors.append(f'EXPECTED_ENVIRONMENT: {label} unreadable MMIO limit')
+            continue
+        if abs(watts-targets[i]) > tol:
+            errors.append(f'EXPECTED_ENVIRONMENT: {label} MMIO {watts:.3f}W, required {targets[i]:.0f}±{tol:g}W')
+    return errors
+
+
+def qualify_start(s, baseline, expected=None):
     reasons=CoolingGuard(baseline).check(s)
     package=[x['value_C'] for x in s['sensors'].values() if x['name']=='coretemp' and (x['label'] or '').startswith('Package')]
     if not package or max(package)>=85: reasons.append('Startup package >=85C or unavailable')
     if not s.get('rapl') or s.get('platform_profile') is None: reasons.append('Policy/profile unavailable')
     if policy_state(s)!=policy_state(baseline): reasons.append('Fixed operating condition changed')
+    reasons.extend(expected_host_violations(s, expected))
     if reasons: raise ValueError('; '.join(reasons))
 
 
@@ -64,7 +104,7 @@ def execute(config, output):
     plan=dict(protocol='ISSUE29_T16_FIRST_v1',created=utc(),config=c,source_commit=commit,source_tree=tree,
               harness_commit=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip(),
               code_sha256=digest(__file__),guard_sha256=digest(Path(__file__).with_name('run_paper_fullfan_check.py')),
-              initial_environment=initial,order=rows,seed=20261029,
+              initial_environment=initial,expected_operating_condition=c.get('expected_operating_condition'),order=rows,seed=20261029,
               bootstrap=dict(samples=20000,seed=20261029,CI=.90,unit='paired block',quantile='linear p*(n-1)'),
               phases=['Full pre-audit','5s gap; T16 full quality FIRST','5s gap; T8 full quality','12 paired stock','5s gap; T16 and T8 post-core quality','6 optional references','18 optional L/W'],
               pause_s=5,between_block_s=15,timeout_s=240,total_wall_cap_s=3600,
@@ -83,7 +123,7 @@ def execute(config, output):
         if time.monotonic()-started>3600: raise ValueError('Prospective total wall budget exhausted')
         time.sleep(5); s=snapshot(root)
         with (root/'startup.jsonl').open('a') as f:f.write(json.dumps(dict(job=name,host=s))+'\n')
-        qualify_start(s,initial);unchanged(fingerprint)
+        qualify_start(s,initial,c.get('expected_operating_condition'));unchanged(fingerprint)
         binary=c['quality_binary'] if quality_mode else c['binary']
         spec=dict(argv=argv(c,row,binary),threads=row['T'],binary_sha256=digest(binary),timeout_s=240,run_id=name)
         result=root/(name+'.csv')
@@ -100,7 +140,7 @@ def execute(config, output):
         active=None;persist();print(json.dumps(dict(job=name,status=entry['status'],**v)),flush=True)
         return entry
     try:
-        qualify_start(initial,initial)
+        qualify_start(initial,initial,c.get('expected_operating_condition'))
         if digest(c['input_package'])!='47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3':raise ValueError('Input package identity mismatch')
         if digest(c['index_package'])!='7140a47ac53b0480752059b5cb428b4d56dc627533974803b5ae4413827a7470':raise ValueError('Native index package identity mismatch')
         fingerprint=verify(c['manifest'],c['data_root'],c['index_root'],True)
@@ -126,7 +166,7 @@ def execute(config, output):
         if not stop and len(records)==len(rows):
             for r in records:r['status']='QUALIFIED'
         persist()
-        outcome=dict(status='QUALIFIED' if not stop else 'SKIPPED_THERMAL' if not records and ('guard' in str(stop).lower() or '85C' in str(stop)) else 'PROVISIONAL',stop_reason=stop,failed_job=active,
+        outcome=dict(status='QUALIFIED' if not stop else 'SKIPPED_THERMAL' if not records and ('guard' in str(stop).lower() or '85C' in str(stop)) else 'BLOCKED_ENVIRONMENT' if not records and 'EXPECTED_ENVIRONMENT' in str(stop) else 'PROVISIONAL',stop_reason=stop,failed_job=active,
                      stock_completed=len(records),stock_qualified=sum(r['status']=='QUALIFIED' for r in records),quality_completed=len(quality),post_audit_valid=post['valid'])
         (root/'SUMMARY.json').write_bytes(canonical_bytes(outcome));seal(root)
     return outcome
