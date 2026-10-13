@@ -1,0 +1,491 @@
+{
+  "scientific_valid": false,
+  "certification": "UNCERTIFIED_QUALITY_GATE_THERMAL_STOP",
+  "completed_stock_processes": 18,
+  "certified_core": 0,
+  "extension_run": 0,
+  "execution": {
+    "attempted": 18,
+    "planned": 36,
+    "post_audit_valid": true,
+    "stop_reason": "ValueError: Owned process/guard failed",
+    "valid_runs": 0
+  },
+  "groups": {
+    "16": {
+      "qps": {
+        "n": 6,
+        "values": [
+          5028.42,
+          5112.38,
+          4990.96,
+          5165.51,
+          5147.66,
+          5170.01
+        ],
+        "mean": 5102.49,
+        "median": 5130.02,
+        "sample_sd": 75.62263893834971,
+        "min": 4990.96,
+        "max": 5170.01,
+        "mad": 37.73999999999978
+      },
+      "mean_latency_us": {
+        "n": 6,
+        "values": [
+          3052.37,
+          2982.26,
+          3101.56,
+          2973.93,
+          2987.24,
+          2968.38
+        ],
+        "mean": 3010.9566666666665,
+        "median": 2984.75,
+        "sample_sd": 53.840047795917336,
+        "min": 2968.38,
+        "max": 3101.56,
+        "mad": 13.595000000000027
+      },
+      "p999_latency_us": {
+        "n": 6,
+        "values": [
+          89913.0,
+          55553.0,
+          102264.0,
+          69841.0,
+          75474.0,
+          55752.0
+        ],
+        "mean": 74799.5,
+        "median": 72657.5,
+        "sample_sd": 18660.082172916602,
+        "min": 55553.0,
+        "max": 102264.0,
+        "mad": 17005.0
+      },
+      "recall": {
+        "n": 6,
+        "values": [
+          99.21,
+          99.21,
+          99.21,
+          99.21,
+          99.21,
+          99.21
+        ],
+        "mean": 99.21,
+        "median": 99.21,
+        "sample_sd": 0.0,
+        "min": 99.21,
+        "max": 99.21,
+        "mad": 0.0
+      },
+      "mean_ios": {
+        "n": 6,
+        "values": [
+          107.09,
+          107.06,
+          107.06,
+          107.07,
+          107.08,
+          107.07
+        ],
+        "mean": 107.07166666666666,
+        "median": 107.07,
+        "sample_sd": 0.011690451944500429,
+        "min": 107.06,
+        "max": 107.09,
+        "mad": 0.009999999999990905
+      }
+    },
+    "8": {
+      "qps": {
+        "n": 6,
+        "values": [
+          5882.79,
+          5874.58,
+          5881.97,
+          5895.12,
+          5882.15,
+          5866.58
+        ],
+        "mean": 5880.531666666667,
+        "median": 5882.0599999999995,
+        "sample_sd": 9.51502688733282,
+        "min": 5866.58,
+        "max": 5895.12,
+        "mad": 4.105000000000018
+      },
+      "mean_latency_us": {
+        "n": 6,
+        "values": [
+          1300.47,
+          1299.13,
+          1298.78,
+          1301.16,
+          1297.8,
+          1302.51
+        ],
+        "mean": 1299.975,
+        "median": 1299.8000000000002,
+        "sample_sd": 1.7290546550066168,
+        "min": 1297.8,
+        "max": 1302.51,
+        "mad": 1.1900000000000546
+      },
+      "p999_latency_us": {
+        "n": 6,
+        "values": [
+          1969.0,
+          1906.0,
+          1916.0,
+          2029.0,
+          1896.0,
+          1959.0
+        ],
+        "mean": 1945.8333333333333,
+        "median": 1937.5,
+        "sample_sd": 50.173366108590585,
+        "min": 1896.0,
+        "max": 2029.0,
+        "mad": 31.5
+      },
+      "recall": {
+        "n": 6,
+        "values": [
+          99.21,
+          99.2,
+          99.21,
+          99.21,
+          99.21,
+          99.21
+        ],
+        "mean": 99.20833333333333,
+        "median": 99.21,
+        "sample_sd": 0.0040824829046349174,
+        "min": 99.2,
+        "max": 99.21,
+        "mad": 0.0
+      },
+      "mean_ios": {
+        "n": 6,
+        "values": [
+          107.0,
+          107.03,
+          107.0,
+          106.99,
+          107.03,
+          107.02
+        ],
+        "mean": 107.01166666666667,
+        "median": 107.00999999999999,
+        "sample_sd": 0.01722401424368647,
+        "min": 106.99,
+        "max": 107.03,
+        "mad": 0.015000000000000568
+      }
+    },
+    "1": {
+      "qps": {
+        "n": 3,
+        "values": [
+          1698.34,
+          1696.12,
+          1694.6
+        ],
+        "mean": 1696.3533333333332,
+        "median": 1696.12,
+        "sample_sd": 1.8808863158982672,
+        "min": 1694.6,
+        "max": 1698.34,
+        "mad": 1.5199999999999818
+      },
+      "mean_latency_us": {
+        "n": 3,
+        "values": [
+          545.35,
+          546.03,
+          546.47
+        ],
+        "mean": 545.95,
+        "median": 546.03,
+        "sample_sd": 0.564269439186634,
+        "min": 545.35,
+        "max": 546.47,
+        "mad": 0.44000000000005457
+      },
+      "p999_latency_us": {
+        "n": 3,
+        "values": [
+          786.0,
+          828.0,
+          801.0
+        ],
+        "mean": 805.0,
+        "median": 801.0,
+        "sample_sd": 21.283796653792763,
+        "min": 786.0,
+        "max": 828.0,
+        "mad": 15.0
+      },
+      "recall": {
+        "n": 3,
+        "values": [
+          99.23,
+          99.23,
+          99.23
+        ],
+        "mean": 99.23,
+        "median": 99.23,
+        "sample_sd": 0.0,
+        "min": 99.23,
+        "max": 99.23,
+        "mad": 0.0
+      },
+      "mean_ios": {
+        "n": 3,
+        "values": [
+          107.93,
+          107.93,
+          107.93
+        ],
+        "mean": 107.93,
+        "median": 107.93,
+        "sample_sd": 0.0,
+        "min": 107.93,
+        "max": 107.93,
+        "mad": 0.0
+      }
+    },
+    "4": {
+      "qps": {
+        "n": 3,
+        "values": [
+          4385.12,
+          4386.41,
+          4406.54
+        ],
+        "mean": 4392.69,
+        "median": 4386.41,
+        "sample_sd": 12.01178171629843,
+        "min": 4385.12,
+        "max": 4406.54,
+        "mad": 1.2899999999999636
+      },
+      "mean_latency_us": {
+        "n": 3,
+        "values": [
+          860.73,
+          860.69,
+          857.89
+        ],
+        "mean": 859.77,
+        "median": 860.69,
+        "sample_sd": 1.6282505949638382,
+        "min": 857.89,
+        "max": 860.73,
+        "mad": 0.03999999999996362
+      },
+      "p999_latency_us": {
+        "n": 3,
+        "values": [
+          1258.0,
+          1264.0,
+          1283.0
+        ],
+        "mean": 1268.3333333333333,
+        "median": 1264.0,
+        "sample_sd": 13.051181300301261,
+        "min": 1258.0,
+        "max": 1283.0,
+        "mad": 6.0
+      },
+      "recall": {
+        "n": 3,
+        "values": [
+          99.22,
+          99.22,
+          99.22
+        ],
+        "mean": 99.22,
+        "median": 99.22,
+        "sample_sd": 0.0,
+        "min": 99.22,
+        "max": 99.22,
+        "mad": 0.0
+      },
+      "mean_ios": {
+        "n": 3,
+        "values": [
+          107.27,
+          107.28,
+          107.26
+        ],
+        "mean": 107.27,
+        "median": 107.27,
+        "sample_sd": 0.00999999999999801,
+        "min": 107.26,
+        "max": 107.28,
+        "mad": 0.009999999999990905
+      }
+    }
+  },
+  "provisional_paired_T16_vs_T8": {
+    "values": [
+      -14.523210925428243,
+      -12.974544563185786,
+      -15.148156144965041,
+      -12.37650802697824,
+      -12.486760793247365,
+      -11.873527677113405
+    ],
+    "median": -12.730652678216575,
+    "mean": -13.230451355153013,
+    "sample_SD": 1.306739758422268,
+    "CI90": [
+      -14.523210925428243,
+      -12.180144235180386
+    ],
+    "leave_one_block_out_medians": [
+      -12.486760793247365,
+      -12.486760793247365,
+      -12.486760793247365,
+      -12.974544563185786,
+      -12.974544563185786,
+      -12.974544563185786
+    ]
+  },
+  "provisional_recall_delta_pp": {
+    "values": [
+      0.0,
+      0.009999999999990905,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "median": 0.0,
+    "mean": 0.0016666666666651508,
+    "sample_SD": 0.0040824829046349174,
+    "CI90": [
+      0.0,
+      0.0049999999999954525
+    ],
+    "leave_one_block_out_medians": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "ledger_caveat": "Frozen v1 erroneously assigned late quality-arm failure to last stock recordR18. R18 native exit0 is preserved. Failure was QUALITY_T16, not R18 stock. No record is promoted to VALID; v2 fixes attribution prospectively.",
+  "raw_archive_id": "PAPER_BASELINE_RESEARCH_20261013T092006889480Z",
+  "raw_plan_sha256": "025fd253c28ab877b7ed6b2c7f6b3a4e2fd48ef583e82323bbb1d06f3481906e",
+  "harness_local_commit": "38e34685edc1ece6049bba9924d9493fbe643cc6",
+  "source_commit": "c4cd32c6816c063f56ecc64f9d7b63c909202cab",
+  "source_tree": "23fbb256528c67454cd4348bc58dfee700dffa06",
+  "binary_sha256": "5f5fa8d99cc83b523c71b7025e5f0b9aa61f45d42816804ed6d88755ebaa310b",
+  "bundle_sha256": "3218f132a1aaf4d3ee76b7f7759b3e8c4edc24fc33e1ab636181167545c119be",
+  "operating_condition": "Performance profile, MMIO PL1/PL2 115/135W in captured samples; differs from earlier Custom60/90W. Source of pre-campaign mode change UNKNOWN.",
+  "quality_failure": {
+    "job": "QUALITY_T16_W32_L100",
+    "exit_code": -15,
+    "package_max_C": 100,
+    "initial_package_C": 90,
+    "wall_s": 1.114900288
+  },
+  "paired_log_ratio_PROVISIONAL": {
+    "values": [
+      -0.1569253197128172,
+      -0.13896951890222364,
+      -0.1642634637833886,
+      -0.13212105078974196,
+      -0.13338009884997282,
+      -0.12639721778516186
+    ],
+    "median": -0.13617480887609823,
+    "mean": -0.142009444970551,
+    "sample_SD": 0.015119215685887947,
+    "CI90": [
+      -0.1569253197128172,
+      -0.12988865831756735
+    ],
+    "leave_one_block_out_medians": [
+      -0.13338009884997282,
+      -0.13338009884997282,
+      -0.13338009884997282,
+      -0.13896951890222364,
+      -0.13896951890222364,
+      -0.13896951890222364
+    ]
+  },
+  "monitor_screen": {
+    "limitation": "n=2 paired effects; not proof of negligible observer effect",
+    "records": [
+      {
+        "metrics": {
+          "mean_hops": 0.0,
+          "mean_ios": 106.98,
+          "mean_latency_us": 1299.49,
+          "p50_latency_us": null,
+          "p95_latency_us": null,
+          "p999_latency_us": 1933.0,
+          "p99_latency_us": null,
+          "qps": 5895.69,
+          "recall": 99.21
+        },
+        "mode": "LITE"
+      },
+      {
+        "metrics": {
+          "mean_hops": 0.0,
+          "mean_ios": 107.01,
+          "mean_latency_us": 1299.98,
+          "p50_latency_us": null,
+          "p95_latency_us": null,
+          "p999_latency_us": 1946.0,
+          "p99_latency_us": null,
+          "qps": 5871.27,
+          "recall": 99.21
+        },
+        "mode": "RICH"
+      },
+      {
+        "metrics": {
+          "mean_hops": 0.0,
+          "mean_ios": 106.99,
+          "mean_latency_us": 1298.15,
+          "p50_latency_us": null,
+          "p95_latency_us": null,
+          "p999_latency_us": 1920.0,
+          "p99_latency_us": null,
+          "qps": 5897.22,
+          "recall": 99.21
+        },
+        "mode": "RICH"
+      },
+      {
+        "metrics": {
+          "mean_hops": 0.0,
+          "mean_ios": 107.02,
+          "mean_latency_us": 1296.66,
+          "p50_latency_us": null,
+          "p95_latency_us": null,
+          "p999_latency_us": 1908.0,
+          "p99_latency_us": null,
+          "qps": 5899.62,
+          "recall": 99.21
+        },
+        "mode": "LITE"
+      }
+    ],
+    "rich_vs_lite_QPS_percent": [
+      -0.41420088233945496,
+      -0.04068058620724235
+    ],
+    "status": "CHARACTERIZED_DESCRIPTIVE"
+  }
+}

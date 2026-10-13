@@ -1,0 +1,3 @@
+# Dataset-free research tests and bounded offline studies; no cloud/GPU needed.
+numpy>=1.26,<3
+jsonschema>=4.20,<5
