@@ -1,0 +1,38 @@
+{
+  "schema": "execution-publication-tree-map-v1",
+  "meaning": "Connector commit metadata differs; Git trees are byte-identical. Original local execution commits remain on a preserved provenance branch. Frozen plans retain their actual local HEADs.",
+  "raw_archive_id": "PAPER_BASELINE_RESEARCH_20261013T092006889480Z",
+  "versions": [
+    {
+      "local": "745594a6b769d4680629f320c89dc1e0191794da",
+      "remote": "fa687a4351da665da5f1de67bd883b796201277b",
+      "tree": "548cad6284b07da3ca8c93688087b684c7a2d27f"
+    },
+    {
+      "local": "38e34685edc1ece6049bba9924d9493fbe643cc6",
+      "remote": "10be7ff959856df8dc8a544660741837924665c6",
+      "tree": "3a781ad786fed6714b2af7a2472382dd0d83a2c7"
+    },
+    {
+      "local": "8b392ded49a3edf58f1cc3fdd50004534af32ff5",
+      "remote": "58e269713e529c124474375a4d6b24c538467cf8",
+      "tree": "9322437e4869131191e8672d0e375a528060f66e"
+    },
+    {
+      "local": "c0ed2610c846324c1a8186c44a211bd71ab3d0ea",
+      "remote": "a5f951a9551ae2cf527b871810513b7ff4528425",
+      "tree": "ae15b3c13d4ab7a0cb6a24afd78af0939075f016"
+    }
+  ],
+  "harness_used_in_failed_campaign": {
+    "local_commit": "38e34685edc1ece6049bba9924d9493fbe643cc6",
+    "published_tree_equivalent_commit": "10be7ff959856df8dc8a544660741837924665c6",
+    "tree": "3a781ad786fed6714b2af7a2472382dd0d83a2c7",
+    "paired_code_sha256": "f8ceb693c56f1b52fa9c55781f463acf13aaf3418b79282ff44f867d4abdc1bd"
+  },
+  "bounded_study": {
+    "local_commit": "c0ed2610c846324c1a8186c44a211bd71ab3d0ea",
+    "published_tree_equivalent_commit": "a5f951a9551ae2cf527b871810513b7ff4528425",
+    "tree": "ae15b3c13d4ab7a0cb6a24afd78af0939075f016"
+  }
+}

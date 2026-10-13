@@ -4,6 +4,8 @@ Research-first, evidence-driven exploration of new parallel ANN methods. PipeANN
 
 **Current primary subject:** OSDI'25 PipeANN 0.1.0 plus a minimal, explicit GCC13 portability patch (`PAPER_GCC13_PORTABLE`). A native SIFT10M disk+memory index is verified. The first T8 result was preliminary; repeated results and independent offline studies are indexed below. Modern 2026 PipeANN is a separate preserved reference.
 
+**Repeated-campaign status: UNCERTIFIED.**18 stock processes completed; mandatory T16 quality validation hit the thermal guard. Extension was not run. Published statistics are explicitly provisional; real-graph and synthetic studies did execute.
+
 - [Start here](docs/START_HERE.md): clone, prerequisites, configurable paths and smoke.
 - [Subjects and versions](docs/BASELINES_AND_VERSIONS.md) · [datasets/artifacts](docs/DATASETS_AND_ARTIFACTS.md)
 - [Build and reproduce](docs/BUILD_AND_REPRODUCE.md) · [benchmark method](docs/BENCHMARK_METHOD.md)

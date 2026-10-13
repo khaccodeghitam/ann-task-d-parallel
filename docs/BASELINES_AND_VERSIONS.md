@@ -22,6 +22,6 @@ Owner binary SHA256s (a peer rebuild is a new binary identity):
 | Initialization | OVERLAP_INIT, mem_L10,100,004-node entry | mem_L0 |
 | Driver warmup | Two complete L200 passes | Different/no corresponding driver warmup |
 | Printed tail | labelP99, code0.999 → P99.9 | code0.99 → P99 |
-| Current operating policy | Observed Custom Mode60/90W MMIO | Earlier Performance Mode conditions |
+| Successful build/first-point policy | Observed Custom Mode60/90W MMIO | Earlier Performance Mode conditions |
 
 Historical modern T16/T8−8.51% is not paper evidence, not a matched paper/modern speedup and not a mechanism diagnosis. No new modern head-to-head is authorized by the current paper-only protocol. [46-commit evolution audit](research/paper-rebaseline-20261012/02_UPSTREAM_EVOLUTION_2025_2026.md) remains source context, not ablation evidence.
