@@ -2,6 +2,7 @@
 
 | Evidence | Status | Meaning |
 |---|---|---|
+| [Issue29 qualification + oracle audit](research/ISSUE29_DECISION_MEMO.md) | SKIPPED_THERMAL / OFFLINE_EXECUTED | T16 quality PASS; T8 quality hit100°C;0 new stock runs.48-query disagreement analysis and30 synthetic controls executed; no tested cheap-feature selection gain |
 | [Full-fan native package and first stock point](research/PAPER_FULLFAN_SIFT10M_20261013.md) | Verified build/search PASS | Custom60/90W; oneT8 run5863.23QPS,99.206% independent recall; no replication/CI |
 | [Current paired campaign + studies](../results/paper_20261013/REPORT.md) | **PARTIAL / campaign UNCERTIFIED** |18 stock processes completed; mandatory qualityT16 hit100°C;0/18 certified; extension0/18. Do not promote provisional statistics to an accepted baseline |
 | [Compact data](../results/paper_20261013/SUMMARY.json) / [all stock rows](../results/paper_20261013/runs.csv) | Genuine provisional measurements | Performance115/135W, not the prior Custom condition |
@@ -14,4 +15,4 @@ Raw archive IDs (external under the workspace's `research-v3/campaigns`, no tran
 - `PAPER_FULLFAN_SIFT10M_20261013T081513543576Z` —57 originally sealed files, verified before mission.
 - `PAPER_BASELINE_RESEARCH_20261013T092006889480Z` —new local audit/monitor/core/studies/incident evidence.
 
-The original native INDEX_PACKAGE hash is`7140a47ac53b0480752059b5cb428b4d56dc627533974803b5ae4413827a7470`. Failed prior prefixes are never imported as complete indexes. No SIFT1M fallback was run after10M success. Main/default branch and old Draft PRs are unchanged; the feature branch must be checked out until reviewed/merged.
+The original native INDEX_PACKAGE hash is`7140a47ac53b0480752059b5cb428b4d56dc627533974803b5ae4413827a7470`. Failed prior prefixes are never imported as complete indexes. No SIFT1M fallback was run after10M success. PR28 was subsequently merged at`5ec0841fcd04e9c06824ef3e10b59f4b08d58ed7`; its evidence labels remain unchanged. Issue29's new evidence archive is`ISSUE29_20261013T110233068975Z`; its follow-up code/report require the new feature branch until merged.

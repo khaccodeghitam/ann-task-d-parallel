@@ -1,0 +1,7 @@
+{
+  "base_main": "5ec0841fcd04e9c06824ef3e10b59f4b08d58ed7",
+  "local_execution_commit": "5816889714f9eff65bcc714d1601277552f38e56",
+  "published_tree_equivalent_execution_commit": "9645b1e484ef1fcc08b26ec69be237266b50bf3c",
+  "execution_tree": "849a3430e601325ec2fb2d9d7b37259a2f3c5c3d",
+  "note": "ANN qualification and offline analysis ran from the local execution commit, not the later API commit. Trees are identical. API publication changes commit metadata; frozen local evidence is not rewritten."
+}

@@ -1,0 +1,321 @@
+{
+  "kind": "SANITIZED_DERIVATIVE_NOT_EXECUTABLE_FROZEN_PLAN",
+  "original_plan_sha256": "29c200f19fdd3a3e497125a8a0ba450a6e9bfe267eebc9c8f14e3a0270a9ff91",
+  "protocol": "ISSUE29_T16_FIRST_v1",
+  "seed": 20261029,
+  "order": [
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 1,
+      "sequence": 1,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 2,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 3,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 2,
+      "sequence": 4,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 3,
+      "sequence": 5,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 6,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 4,
+      "sequence": 7,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 4,
+      "sequence": 8,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 5,
+      "sequence": 9,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 5,
+      "sequence": 10,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 32,
+      "block": 6,
+      "sequence": 11,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 16,
+      "W": 32,
+      "block": 6,
+      "sequence": 12,
+      "stage": "core"
+    },
+    {
+      "L": 100,
+      "T": 1,
+      "W": 32,
+      "block": 1,
+      "sequence": 13,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 4,
+      "W": 32,
+      "block": 1,
+      "sequence": 14,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 4,
+      "W": 32,
+      "block": 2,
+      "sequence": 15,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 1,
+      "W": 32,
+      "block": 2,
+      "sequence": 16,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 1,
+      "W": 32,
+      "block": 3,
+      "sequence": 17,
+      "stage": "reference"
+    },
+    {
+      "L": 100,
+      "T": 4,
+      "W": 32,
+      "block": 3,
+      "sequence": 18,
+      "stage": "reference"
+    },
+    {
+      "L": 125,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 19,
+      "stage": "extension_L"
+    },
+    {
+      "L": 75,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 20,
+      "stage": "extension_L"
+    },
+    {
+      "L": 50,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 21,
+      "stage": "extension_L"
+    },
+    {
+      "L": 150,
+      "T": 8,
+      "W": 32,
+      "block": 1,
+      "sequence": 22,
+      "stage": "extension_L"
+    },
+    {
+      "L": 125,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 23,
+      "stage": "extension_L"
+    },
+    {
+      "L": 50,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 24,
+      "stage": "extension_L"
+    },
+    {
+      "L": 75,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 25,
+      "stage": "extension_L"
+    },
+    {
+      "L": 150,
+      "T": 8,
+      "W": 32,
+      "block": 2,
+      "sequence": 26,
+      "stage": "extension_L"
+    },
+    {
+      "L": 50,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 27,
+      "stage": "extension_L"
+    },
+    {
+      "L": 75,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 28,
+      "stage": "extension_L"
+    },
+    {
+      "L": 125,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 29,
+      "stage": "extension_L"
+    },
+    {
+      "L": 150,
+      "T": 8,
+      "W": 32,
+      "block": 3,
+      "sequence": 30,
+      "stage": "extension_L"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 64,
+      "block": 1,
+      "sequence": 31,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 16,
+      "block": 1,
+      "sequence": 32,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 16,
+      "block": 2,
+      "sequence": 33,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 64,
+      "block": 2,
+      "sequence": 34,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 16,
+      "block": 3,
+      "sequence": 35,
+      "stage": "extension_W"
+    },
+    {
+      "L": 100,
+      "T": 8,
+      "W": 64,
+      "block": 3,
+      "sequence": 36,
+      "stage": "extension_W"
+    }
+  ],
+  "phases": [
+    "Full pre-audit",
+    "5s gap; T16 full quality FIRST",
+    "5s gap; T8 full quality",
+    "12 paired stock",
+    "5s gap; T16 and T8 post-core quality",
+    "6 optional references",
+    "18 optional L/W"
+  ],
+  "pause_s": 5,
+  "between_block_s": 15,
+  "bootstrap": {
+    "CI": 0.9,
+    "quantile": "linear p*(n-1)",
+    "samples": 20000,
+    "seed": 20261029,
+    "unit": "paired block"
+  },
+  "guards": "Same 1Hz rich guard/watchdog. Package >=99C once or >=97C for10s; startup >=85C rejects every command. AC,1GiB RAM,20GiB disk,swap,foreign ANN guards unchanged.",
+  "acceptance": "No retries. All commands fixed policy/profile; quality every configuration before first use plus core postchecks; IDs/cardinality/all exact distances and tie-aware recall independently checked; recall>=95%, printed quality discrepancy<=0.011pp. Full post hash audit. Any failure leaves ALL completed stock outputs PROVISIONAL.",
+  "inference": "Stock IDs not exported; separate same-library quality probe establishes correctness per config, not identity of every nondeterministic stock result. Mixed-phase host telemetry; P99.9 only.",
+  "source_commit": "c4cd32c6816c063f56ecc64f9d7b63c909202cab",
+  "source_tree": "23fbb256528c67454cd4348bc58dfee700dffa06",
+  "code_sha256": "6ae77759d7c53a30aca67ce7c9af159339cb6599139b1e09157e87d0028ce121",
+  "guard_sha256": "232ed904b54359af17161c2f785b81c77097aad4d99f68325e08faf88cfefcbb"
+}
