@@ -1,0 +1,7 @@
+# Minimal logging — DESIGN_ONLY
+
+No stock-like SIFT10M baseline passed the disk-index gate; no candidate observer, ANN diagnostic run, trace or observer calibration was executed. Two separate **driver-only quality exporter binaries were built but never run**; they link each unchanged subject library and save actual search return count plus IDs/distances/latency/I/O after the timed loop. A per-query exclusive return-count write is additional observer work; exporter QPS is not stock headline evidence. Their binary/source/build fingerprints are external. Exporter validation rejects missing K/queries, duplicate IDs, invalid ranges and nonfinite/negative metrics; only synthetic fixtures have exercised it.
+
+The source-grounded candidate/discovery/admission/selection/read/expand hooks and unresolved artifact request-drain/lifetime proofs remain in PR26 report06. No second selector call, extra pool scan or search mutation was introduced. Safe request correlation and zero-drop distributed capacity are not established, so implementing a trace before a working baseline would defeat the requested scope. Warmup query identities must be separated if a future trace is built.
+
+H-QV1 counterfactual marginal expansion value is not identifiable from a successful logged path alone. Motif utility likewise requires actual adjacency/co-access evidence; this task produced none. Diagnostics stay optional behind baseline correctness; no perf/tracefs platform or new D observer was built. D1 UNTESTED, D4 NOT TESTED, D6 INCONCLUSIVE stay attached to old subjects.

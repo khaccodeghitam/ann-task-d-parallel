@@ -1,0 +1,249 @@
+{
+  "study": [
+    "MOTIF_SIGNAL_STUDY_01",
+    "CANDIDATE_VALUE_ORACLE_01"
+  ],
+  "status": "EXECUTED_REAL_GRAPH",
+  "seed": 20261013,
+  "queries": [
+    9999,
+    7489,
+    3168,
+    9418,
+    5372,
+    7759,
+    1588,
+    6798,
+    9737,
+    874,
+    3883,
+    9619,
+    1206,
+    306,
+    3624,
+    9406,
+    9109,
+    1711,
+    4094,
+    9830,
+    2112,
+    3291,
+    7402,
+    8018,
+    2508,
+    764,
+    2280,
+    3674,
+    2954,
+    9597,
+    9970,
+    5332,
+    6502,
+    6837,
+    5561,
+    7701,
+    9687,
+    9190,
+    7780,
+    7786,
+    7064,
+    7504,
+    6480,
+    3999,
+    5012,
+    169,
+    2427,
+    6860
+  ],
+  "query_split": [
+    28,
+    10,
+    10
+  ],
+  "states": 96,
+  "candidate_rows": 1152,
+  "adjacency_nodes_read": 7852,
+  "distance_evaluations": 95242,
+  "uniform_topology_anchors": 2000,
+  "sampled_transitive_closure_rate": 0.052,
+  "sampled_cycle_closure_rate": 0.048,
+  "mean_edge_jaccard": 0.027308208248170027,
+  "positive_Gk_fraction": 0.4019097222222222,
+  "mean_novel_neighbors": 49.97309027777778,
+  "mean_useful_novel_neighbors": 1.2751736111111112,
+  "models": {
+    "distance_degree_history": {
+      "test_RMSE": 0.03257866020393484,
+      "validation_RMSE": 0.017515173882411268,
+      "mean_state_spearman": 0.33024909302709216,
+      "mean_selected_Gk": 0.037270313318661236,
+      "distance_only_choice_Gk": 0.037270313318661236,
+      "oracle_best_Gk": 0.04145499194010746,
+      "query_cluster_gain_CI90": [
+        0.0,
+        0.0
+      ],
+      "per_query_gain": {
+        "169": [
+          0.0,
+          0.0
+        ],
+        "2427": [
+          0.0,
+          0.0
+        ],
+        "3999": [
+          0.0,
+          0.0
+        ],
+        "5012": [
+          0.0,
+          0.0
+        ],
+        "6480": [
+          0.0,
+          0.0
+        ],
+        "6860": [
+          0.0,
+          0.0
+        ],
+        "7064": [
+          0.0,
+          0.0
+        ],
+        "7504": [
+          0.0,
+          0.0
+        ],
+        "7780": [
+          0.0,
+          0.0
+        ],
+        "7786": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "plus_overlap": {
+      "test_RMSE": 0.0325848069441875,
+      "validation_RMSE": 0.017549325065504613,
+      "mean_state_spearman": 0.35147498743994193,
+      "mean_selected_Gk": 0.037270313318661236,
+      "distance_only_choice_Gk": 0.037270313318661236,
+      "oracle_best_Gk": 0.04145499194010746,
+      "query_cluster_gain_CI90": [
+        0.0,
+        0.0
+      ],
+      "per_query_gain": {
+        "169": [
+          0.0,
+          0.0
+        ],
+        "2427": [
+          0.0,
+          0.0
+        ],
+        "3999": [
+          0.0,
+          0.0
+        ],
+        "5012": [
+          0.0,
+          0.0
+        ],
+        "6480": [
+          0.0,
+          0.0
+        ],
+        "6860": [
+          0.0,
+          0.0
+        ],
+        "7064": [
+          0.0,
+          0.0
+        ],
+        "7504": [
+          0.0,
+          0.0
+        ],
+        "7780": [
+          0.0,
+          0.0
+        ],
+        "7786": [
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "permuted_overlap": {
+      "test_RMSE": 0.03262569338293904,
+      "validation_RMSE": 0.017557578016157344,
+      "mean_state_spearman": 0.3165307535339397,
+      "mean_selected_Gk": 0.03714790452651669,
+      "distance_only_choice_Gk": 0.037270313318661236,
+      "oracle_best_Gk": 0.04145499194010746,
+      "query_cluster_gain_CI90": [
+        -0.0003672263764336465,
+        0.0
+      ],
+      "per_query_gain": {
+        "169": [
+          0.0,
+          0.0
+        ],
+        "2427": [
+          0.0,
+          0.0
+        ],
+        "3999": [
+          0.0,
+          0.0
+        ],
+        "5012": [
+          0.0,
+          0.0
+        ],
+        "6480": [
+          0.0,
+          -0.0024481758428909766
+        ],
+        "6860": [
+          0.0,
+          0.0
+        ],
+        "7064": [
+          0.0,
+          0.0
+        ],
+        "7504": [
+          0.0,
+          0.0
+        ],
+        "7780": [
+          0.0,
+          0.0
+        ],
+        "7786": [
+          0.0,
+          0.0
+        ]
+      }
+    }
+  },
+  "peak_RSS_KiB": 456676,
+  "scope": "Independent bounded exact-distance traversal states, not paper/PQ runtime replay. Labels fork fixed Seen/topK; union expansion uses deterministic distance/id ties. No ground truth enters online features. Static one-step batch utility only; no multi-hop counterfactual or submodularity claim.",
+  "feature_cost": "Exact overlap requires unread candidate adjacency or precomputed metadata; it is not a free online feature. One4-byte value per640M directed edges would cost2.56GB before indexing overhead.",
+  "limitations": [
+    "Uniform-node wedge samples are not full motif counts or query-access samples",
+    "Induced subgraph not used; full outgoing adjacency queried read-only",
+    "Two states/query are clustered; train/validation/test split by whole query",
+    "Exact-distance surrogate differs from PQ admission and asynchronous search",
+    "Motif feature has unavailable-at-runtime information unless paid metadata/I/O cost",
+    "No end-to-end speedup or novelty conclusion"
+  ]
+}

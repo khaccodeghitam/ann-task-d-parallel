@@ -47,3 +47,22 @@ third_party/liburing/src/include/liburing/io_uring_version.h
 *.a
 *.so
 *.so.*
+
+# Portable workflow: sensitive config and heavyweight external artifacts.
+.env
+.env.*
+!.env.example
+.local/
+results/raw/
+telemetry/
+*.bin
+*.bbin
+*.fbin
+*.ibin
+*.bvecs
+*.fvecs
+*.ivecs
+*.index
+*.index.*
+*.trace
+perf.data*

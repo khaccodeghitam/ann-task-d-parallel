@@ -1,0 +1,26 @@
+[
+  {
+    "path": "/home/irthn/ann-research/indexes/sift10m-paper-v3/sift10m_pq_compressed.bin",
+    "sha256": "fd6d890d29780effcea21c962d2e720e43d742508a575d795e9af68ee0605245",
+    "size_bytes": 320000008,
+    "status": "FAILED_BUILD_PARTIAL_NOT_REUSABLE"
+  },
+  {
+    "path": "/home/irthn/ann-research/indexes/sift10m-paper-v3/sift10m_pq_pivots.bin",
+    "sha256": "7171975f20e00c44b9e2d368bff8ce4a3725eb0e311597e8a95fccda86eaeaa4",
+    "size_bytes": 136356,
+    "status": "FAILED_BUILD_PARTIAL_NOT_REUSABLE"
+  },
+  {
+    "path": "/home/irthn/ann-research/indexes/sift10m-paper-v3-t4/sift10m_pq_compressed.bin",
+    "sha256": "29647e60b577cfa6fa2f1c5ef065cc140db2d80cb464d3380c4730939de8608b",
+    "size_bytes": 320000008,
+    "status": "FAILED_BUILD_PARTIAL_NOT_REUSABLE"
+  },
+  {
+    "path": "/home/irthn/ann-research/indexes/sift10m-paper-v3-t4/sift10m_pq_pivots.bin",
+    "sha256": "c3a8b8da3ddf12e8413052e82608b125fd77aa682df46be1ead4a01fdb6a3799",
+    "size_bytes": 136356,
+    "status": "FAILED_BUILD_PARTIAL_NOT_REUSABLE"
+  }
+]

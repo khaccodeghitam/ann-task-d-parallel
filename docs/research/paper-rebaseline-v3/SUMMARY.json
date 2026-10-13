@@ -1,0 +1,191 @@
+{
+  "benchmark_counts": {
+    "accepted": 0,
+    "incomplete": 0,
+    "invalid": 0,
+    "not_run": 66,
+    "planned": 66
+  },
+  "blocker": "Actual sampled critical thermal proximity; neither native disk graph exists",
+  "build_active_wall_sum_s": 2272.2930217249996,
+  "build_attempts": [
+    {
+      "MMIO_PL1_observed_uW": [
+        "105000000",
+        "115000000"
+      ],
+      "argv": [
+        "/home/irthn/ann-research/PipeANN-paper-portable/build/tests/build_disk_index",
+        "uint8",
+        "/home/irthn/ann-research/data/bigann/sift10m/canonical/base_10m.bbin",
+        "/home/irthn/ann-research/indexes/sift10m-paper-v3/sift10m",
+        "64",
+        "100",
+        "0.298023223876953125",
+        "8",
+        "8",
+        "l2",
+        "0"
+      ],
+      "directory": "disk_build",
+      "end": "2026-10-12T16:34:41.345800+00:00",
+      "exit_code": -15,
+      "guard_failure": "sensor within 2C of readable critical trip, sensor within 2C of readable critical trip",
+      "host_samples": 60,
+      "kernel_direct_child_peak_KiB": 5627688,
+      "label": "T8",
+      "maximum_coretemp_C": 100.0,
+      "maximum_swap_bytes": 1245184,
+      "min_available_bytes": 8426651648,
+      "minimum_free_bytes": 124358320128,
+      "observer_self_cpu_s": 1.5493057409999997,
+      "observer_wall_s": {
+        "max": 0.0486668510002346,
+        "median": 0.038670614500006195,
+        "sum": 2.2757261889892106
+      },
+      "policy_transition_count": 1,
+      "power_states": [
+        {
+          "/sys/class/power_supply/ADP0/online": "1"
+        }
+      ],
+      "rss_note": "VmHWM sampled; kernel direct-child peak includes collectors and earlier commands in this Python process",
+      "sampled_VmHWM_KiB": 5629968,
+      "start": "2026-10-12T16:29:43.411866+00:00",
+      "trigger_snapshot": {
+        "raw_host_log": "/home/irthn/ann-research/research-v3/campaigns/PAPER_NATIVE_V3_SIFT10M_20261012T162845717948Z/disk_build/host.jsonl",
+        "sensors_at_or_above98C": [
+          {
+            "critical_mC": "100000",
+            "label": "Core 12",
+            "name": "coretemp",
+            "value_C": 98.0
+          },
+          {
+            "critical_mC": "100000",
+            "label": "Package id 0",
+            "name": "coretemp",
+            "value_C": 100.0
+          }
+        ],
+        "timestamp": "2026-10-12T16:34:41.127293+00:00"
+      },
+      "wall_time_s": 297.9335975899994
+    },
+    {
+      "MMIO_PL1_observed_uW": [
+        "105000000",
+        "115000000"
+      ],
+      "argv": [
+        "/home/irthn/ann-research/PipeANN-paper-portable/build/tests/build_disk_index",
+        "uint8",
+        "/home/irthn/ann-research/data/bigann/sift10m/canonical/base_10m.bbin",
+        "/home/irthn/ann-research/indexes/sift10m-paper-v3-t4/sift10m",
+        "64",
+        "100",
+        "0.298023223876953125",
+        "8",
+        "4",
+        "l2",
+        "0"
+      ],
+      "directory": "disk_build_t4",
+      "end": "2026-10-12T17:15:57.243446+00:00",
+      "exit_code": -15,
+      "guard_failure": "sensor within 2C of readable critical trip, sensor within 2C of readable critical trip",
+      "host_samples": 393,
+      "kernel_direct_child_peak_KiB": 5639776,
+      "label": "T4",
+      "maximum_coretemp_C": 100.0,
+      "maximum_swap_bytes": 1245184,
+      "min_available_bytes": 8359944192,
+      "minimum_free_bytes": 124015403008,
+      "observer_self_cpu_s": 5.497377635999996,
+      "observer_wall_s": {
+        "max": 0.04397128900018288,
+        "median": 0.026812715999767534,
+        "sum": 10.918271915010337
+      },
+      "policy_transition_count": 29,
+      "power_states": [
+        {
+          "/sys/class/power_supply/ADP0/online": "1"
+        }
+      ],
+      "rss_note": "VmHWM sampled; kernel direct-child peak includes collectors and earlier commands in this Python process",
+      "sampled_VmHWM_KiB": 5641308,
+      "start": "2026-10-12T16:43:02.883676+00:00",
+      "trigger_snapshot": {
+        "raw_host_log": "/home/irthn/ann-research/research-v3/campaigns/PAPER_NATIVE_V3_SIFT10M_20261012T162845717948Z/disk_build_t4/host.jsonl",
+        "sensors_at_or_above98C": [
+          {
+            "critical_mC": "100000",
+            "label": "Package id 0",
+            "name": "coretemp",
+            "value_C": 100.0
+          },
+          {
+            "critical_mC": "100000",
+            "label": "Core 20",
+            "name": "coretemp",
+            "value_C": 100.0
+          }
+        ],
+        "timestamp": "2026-10-12T17:15:57.025017+00:00"
+      },
+      "wall_time_s": 1974.3594241350002
+    }
+  ],
+  "build_plan_sha256": "085f23a483936d1671f269007b212e5a197e893f95bcc5713dd310fbe15ba012",
+  "build_t4_plan_sha256": "f77c4c1ba2bf2555221012f3d833088a05581fe54f2c34ab259d1fa7d79f261a",
+  "campaign_id": "PAPER_NATIVE_V3_SIFT10M_20261012T162845717948Z",
+  "diagnostics": "NOT_RUN_DESIGN_ONLY",
+  "entry_copied_to_new_prefix": false,
+  "entry_graph_sha256": "8081156e56476bcd163032d6ba00dd056a781ae21ff19ee9fb627a4ff522b466",
+  "entry_package_sha256": "65241ce227d29672df2468f36a403cf99d1dbf7822819a9e62c747b7917bb0a1",
+  "evidence": "/home/irthn/ann-research/research-v3/campaigns/PAPER_NATIVE_V3_SIFT10M_20261012T162845717948Z",
+  "execution_wrapper_provenance": {
+    "T4_code_snapshot_commit": "6a420b88341fe630df415ee752095fabfb12214e",
+    "T4_launch_wrapper_sha256": "33ce456cbe485d20936c7b3b8b1d2ba25148b9a66835318af1922b3b2c871def",
+    "T4_note": "File bytes at launch match later versioned commit; that commit was created during the build.",
+    "T8_launch_full_file_sha256": null,
+    "T8_note": "Full Python launch fingerprint not captured. Offline helper additions were made while the loaded Guard/execute logic remained unchanged; only frozen guard contract, binary hash and raw manifest bind this attempt."
+  },
+  "mlflow": "NOT_MIRRORED_NO_SEARCH_RUNS",
+  "native_index_complete": false,
+  "native_index_package_sha256": null,
+  "new_native_v3_tests": 25,
+  "official_source": {
+    "clean": true,
+    "commit": "d18dcd16fece1c9d1dea356d783ebba2ed649e54",
+    "path": "/home/irthn/ann-research/PipeANN-paper",
+    "tree": "8e6ee6b0dc71db7dfa9db742c2f7066929202bc2"
+  },
+  "paper_T16_T8_CI90": null,
+  "paper_T16_T8_delta": null,
+  "paper_builder_sha256": "f9f0124e737caa56aafe4441d3c42051c4f264a9412eff6e232f8baff1037e8a",
+  "paper_search_sha256": "5f5fa8d99cc83b523c71b7025e5f0b9aa61f45d42816804ed6d88755ebaa310b",
+  "plan_sha256": "2436c7c579fe3af3feecac5ade0b87bf1fae910e85f8cf3758b3c388c6c20a08",
+  "portability_patch": {
+    "deletions": 1,
+    "files": 1,
+    "insertions": 4,
+    "math_tests": "Retained unchanged-subject optimized and ASan/UBSan kernel tests: each10000 float/6000 uint8 PASS"
+  },
+  "portable_source": {
+    "clean": true,
+    "commit": "c4cd32c6816c063f56ecc64f9d7b63c909202cab",
+    "path": "/home/irthn/ann-research/PipeANN-paper-portable",
+    "tree": "23fbb256528c67454cd4348bc58dfee700dffa06"
+  },
+  "python_tests_passed": 390,
+  "raw_summary_path": "/home/irthn/ann-research/research-v3/campaigns/PAPER_NATIVE_V3_SIFT10M_20261012T162845717948Z/SUMMARY.json",
+  "raw_summary_sha256": "4c949398461fc52f4f0fbbe3e404ee23e5ac009624a726404b857ef4f9616633",
+  "representation": "condensed derived metadata without raw host snapshots",
+  "research_execution_commit": "6a420b88341fe630df415ee752095fabfb12214e",
+  "scope": "Development-scale SIFT10M; no OSDI throughput reproduction or algorithm performance conclusion",
+  "search_design_sha256": "b32acd39f13e644a597f976cb4ac82fc4c5a6d2bf479dd3545df0d2bb3b78df4",
+  "verdict": "PAPER_REBASELINE_BLOCKED"
+}

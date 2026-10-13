@@ -1,0 +1,10 @@
+diff --git a/src/distance.cpp b/src/distance.cpp
+index bb14e7b..46f65e6 100644
+--- a/src/distance.cpp
++++ b/src/distance.cpp
+@@ -623 +623,4 @@ namespace diskann {
+-    result = _mm256_reduce_add_ps(sum);
++    // GCC AVX2 portability: sum both 128-bit lanes, then reduce four lanes.
++    __m128 halves = _mm_add_ps(_mm256_castps256_ps128(sum), _mm256_extractf128_ps(sum, 1));
++    halves = _mm_hadd_ps(halves, halves);
++    result = _mm_cvtss_f32(_mm_hadd_ps(halves, halves));

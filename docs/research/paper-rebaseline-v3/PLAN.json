@@ -1,0 +1,1412 @@
+{
+  "blocked_by": "THERMAL_CRITICAL_PROXIMITY_ON_BOTH_OWNED_BUILDS",
+  "build_plan_sha256": "085f23a483936d1671f269007b212e5a197e893f95bcc5713dd310fbe15ba012",
+  "build_t4_plan_sha256": "f77c4c1ba2bf2555221012f3d833088a05581fe54f2c34ab259d1fa7d79f261a",
+  "created_at": "2026-10-12T17:22:02.925154+00:00",
+  "design_sha256": "b32acd39f13e644a597f976cb4ac82fc4c5a6d2bf479dd3545df0d2bb3b78df4",
+  "execution_ready": false,
+  "harness_commit": "6a420b88341fe630df415ee752095fabfb12214e",
+  "harness_tree": "afd6c6d5a41ec855db19f364dbebd4220d70afd0",
+  "input_manifest": "/home/irthn/ann-research/data/bigann/sift10m/manifests/INPUT_PACKAGE.json",
+  "input_sha256": "47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3",
+  "order": [
+    {
+      "block": 1,
+      "cell": "PAPER_T1",
+      "l_search": 100,
+      "sequence": 1,
+      "stage": "primary",
+      "threads": 1,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "PAPER_T4",
+      "l_search": 100,
+      "sequence": 2,
+      "stage": "primary",
+      "threads": 4,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "PAPER_T8",
+      "l_search": 100,
+      "sequence": 3,
+      "stage": "primary",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "PAPER_T16",
+      "l_search": 100,
+      "sequence": 4,
+      "stage": "primary",
+      "threads": 16,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "MODERN_T8",
+      "l_search": 100,
+      "sequence": 5,
+      "stage": "primary",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "MODERN_T16",
+      "l_search": 100,
+      "sequence": 6,
+      "stage": "primary",
+      "threads": 16,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_T4",
+      "l_search": 100,
+      "sequence": 7,
+      "stage": "primary",
+      "threads": 4,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_T8",
+      "l_search": 100,
+      "sequence": 8,
+      "stage": "primary",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_T16",
+      "l_search": 100,
+      "sequence": 9,
+      "stage": "primary",
+      "threads": 16,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "MODERN_T8",
+      "l_search": 100,
+      "sequence": 10,
+      "stage": "primary",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "MODERN_T16",
+      "l_search": 100,
+      "sequence": 11,
+      "stage": "primary",
+      "threads": 16,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_T1",
+      "l_search": 100,
+      "sequence": 12,
+      "stage": "primary",
+      "threads": 1,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_T8",
+      "l_search": 100,
+      "sequence": 13,
+      "stage": "primary",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_T16",
+      "l_search": 100,
+      "sequence": 14,
+      "stage": "primary",
+      "threads": 16,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "MODERN_T8",
+      "l_search": 100,
+      "sequence": 15,
+      "stage": "primary",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "MODERN_T16",
+      "l_search": 100,
+      "sequence": 16,
+      "stage": "primary",
+      "threads": 16,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_T1",
+      "l_search": 100,
+      "sequence": 17,
+      "stage": "primary",
+      "threads": 1,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_T4",
+      "l_search": 100,
+      "sequence": 18,
+      "stage": "primary",
+      "threads": 4,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 4,
+      "cell": "PAPER_T16",
+      "l_search": 100,
+      "sequence": 19,
+      "stage": "primary",
+      "threads": 16,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 4,
+      "cell": "MODERN_T8",
+      "l_search": 100,
+      "sequence": 20,
+      "stage": "primary",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 4,
+      "cell": "MODERN_T16",
+      "l_search": 100,
+      "sequence": 21,
+      "stage": "primary",
+      "threads": 16,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 4,
+      "cell": "PAPER_T1",
+      "l_search": 100,
+      "sequence": 22,
+      "stage": "primary",
+      "threads": 1,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 4,
+      "cell": "PAPER_T4",
+      "l_search": 100,
+      "sequence": 23,
+      "stage": "primary",
+      "threads": 4,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 4,
+      "cell": "PAPER_T8",
+      "l_search": 100,
+      "sequence": 24,
+      "stage": "primary",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 5,
+      "cell": "MODERN_T8",
+      "l_search": 100,
+      "sequence": 25,
+      "stage": "primary",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 5,
+      "cell": "MODERN_T16",
+      "l_search": 100,
+      "sequence": 26,
+      "stage": "primary",
+      "threads": 16,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 5,
+      "cell": "PAPER_T1",
+      "l_search": 100,
+      "sequence": 27,
+      "stage": "primary",
+      "threads": 1,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 5,
+      "cell": "PAPER_T4",
+      "l_search": 100,
+      "sequence": 28,
+      "stage": "primary",
+      "threads": 4,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 5,
+      "cell": "PAPER_T8",
+      "l_search": 100,
+      "sequence": 29,
+      "stage": "primary",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 5,
+      "cell": "PAPER_T16",
+      "l_search": 100,
+      "sequence": 30,
+      "stage": "primary",
+      "threads": 16,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 6,
+      "cell": "MODERN_T16",
+      "l_search": 100,
+      "sequence": 31,
+      "stage": "primary",
+      "threads": 16,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 6,
+      "cell": "PAPER_T1",
+      "l_search": 100,
+      "sequence": 32,
+      "stage": "primary",
+      "threads": 1,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 6,
+      "cell": "PAPER_T4",
+      "l_search": 100,
+      "sequence": 33,
+      "stage": "primary",
+      "threads": 4,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 6,
+      "cell": "PAPER_T8",
+      "l_search": 100,
+      "sequence": 34,
+      "stage": "primary",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 6,
+      "cell": "PAPER_T16",
+      "l_search": 100,
+      "sequence": 35,
+      "stage": "primary",
+      "threads": 16,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 6,
+      "cell": "MODERN_T8",
+      "l_search": 100,
+      "sequence": 36,
+      "stage": "primary",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "PAPER_L50",
+      "l_search": 50,
+      "sequence": 37,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "MODERN_L50",
+      "l_search": 50,
+      "sequence": 38,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "MODERN_L75",
+      "l_search": 75,
+      "sequence": 39,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "PAPER_L75",
+      "l_search": 75,
+      "sequence": 40,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "PAPER_L125",
+      "l_search": 125,
+      "sequence": 41,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "MODERN_L125",
+      "l_search": 125,
+      "sequence": 42,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "MODERN_L150",
+      "l_search": 150,
+      "sequence": 43,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "PAPER_L150",
+      "l_search": 150,
+      "sequence": 44,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "MODERN_L75",
+      "l_search": 75,
+      "sequence": 45,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_L75",
+      "l_search": 75,
+      "sequence": 46,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_L125",
+      "l_search": 125,
+      "sequence": 47,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "MODERN_L125",
+      "l_search": 125,
+      "sequence": 48,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "MODERN_L150",
+      "l_search": 150,
+      "sequence": 49,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_L150",
+      "l_search": 150,
+      "sequence": 50,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_L50",
+      "l_search": 50,
+      "sequence": 51,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 2,
+      "cell": "MODERN_L50",
+      "l_search": 50,
+      "sequence": 52,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_L125",
+      "l_search": 125,
+      "sequence": 53,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "MODERN_L125",
+      "l_search": 125,
+      "sequence": 54,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "MODERN_L150",
+      "l_search": 150,
+      "sequence": 55,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_L150",
+      "l_search": 150,
+      "sequence": 56,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_L50",
+      "l_search": 50,
+      "sequence": 57,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "MODERN_L50",
+      "l_search": 50,
+      "sequence": 58,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "MODERN_L75",
+      "l_search": 75,
+      "sequence": 59,
+      "stage": "recall",
+      "threads": 8,
+      "version": "MODERN",
+      "wcap": 32
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_L75",
+      "l_search": 75,
+      "sequence": 60,
+      "stage": "recall",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 32
+    },
+    {
+      "block": 1,
+      "cell": "PAPER_W16",
+      "l_search": 100,
+      "sequence": 61,
+      "stage": "width",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 16
+    },
+    {
+      "block": 1,
+      "cell": "PAPER_W64",
+      "l_search": 100,
+      "sequence": 62,
+      "stage": "width",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 64
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_W64",
+      "l_search": 100,
+      "sequence": 63,
+      "stage": "width",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 64
+    },
+    {
+      "block": 2,
+      "cell": "PAPER_W16",
+      "l_search": 100,
+      "sequence": 64,
+      "stage": "width",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 16
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_W16",
+      "l_search": 100,
+      "sequence": 65,
+      "stage": "width",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 16
+    },
+    {
+      "block": 3,
+      "cell": "PAPER_W64",
+      "l_search": 100,
+      "sequence": 66,
+      "stage": "width",
+      "threads": 8,
+      "version": "PAPER",
+      "wcap": 64
+    }
+  ],
+  "planned_stock_protocol": "PAPER_NATIVE_V3_STOCK_v1",
+  "protocol": "PAPER_NATIVE_V3_BLOCKED_LEDGER_v1",
+  "query": "/home/irthn/ann-research/data/bigann/sift10m/canonical/query.bbin",
+  "scope_note": "Archived non-runnable ledger after failed construction; prospective build contracts and search design remain separate immutable records",
+  "statistical_design": {
+    "between_block_pause_s": 60,
+    "block_comparability": "Any sampled AC/RAPL transition in the entire 6-cell process/gap block => ENV_CONFOUNDED; preserve every run. UNKNOWN if readable policy incomplete. Between-block transitions are recorded, do not retroactively invalidate other blocks.",
+    "bootstrap": {
+      "CI": 0.9,
+      "quantile": "linear p*(n-1)",
+      "samples": 20000,
+      "seed": 20261012,
+      "unit": "block"
+    },
+    "correctness": "all 10K queries return10 distinct valid IDs; finite exact squared-L2 checked against canonical vectors; tie-aware GT recall matches printed rounding",
+    "created_at": "2026-10-12T16:57:27.174663+00:00",
+    "curve_quality": "finite, nonzero recall; all lower-recall values preserved without performance-based exclusion",
+    "diagnostics": "optional correctness-only separate subject, never headline; no full observer/perf framework",
+    "execution_ready": false,
+    "minimum_primary_recall_percent": 90,
+    "modern": {
+      "mem_L": 0,
+      "subject": "b9ec4ba86ff5d70bec277984777197f28dc2cf42",
+      "warmup": "none in driver"
+    },
+    "native_comparison_caveat": "Separate version-built index bytes, construction T4 vs T8, entry mem10 vs mem0, and different warmup. No isolated search-algorithm speedup attribution.",
+    "order": [
+      {
+        "block": 1,
+        "cell": "PAPER_T1",
+        "l_search": 100,
+        "sequence": 1,
+        "stage": "primary",
+        "threads": 1,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "PAPER_T4",
+        "l_search": 100,
+        "sequence": 2,
+        "stage": "primary",
+        "threads": 4,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "PAPER_T8",
+        "l_search": 100,
+        "sequence": 3,
+        "stage": "primary",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "PAPER_T16",
+        "l_search": 100,
+        "sequence": 4,
+        "stage": "primary",
+        "threads": 16,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "MODERN_T8",
+        "l_search": 100,
+        "sequence": 5,
+        "stage": "primary",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "MODERN_T16",
+        "l_search": 100,
+        "sequence": 6,
+        "stage": "primary",
+        "threads": 16,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_T4",
+        "l_search": 100,
+        "sequence": 7,
+        "stage": "primary",
+        "threads": 4,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_T8",
+        "l_search": 100,
+        "sequence": 8,
+        "stage": "primary",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_T16",
+        "l_search": 100,
+        "sequence": 9,
+        "stage": "primary",
+        "threads": 16,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "MODERN_T8",
+        "l_search": 100,
+        "sequence": 10,
+        "stage": "primary",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "MODERN_T16",
+        "l_search": 100,
+        "sequence": 11,
+        "stage": "primary",
+        "threads": 16,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_T1",
+        "l_search": 100,
+        "sequence": 12,
+        "stage": "primary",
+        "threads": 1,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_T8",
+        "l_search": 100,
+        "sequence": 13,
+        "stage": "primary",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_T16",
+        "l_search": 100,
+        "sequence": 14,
+        "stage": "primary",
+        "threads": 16,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "MODERN_T8",
+        "l_search": 100,
+        "sequence": 15,
+        "stage": "primary",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "MODERN_T16",
+        "l_search": 100,
+        "sequence": 16,
+        "stage": "primary",
+        "threads": 16,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_T1",
+        "l_search": 100,
+        "sequence": 17,
+        "stage": "primary",
+        "threads": 1,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_T4",
+        "l_search": 100,
+        "sequence": 18,
+        "stage": "primary",
+        "threads": 4,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 4,
+        "cell": "PAPER_T16",
+        "l_search": 100,
+        "sequence": 19,
+        "stage": "primary",
+        "threads": 16,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 4,
+        "cell": "MODERN_T8",
+        "l_search": 100,
+        "sequence": 20,
+        "stage": "primary",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 4,
+        "cell": "MODERN_T16",
+        "l_search": 100,
+        "sequence": 21,
+        "stage": "primary",
+        "threads": 16,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 4,
+        "cell": "PAPER_T1",
+        "l_search": 100,
+        "sequence": 22,
+        "stage": "primary",
+        "threads": 1,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 4,
+        "cell": "PAPER_T4",
+        "l_search": 100,
+        "sequence": 23,
+        "stage": "primary",
+        "threads": 4,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 4,
+        "cell": "PAPER_T8",
+        "l_search": 100,
+        "sequence": 24,
+        "stage": "primary",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 5,
+        "cell": "MODERN_T8",
+        "l_search": 100,
+        "sequence": 25,
+        "stage": "primary",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 5,
+        "cell": "MODERN_T16",
+        "l_search": 100,
+        "sequence": 26,
+        "stage": "primary",
+        "threads": 16,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 5,
+        "cell": "PAPER_T1",
+        "l_search": 100,
+        "sequence": 27,
+        "stage": "primary",
+        "threads": 1,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 5,
+        "cell": "PAPER_T4",
+        "l_search": 100,
+        "sequence": 28,
+        "stage": "primary",
+        "threads": 4,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 5,
+        "cell": "PAPER_T8",
+        "l_search": 100,
+        "sequence": 29,
+        "stage": "primary",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 5,
+        "cell": "PAPER_T16",
+        "l_search": 100,
+        "sequence": 30,
+        "stage": "primary",
+        "threads": 16,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 6,
+        "cell": "MODERN_T16",
+        "l_search": 100,
+        "sequence": 31,
+        "stage": "primary",
+        "threads": 16,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 6,
+        "cell": "PAPER_T1",
+        "l_search": 100,
+        "sequence": 32,
+        "stage": "primary",
+        "threads": 1,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 6,
+        "cell": "PAPER_T4",
+        "l_search": 100,
+        "sequence": 33,
+        "stage": "primary",
+        "threads": 4,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 6,
+        "cell": "PAPER_T8",
+        "l_search": 100,
+        "sequence": 34,
+        "stage": "primary",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 6,
+        "cell": "PAPER_T16",
+        "l_search": 100,
+        "sequence": 35,
+        "stage": "primary",
+        "threads": 16,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 6,
+        "cell": "MODERN_T8",
+        "l_search": 100,
+        "sequence": 36,
+        "stage": "primary",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "PAPER_L50",
+        "l_search": 50,
+        "sequence": 37,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "MODERN_L50",
+        "l_search": 50,
+        "sequence": 38,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "MODERN_L75",
+        "l_search": 75,
+        "sequence": 39,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "PAPER_L75",
+        "l_search": 75,
+        "sequence": 40,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "PAPER_L125",
+        "l_search": 125,
+        "sequence": 41,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "MODERN_L125",
+        "l_search": 125,
+        "sequence": 42,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "MODERN_L150",
+        "l_search": 150,
+        "sequence": 43,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "PAPER_L150",
+        "l_search": 150,
+        "sequence": 44,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "MODERN_L75",
+        "l_search": 75,
+        "sequence": 45,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_L75",
+        "l_search": 75,
+        "sequence": 46,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_L125",
+        "l_search": 125,
+        "sequence": 47,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "MODERN_L125",
+        "l_search": 125,
+        "sequence": 48,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "MODERN_L150",
+        "l_search": 150,
+        "sequence": 49,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_L150",
+        "l_search": 150,
+        "sequence": 50,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_L50",
+        "l_search": 50,
+        "sequence": 51,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 2,
+        "cell": "MODERN_L50",
+        "l_search": 50,
+        "sequence": 52,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_L125",
+        "l_search": 125,
+        "sequence": 53,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "MODERN_L125",
+        "l_search": 125,
+        "sequence": 54,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "MODERN_L150",
+        "l_search": 150,
+        "sequence": 55,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_L150",
+        "l_search": 150,
+        "sequence": 56,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_L50",
+        "l_search": 50,
+        "sequence": 57,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "MODERN_L50",
+        "l_search": 50,
+        "sequence": 58,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "MODERN_L75",
+        "l_search": 75,
+        "sequence": 59,
+        "stage": "recall",
+        "threads": 8,
+        "version": "MODERN",
+        "wcap": 32
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_L75",
+        "l_search": 75,
+        "sequence": 60,
+        "stage": "recall",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 32
+      },
+      {
+        "block": 1,
+        "cell": "PAPER_W16",
+        "l_search": 100,
+        "sequence": 61,
+        "stage": "width",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 16
+      },
+      {
+        "block": 1,
+        "cell": "PAPER_W64",
+        "l_search": 100,
+        "sequence": 62,
+        "stage": "width",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 64
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_W64",
+        "l_search": 100,
+        "sequence": 63,
+        "stage": "width",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 64
+      },
+      {
+        "block": 2,
+        "cell": "PAPER_W16",
+        "l_search": 100,
+        "sequence": 64,
+        "stage": "width",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 16
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_W16",
+        "l_search": 100,
+        "sequence": 65,
+        "stage": "width",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 16
+      },
+      {
+        "block": 3,
+        "cell": "PAPER_W64",
+        "l_search": 100,
+        "sequence": 66,
+        "stage": "width",
+        "threads": 8,
+        "version": "PAPER",
+        "wcap": 64
+      }
+    ],
+    "paper": {
+      "mem_L": 10,
+      "subject": "c4cd32c6816c063f56ecc64f9d7b63c909202cab",
+      "warmup": "2 full query passes at L200"
+    },
+    "pause_rationale": "Prospective fixed cooling intervals after actual T8 index-build thermal stop; chosen before any search QPS. No host policy tuning or adaptive performance retry.",
+    "per_run_timeout_s": 600,
+    "reason": "Index and full-corpus correctness still pending; this design is not runnable",
+    "schema": "paper-native-v3-prospective-search-design-v1",
+    "search_safety": "same v3 resource/thermal/AC/foreign-ANN safeguards; power-policy-only changes do not override safety",
+    "secondary_min_comparable_blocks": 6,
+    "settling_after_correctness_s": 120,
+    "suite_timeout_s": 3600,
+    "within_block_pause_s": 20
+  },
+  "subjects": {
+    "MODERN": {
+      "binary": "/home/irthn/ann-research/PipeANN/build/tests/search_disk_index",
+      "binary_sha256": "a02ce69d1467727344c8620a254b4cba51d12616d3da171ef7c1a6668a9e8bc5",
+      "commit": "b9ec4ba86ff5d70bec277984777197f28dc2cf42",
+      "index_manifest": "/home/irthn/ann-research/indexes/sift10m/INDEX_PACKAGE.json",
+      "index_sha256": "8955f8bca0c8ebb5afbd2a69e9760fc829d22ba76a4ef7b482339e88b2489595",
+      "mem_L": 0,
+      "profile": "pipeann-b9ec4ba",
+      "source_repo": "/home/irthn/ann-research/PipeANN",
+      "tree": "6bb51b8b20d39adb8dd04b44a14348e7f5d7bb1a"
+    },
+    "PAPER": {
+      "binary": "/home/irthn/ann-research/PipeANN-paper-portable/build/tests/search_disk_index",
+      "binary_sha256": "5f5fa8d99cc83b523c71b7025e5f0b9aa61f45d42816804ed6d88755ebaa310b",
+      "commit": "c4cd32c6816c063f56ecc64f9d7b63c909202cab",
+      "index_manifest": null,
+      "index_sha256": null,
+      "label": "PipeANN-0.1.0-GCC13-PORTABLE",
+      "mem_L": 10,
+      "profile": "paper-0.1.0-portable-native",
+      "source_repo": "/home/irthn/ann-research/PipeANN-paper-portable",
+      "tree": "23fbb256528c67454cd4348bc58dfee700dffa06"
+    }
+  },
+  "truth": "/home/irthn/ann-research/data/bigann/sift10m/canonical/gt_10m.bin",
+  "wrapper_fingerprints": {
+    "/home/irthn/ann-research/Parallel_ANN_Research/tools/research/analyze_paper_native_v3.py": "472ef58c5e35f4419aa878d8ab3b3559d9bca9637973e10075bb369bec8a0ed3",
+    "/home/irthn/ann-research/Parallel_ANN_Research/tools/research/finalize_paper_native_index.py": "105fd09b96d59dd9cd8d0611236f730d1fe45b9ca865736a5214e50f61fa794f",
+    "/home/irthn/ann-research/Parallel_ANN_Research/tools/research/paper_native_v3.py": "33ce456cbe485d20936c7b3b8b1d2ba25148b9a66835318af1922b3b2c871def",
+    "/home/irthn/ann-research/Parallel_ANN_Research/tools/research/paper_portable_v2.py": "df8b74257cca8aee0f6e65c887ec3f659f86f0c7babfc15b86ed116b867a4f5e",
+    "/home/irthn/ann-research/Parallel_ANN_Research/tools/research/paper_rebaseline.py": "94038eb7e6945776cb3d436618d8e8d333cd2865f35a3016f53f51f77a5a4150",
+    "/home/irthn/ann-research/Parallel_ANN_Research/tools/research/run_ann_experiment.py": "ded8f542b65c36f24139c3f9eee7ab57f134cab60c308025fbd2175142b474c0",
+    "/home/irthn/ann-research/Parallel_ANN_Research/tools/research/run_paper_native_v3_suite.py": "6544be0bfdc817c6a40430c5ef382bcedc0b1153bc6f6b6f0528645a63ebaa65"
+  }
+}
