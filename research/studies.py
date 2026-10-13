@@ -6,6 +6,7 @@ import heapq
 import json
 import math
 import mmap
+import os
 from pathlib import Path
 import random
 import resource
@@ -24,7 +25,11 @@ class GraphReader:
     def offset(self,node):
         if not 0<=node<self.n:raise ValueError('Node out of range')
         return 4096+(node//self.slots)*4096+(node%self.slots)*self.width
-    def vector(self,node):return np.frombuffer(self.mm,dtype='u1',count=128,offset=self.offset(node)).astype(np.int32)
+    def vector(self,node):
+        # Sparse random vector reads must not fault-around an entire multi-GB mmap.
+        raw=os.pread(self.file.fileno(),128,self.offset(node))
+        if len(raw)!=128:raise ValueError('Truncated vector')
+        return np.frombuffer(raw,dtype='u1').astype(np.int32)
     def neighbors(self,node):
         if node not in self.cache:
             if len(self.cache)>=self.limit:raise ValueError('Adjacency sample capacity exhausted')
