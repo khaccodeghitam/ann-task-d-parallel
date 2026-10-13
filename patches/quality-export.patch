@@ -1,0 +1,27 @@
+--- a/tests/search_disk_index.cpp
++++ b/tests/search_disk_index.cpp
+@@ -0,0 +1,3 @@
++#include <fstream>
++#include <cstdlib>
++#include <cmath>
+@@ -134,0 +138 @@
++    std::vector<size_t> quality_count(query_num);
+@@ -142 +146 @@
+-        _pFlashIndex->pipe_search(query + (i * query_dim), (uint64_t) recall_at, mem_L, (uint64_t) L,
++        quality_count[i] = _pFlashIndex->pipe_search(query + (i * query_dim), (uint64_t) recall_at, mem_L, (uint64_t) L,
+@@ -204,0 +209,15 @@
++
++    if (output && std::getenv("PAPER_QUALITY_OUTPUT")) {
++      std::ofstream quality(std::getenv("PAPER_QUALITY_OUTPUT"));
++      quality << "query_id,returned,rank,node_id,distance,latency_us,io_count\n";
++      quality.precision(12);
++      for(size_t qi=0; qi<query_num; qi++) {
++        for(size_t rank=0; rank<recall_at; rank++) {
++          quality << qi << ',' << quality_count[qi] << ',' << rank << ','
++                  << query_result_tags_32[qi*recall_at+rank] << ','
++                  << query_result_dists[test_id][qi*recall_at+rank] << ','
++                  << stats[qi].total_us << ',' << stats[qi].n_ios << '\n';
++        }
++      }
++      if(!quality) std::abort();
++    }

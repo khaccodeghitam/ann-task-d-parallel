@@ -1,0 +1,16 @@
+{
+  "manifest": "manifests/paper_native_sift10m.json",
+  "subject_repo": "${PIPEANN_PAPER_ROOT}",
+  "stock_source": "${PIPEANN_STOCK_ROOT}",
+  "binary": "${PIPEANN_PAPER_ROOT}/build/tests/search_disk_index",
+  "data_root": "${ANN_DATA_ROOT}",
+  "index_root": "${ANN_INDEX_ROOT}",
+  "prefix": "sift10m",
+  "quality_binary": "${ANN_QUALITY_BINARY}",
+  "binary_sha256": null,
+  "seed": 20261013,
+  "extension": true,
+  "pause_s": 5,
+  "between_block_s": 15,
+  "timeout_s": 240
+}

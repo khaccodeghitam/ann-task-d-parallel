@@ -1,0 +1,94 @@
+{
+  "dataset": {
+    "D": 128,
+    "N": 10000000,
+    "dtype": "uint8",
+    "gt_top_k": 100,
+    "metric": "l2",
+    "queries": 10000
+  },
+  "entry_nodes": 100004,
+  "files": [
+    {
+      "path": "base_10m.bbin",
+      "role": "base",
+      "root": "data",
+      "sha256": "3f92342f582ebe3aa50751be105791e11894c4caac5b9d3321999457c56b054d",
+      "size_bytes": 1280000008
+    },
+    {
+      "path": "query.bbin",
+      "role": "query",
+      "root": "data",
+      "sha256": "eca755831fc9a8004e14886df48b81109a8ed3bfc6b632509c93c0460a30d552",
+      "size_bytes": 1280008
+    },
+    {
+      "path": "gt_10m.bin",
+      "role": "ground_truth",
+      "root": "data",
+      "sha256": "80a4e35d5dc918e00e55f81e133e333e3b65f4de1426728c8a3ca93ac5ce74df",
+      "size_bytes": 8000008
+    },
+    {
+      "path": "sift10m_disk.index",
+      "role": "disk_index",
+      "root": "index",
+      "sha256": "f840be795911ac819a8bca9220be508d1e4256c6722def1e9deb48f9961bbde1",
+      "size_bytes": 4096004096
+    },
+    {
+      "path": "sift10m_pq_compressed.bin",
+      "role": "pq_compressed",
+      "root": "index",
+      "sha256": "6bffe39d451647ee79aec95f4774bf0a53efa2e4f2eb64f5eb5fb1fa14dee735",
+      "size_bytes": 320000008
+    },
+    {
+      "path": "sift10m_pq_pivots.bin",
+      "role": "pq_pivots",
+      "root": "index",
+      "sha256": "668e35124f9871748c837f971b728298cdb7eb9a228460657593e41b2fe349c2",
+      "size_bytes": 136356
+    },
+    {
+      "path": "sift10m_mem.index",
+      "role": "memory_graph",
+      "root": "index",
+      "sha256": "8081156e56476bcd163032d6ba00dd056a781ae21ff19ee9fb627a4ff522b466",
+      "size_bytes": 12036740
+    },
+    {
+      "path": "sift10m_mem.index.data",
+      "role": "memory_data",
+      "root": "index",
+      "sha256": "ec2a2797ee84442855bb7096688c8ac7c3e9446e6840fbed7c649264b45de127",
+      "size_bytes": 12800520
+    },
+    {
+      "path": "sift10m_mem.index.tags",
+      "role": "memory_tags",
+      "root": "index",
+      "sha256": "b46a63118d21dc5fd21b0d45a4a65bce4637784edbd8b8ad65fcf8d5b6bef9bb",
+      "size_bytes": 400024
+    }
+  ],
+  "index_prefix": "sift10m",
+  "input_package_sha256": "47d4bf47e6e515a3f3c4caeb357bdbc1af3bfcc4b319b0ae335678ca586dccc3",
+  "original_index_package_sha256": "7140a47ac53b0480752059b5cb428b4d56dc627533974803b5ae4413827a7470",
+  "parameters": {
+    "L": 100,
+    "M_GiB": 8,
+    "PQ_budget_GiB": "0.298023223876953125",
+    "R": 64,
+    "T": 8,
+    "pq_bytes": 32,
+    "single_file": 0
+  },
+  "portable_tree": "23fbb256528c67454cd4348bc58dfee700dffa06",
+  "redistribution": "Not bundled or uploaded; dataset redistribution permission not established; arrange authorized transfer or provision from original sources",
+  "schema": "portable-paper-sift10m-v1",
+  "subject": "PAPER_GCC13_PORTABLE",
+  "tag_mapping": "implicit_identity_no_tag_file",
+  "upstream_commit": "d18dcd16fece1c9d1dea356d783ebba2ed649e54"
+}
