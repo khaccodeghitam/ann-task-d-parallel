@@ -1,5 +1,7 @@
 # Start here
 
+**For a new native ANN benchmark on the owner's laptop:** read [Custom Full-Fan Experimental Environment v1](EXPERIMENTAL_ENVIRONMENT_V1.md) first, manually configure the host, and use `configs/custom_fullfan_campaign.json` with the Issue29 harness only after the preflight gates pass. A foreign host needs its own explicitly named measured environment profile. Synthetic tests and no-data dry runs do not require Custom Mode.
+
 The reproducibility workflow from PR28 is merged into main at `5ec0841fcd04e9c06824ef3e10b59f4b08d58ed7`. The [Issue29 follow-up](ISSUE29_WORKFLOW.md) is on a separate Draft PR branch until reviewed/merged; it does not certify a stock baseline after its thermal stop.
 
 ```sh
