@@ -36,7 +36,7 @@ def main():
     if a.command=='preflight':
         tools={n:shutil.which(n) for n in ['git','cmake','g++','make','patch']}
         paths={k:dict(path=c[k],exists=Path(c[k]).exists()) for k in ['binary','subject_repo','data_root','index_root','quality_binary']}
-        print(json.dumps(dict(platform=sys.platform,tools=tools,paths=paths,no_automatic_install=True),indent=2));return
+        print(json.dumps(dict(platform=sys.platform,AVX2=('avx2' in Path('/proc/cpuinfo').read_text()) if Path('/proc/cpuinfo').exists() else None,tools=tools,paths=paths,ready=all(v['exists'] for v in paths.values()),no_automatic_install=True),indent=2));return
     if a.command=='verify':print(json.dumps(verify(c['manifest'],c['data_root'],c['index_root'],a.full),indent=2));return
     if a.command=='copy-bundle':
         if not a.output:p.error('--output ABSENT_TRANSFER_DIRECTORY required')
@@ -58,7 +58,7 @@ def main():
         print(json.dumps(dict(binary=str(out/'quality_search'),sha256=digest(out/'quality_search'))));return
     if a.command=='build-source':
         original=Path(c['stock_source']);portable=Path(c['subject_repo'])
-        cmds=[['git','clone','https://github.com/thustorage/PipeANN.git',str(original)],['git','-C',str(original),'checkout','--detach','d18dcd16fece1c9d1dea356d783ebba2ed649e54'],['git','clone',str(original),str(portable)],['git','-C',str(portable),'checkout','--detach','d18dcd16fece1c9d1dea356d783ebba2ed649e54'],['git','-C',str(portable),'apply',str(REPO/'patches/gcc13-portability.patch')],['git','-C',str(portable),'add','src/distance.cpp'],['git','-C',str(portable),'commit','-m','artifact: GCC13 AVX2 horizontal reduction portability'],['./configure'],['make','library','-j2'],['cmake','-S',str(portable),'-B',str(portable/'build')],['cmake','--build',str(portable/'build'),'--target','search_disk_index','build_disk_index','build_memory_index','gen_random_slice','-j2']]
+        cmds=[['git','clone','https://github.com/thustorage/PipeANN.git',str(original)],['git','-C',str(original),'checkout','--detach','d18dcd16fece1c9d1dea356d783ebba2ed649e54'],['git','clone',str(original),str(portable)],['git','-C',str(portable),'checkout','--detach','d18dcd16fece1c9d1dea356d783ebba2ed649e54'],['git','-C',str(portable),'apply',str(REPO/'patches/gcc13-portability.patch')],['git','-C',str(portable),'add','src/distance.cpp'],['git','-C',str(portable),'-c','user.name=ANN Research Build','-c','user.email=ann-research-build@users.noreply.github.com','commit','-m','artifact: GCC13 AVX2 horizontal reduction portability'],['./configure'],['make','library','-j2'],['cmake','-S',str(portable),'-B',str(portable/'build')],['cmake','--build',str(portable/'build'),'--target','search_disk_index','build_disk_index','build_memory_index','gen_random_slice','-j2']]
         if a.dry_run:print(json.dumps(cmds,indent=2));return
         if original.exists() or portable.exists():raise FileExistsError('Source destinations must both be absent; preserve existing clones')
         for i,cmd in enumerate(cmds):
@@ -73,6 +73,11 @@ def main():
         if a.output.exists():raise FileExistsError('Never overwrite existing index directory')
         # Explicit long operation only; entry construction is documented separately.
         from run_paper_fullfan_check import run
+        from paper_portable_v2 import host_snapshot
+        ancestor=a.output.parent
+        while not ancestor.exists():ancestor=ancestor.parent
+        pre=host_snapshot(ancestor)
+        if pre['mem_available']<9*2**30 or pre['free_disk']<45*2**30:raise ValueError('Long build requires9GiB available RAM and45GiB initial disk')
         a.output.mkdir(parents=True)
         result=run(dict(argv=cmd,binary_sha256=digest(cmd[0]),threads=8,timeout_s=7200),a.output/'build_evidence')
         if result['exit_code'] or result['guard_failure']:raise ValueError('Build incomplete; preserve outputs, no automatic retry')
