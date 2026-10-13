@@ -32,6 +32,48 @@ class HostContract(unittest.TestCase):
     def test_ac_off(self):
         b=self.baseline();s=copy.deepcopy(b);s['power']['AC']='0'
         with self.assertRaises(ValueError):campaign.qualify_start(s,b)
+    def custom_contract(self):
+        b=self.baseline()
+        b['platform_profile']='custom'
+        b['rapl']={
+            '/sys/class/powercap/intel-rapl-mmio/intel-rapl-mmio:0/constraint_0_power_limit_uw':'60000000',
+            '/sys/class/powercap/intel-rapl-mmio/intel-rapl-mmio:0/constraint_1_power_limit_uw':'90000000'}
+        expected=dict(platform_profile='custom',mmio_PL1_W=60,mmio_PL2_W=90,tolerance_W=1)
+        return b,expected
+    def test_expected_custom_fullfan_passes_without_setting_host(self):
+        b,expected=self.custom_contract()
+        self.assertEqual(campaign.expected_host_violations(b,expected),[])
+        campaign.qualify_start(b,b,expected)
+    def test_expected_custom_rejects_performance_mode(self):
+        b,expected=self.custom_contract()
+        b['platform_profile']='performance'
+        with self.assertRaisesRegex(ValueError,'EXPECTED_ENVIRONMENT'):
+            campaign.qualify_start(b,b,expected)
+    def test_expected_custom_rejects_mmio_mismatch(self):
+        b,expected=self.custom_contract()
+        key=next(x for x in b['rapl'] if 'constraint_0_' in x)
+        b['rapl'][key]='115000000'
+        with self.assertRaisesRegex(ValueError,'PL1 MMIO'):
+            campaign.qualify_start(b,b,expected)
+    def test_expected_custom_rejects_missing_or_ambiguous_mmio(self):
+        b,expected=self.custom_contract()
+        b['rapl']={}
+        self.assertTrue(any('missing or ambiguous' in e for e in campaign.expected_host_violations(b,expected)))
+        b,expected=self.custom_contract()
+        b['rapl']['/tmp/intel-rapl-mmio:1/constraint_0_power_limit_uw']='60000000'
+        with self.assertRaisesRegex(ValueError,'ambiguous'):
+            campaign.qualify_start(b,b,expected)
+    def test_expected_custom_rejects_corrupt_fixed_contract(self):
+        b,expected=self.custom_contract()
+        expected['mmio_PL2_W']=135
+        with self.assertRaisesRegex(ValueError,'invalid frozen config'):
+            campaign.qualify_start(b,b,expected)
+    def test_custom_config_fixed(self):
+        repo_root=Path(__file__).resolve().parents[2]
+        obj=json.loads((repo_root/'configs/custom_fullfan_campaign.json').read_text())
+        self.assertEqual(obj['expected_operating_condition'],{
+            'platform_profile':'custom','mmio_PL1_W':60,'mmio_PL2_W':90,'tolerance_W':1})
+
     def test_order_core_first(self):
         rows=campaign.schedule();self.assertEqual(rows,campaign.schedule());self.assertEqual(len(rows),36)
         self.assertEqual([r['stage'] for r in rows[:12]],['core']*12)
