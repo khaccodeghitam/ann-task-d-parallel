@@ -1,0 +1,18 @@
+{
+  "manifest": "manifests/paper_native_sift10m.json",
+  "subject_repo": "${PIPEANN_PAPER_ROOT}",
+  "binary": "${PIPEANN_PAPER_ROOT}/build/tests/search_disk_index",
+  "data_root": "${ANN_DATA_ROOT}",
+  "index_root": "${ANN_INDEX_ROOT}",
+  "input_package": "${ANN_DATA_ROOT}/../manifests/INPUT_PACKAGE.json",
+  "index_package": "${ANN_INDEX_ROOT}/INDEX_PACKAGE.json",
+  "prefix": "sift10m",
+  "quality_binary": "${ANN_QUALITY_BINARY}",
+  "quality_sha256": "0beb63e0536a3ea3198c710345f27be9970a482edcf532ed70f53f399a19c497",
+  "expected_operating_condition": {
+    "platform_profile": "custom",
+    "mmio_PL1_W": 60,
+    "mmio_PL2_W": 90,
+    "tolerance_W": 1
+  }
+}
