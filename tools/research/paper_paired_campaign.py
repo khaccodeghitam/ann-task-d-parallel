@@ -86,7 +86,7 @@ def run_campaign(config,output):
     if max(v['value_C'] for v in guard['sensors'].values() if v['name']=='coretemp' and (v['label'] or '').startswith('Package'))>=85:
         raise ValueError('Startup package >=85C; no automatic retry')
     rows=schedule(c.get('seed',20261013),c.get('extension',True))
-    plan=dict(protocol='PAPER_PAIRED_NATIVE_v1',created=utc(),config=c,source_commit=source,source_tree=tree,
+    plan=dict(protocol='PAPER_PAIRED_NATIVE_v2',created=utc(),config=c,source_commit=source,source_tree=tree,
               harness_commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=Path(__file__).resolve().parents[2],text=True).strip(),binary_sha256=binary_sha,quality_binary_sha256=digest(c['quality_binary']),bundle=fingerprint,
               order=rows,pause_s=c.get('pause_s',5),between_block_s=c.get('between_block_s',15),
               bootstrap=dict(samples=20000,seed=20261013,CI=.90,unit='paired block',quantile='linear p*(n-1)'),
@@ -96,23 +96,28 @@ def run_campaign(config,output):
               initial_environment=guard,wrapper_sha256=digest(Path(__file__).with_name('run_paper_fullfan_check.py')),
               paired_code_sha256=digest(__file__))
     (root/'PLAN.json').write_bytes(canonical_bytes(plan));(root/'PLAN.sha256').write_text(digest(root/'PLAN.json')+'  PLAN.json\n')
-    records=[];stop=None;checked={}
+    records=[];stop=None;checked={};active_job=None
     def quality_check(row):
+        nonlocal active_job
         from paper_native_v3 import quality_against_canonical
         key=(row['T'],row['W'],row['L'])
         if key in checked:return
-        name=f"QUALITY_T{key[0]}_W{key[1]}_L{key[2]}";result=root/(name+'.csv')
+        name=f"QUALITY_T{key[0]}_W{key[1]}_L{key[2]}";result=root/(name+'.csv');active_job=name
+        time.sleep(c.get('pause_s',5))
+        pre=host_snapshot(root)
+        if max(v['value_C'] for v in pre['sensors'].values() if v['name']=='coretemp' and (v['label'] or '').startswith('Package'))>=85:
+            raise ValueError('Quality preflight package >=85C; no automatic retry')
         spec=dict(argv=argv(c,row,c['quality_binary']),threads=row['T'],binary_sha256=digest(c['quality_binary']),timeout_s=240,
                   extra_environment={'PAPER_QUALITY_OUTPUT':str(result)},purpose='correctness_only')
         run(spec,root/name);v,_=validate_output(root/name,row);environment_valid(root/name)
         b=Path(c['data_root']);quality=quality_against_canonical(result,b/'base_10m.bbin',b/'query.bbin',b/'gt_10m.bin')
         if quality['recall']<=0 or abs(quality['recall']-v['recall'])>.011:raise ValueError('Independent recall mismatch')
         checked[key]=quality
-        (root/(name+'_validation.json')).write_bytes(canonical_bytes(quality))
+        (root/(name+'_validation.json')).write_bytes(canonical_bytes(quality));active_job=None
     try:
         for row in rows:
             unchanged(fingerprint);runid=f"R{row['sequence']:02d}_T{row['T']}_W{row['W']}_L{row['L']}"
-            record=dict(row,run_id=runid,status='INCOMPLETE');records.append(record)
+            record=dict(row,run_id=runid,status='INCOMPLETE');records.append(record);active_job=runid
             spec=dict(argv=argv(c,row),threads=row['T'],binary_sha256=binary_sha,timeout_s=c.get('timeout_s',240),
                       run_id=runid,source_commit=source,source_tree=tree,bundle_sha256=fingerprint['manifest_sha256'])
             m=run(spec,root/runid);metrics,m=validate_output(root/runid,row);env=environment_valid(root/runid)
@@ -121,6 +126,7 @@ def run_campaign(config,output):
             if row['stage']=='core':
                 peers=[x for x in records if x['stage']=='core' and x['block']==row['block'] and 'environment'in x]
                 if any(x['environment']!=record['environment'] for x in peers):raise ValueError('Paired block environment mismatch')
+            active_job=None
             if row['sequence']==18:
                 for previous in records:quality_check(previous)
                 for previous in records:
@@ -135,14 +141,14 @@ def run_campaign(config,output):
         for r in records:r['status']='VALID';r['quality_validation']=checked[(r['T'],r['W'],r['L'])]
     except BaseException as e:
         stop=f'{type(e).__name__}: {e}'
-        if records and records[-1]['status']!='VALID':
+        if records and active_job==records[-1]['run_id']:
             records[-1]['status']='INVALID';records[-1]['failure_reason']=stop
     finally:
         try:post=verify(c['manifest'],c['data_root'],c['index_root'],True)
         except Exception as e:post={'valid':False,'error':str(e)};stop=stop or 'Post-package audit failed'
         (root/'POST_AUDIT.json').write_bytes(canonical_bytes(post))
         (root/'RUNS.json').write_bytes(canonical_bytes(records))
-        (root/'EXECUTION.json').write_bytes(canonical_bytes(dict(stop_reason=stop,post_audit_valid=post['valid'],valid_runs=sum(r['status']=='VALID' for r in records),attempted=len(records),planned=len(rows))))
+        (root/'EXECUTION.json').write_bytes(canonical_bytes(dict(stop_reason=stop,failed_job=active_job,post_audit_valid=post['valid'],valid_runs=sum(r['status']=='VALID' for r in records),attempted=len(records),planned=len(rows))))
         seal(root)
     if stop:raise ValueError(stop)
     return records
@@ -181,3 +187,28 @@ def summarize(root):
         if set(pair)!={8,16}:raise ValueError('Missing paired cell')
         a,b=pair[8]['metrics'],pair[16]['metrics'];deltas.append(100*(b['qps']/a['qps']-1));logs.append(math.log(b['qps']/a['qps']));recall.append(b['recall']-a['recall'])
     return dict(valid=True,groups=agg,paired_T16_vs_T8=paired_statistics(deltas),paired_log_ratio=paired_statistics(logs),paired_recall_pp=paired_statistics(recall),runs=records,protocol_sha256=digest(root/'PLAN.json'))
+
+
+def summarize_uncertified(root):
+    """All completed stock data, explicitly uncertified; never replaces strict acceptance."""
+    root=Path(root);plan=json.loads((root/'PLAN.json').read_text());records=json.loads((root/'RUNS.json').read_text())
+    for line in (root/'SHA256SUMS').read_text().splitlines():
+        h,p=line.split('  ',1)
+        if digest(root/p)!=h:raise ValueError('Evidence checksum mismatch')
+    if digest(root/'PLAN.json')!=(root/'PLAN.sha256').read_text().split()[0]:raise ValueError('Plan changed')
+    if len(records)!=18:raise ValueError('This diagnostic requires all18 core process outputs')
+    groups={};deltas=[];recall=[]
+    for r,want in zip(records,plan['order'][:18]):
+        if any(r[k]!=v for k,v in want.items()):raise ValueError('Order mismatch')
+        metrics,m=validate_output(root/r['run_id'],r);environment_valid(root/r['run_id'])
+        if metrics!=r['metrics']:raise ValueError('Raw metric mismatch')
+        groups.setdefault(str(r['T']),[]).append(metrics)
+    for block in range(1,7):
+        pair={r['T']:r for r in records if r['stage']=='core' and r['block']==block}
+        if set(pair)!={8,16}:raise ValueError('Missing block')
+        if pair[8]['environment']!=pair[16]['environment']:raise ValueError('Pair environment mismatch')
+        deltas.append(100*(pair[16]['metrics']['qps']/pair[8]['metrics']['qps']-1));recall.append(pair[16]['metrics']['recall']-pair[8]['metrics']['recall'])
+    return dict(scientific_valid=False,certification='UNCERTIFIED_QUALITY_GATE_THERMAL_STOP',completed_stock_processes=18,certified_core=0,extension_run=0,
+                execution=json.loads((root/'EXECUTION.json').read_text()),groups={t:{k:descriptive([r[k] for r in rs]) for k in ['qps','mean_latency_us','p999_latency_us','recall','mean_ios']} for t,rs in groups.items()},
+                provisional_paired_T16_vs_T8=paired_statistics(deltas),provisional_recall_delta_pp=paired_statistics(recall),records=records,
+                ledger_caveat='Frozen v1 erroneously assigned late quality-arm failure to last stock recordR18. R18 native exit0 is preserved. Failure was QUALITY_T16, not R18 stock. No record is promoted to VALID; v2 fixes attribution prospectively.')

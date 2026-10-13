@@ -13,18 +13,18 @@ import tempfile
 REPO=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(REPO/'tools/research'))
 from artifact_bundle import verify,copy_bundle
-from paper_paired_campaign import resolved,schedule,argv,run_campaign,summarize
+from paper_paired_campaign import resolved,schedule,argv,run_campaign,summarize,summarize_uncertified
 from paper_rebaseline import canonical_bytes,digest
 
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('command',choices=['preflight','verify','copy-bundle','campaign','summarize','smoke','quality-build','build-source','build-index'])
     p.add_argument('--config',type=Path,default=REPO/'configs/paper_campaign.json');p.add_argument('--output',type=Path)
-    p.add_argument('--dry-run',action='store_true');p.add_argument('--full',action='store_true');p.add_argument('--core-only',action='store_true')
+    p.add_argument('--provisional',action='store_true',help='Explicit uncertified completed-core diagnostics only');p.add_argument('--dry-run',action='store_true');p.add_argument('--full',action='store_true');p.add_argument('--core-only',action='store_true')
     a=p.parse_args()
     if a.command=='summarize':
         if not a.output:p.error('--output CAMPAIGN required')
-        print(json.dumps(summarize(a.output),indent=2));return
+        print(json.dumps((summarize_uncertified if a.provisional else summarize)(a.output),indent=2));return
     c=resolved(json.loads(a.config.read_text()));c['manifest']=str((REPO/c['manifest']).resolve())
     if a.core_only:c['extension']=False
     if a.command=='campaign':
