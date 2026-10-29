@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""E0 deterministic *synthetic* two-stage queue-role scheduling model.
+"""MODEL_ONLY: deterministic open two-stage pipeline, NOT AverSearch or ANN.
 
-NOT an implementation or replay of Speed-ANN, iQAN, AverSearch, or PipeANN.
-All jobs are frozen in advance, so candidate selection and Recall cannot change.
-Only scheduling and queue starvation are modeled. Time is model ticks, NOT ms.
+Jobs are all available at t=0; maintenance precedes distance service. There is
+no graph, feedback, pruning, redundancy, memory contention or Recall. All times
+are integer model ticks. See docs/research/AVERSEARCH_QUEUE_ROLE_E0.md.
 """
 import argparse
-from collections import deque
+from collections import Counter, deque
 from dataclasses import dataclass
+from itertools import product
 import json
 
 
@@ -16,116 +17,192 @@ class Worker:
     role: str
     job: int | None = None
     left: int = 0
+    monitoring: int = 0
     switching: int = 0
+    target: str | None = None
+
+
+ACTIVITIES = ("maintenance", "distance", "monitoring", "switching",
+              "idle_maintenance", "starved_distance", "drain_idle_distance")
+
+
+def choose_role(role, pending, ready, low, high):
+    """Only current queue counts; no job durations, GT or future information."""
+    if pending and ready <= low:
+        return "maint"
+    if not pending or ready >= high:
+        return "dist"
+    return role
+
+
+def _integer(name, value, minimum):
+    if type(value) is not int or value < minimum:
+        raise ValueError(f"{name} must be an integer >= {minimum}")
 
 
 def run_model(*, policy="fixed", n_jobs=120, n_cores=4,
               maintain_ticks=4, distance_ticks=1, switch_ticks=2,
-              epoch=4, ready_low=1, ready_high=5):
-    """Compare fixed (1 maintainer) vs queue-responsive (1 or 2).
+              monitor_ticks=1, epoch=4, ready_low=1, ready_high=5,
+              initial_maintainers=1, trace=False):
+    """Fixed, observation-only, or responsive roles; one optional helper.
 
-    One frozen list of jobs: each job must be maintained then distance-evaluated.
-    All model policies finish the SAME work. No graph or ANN Recall is evaluated.
-    Role changes occur only while idle; no job is preempted or duplicated.
+    Worker 0 is always maintenance, workers 2..P-1 always distance. Only worker
+    1 may change role. A decision is sampled at an epoch AND an idle boundary.
+    Sampling occupies that helper for monitor_ticks; a changed role then pays
+    switch_ticks. The snapshot is intentionally stale after these delays.
+    Busy jobs are never preempted. Publications at t+1 cannot be consumed at t.
     """
-    if policy not in {"fixed", "responsive"}:
+    if policy not in {"fixed", "observe", "responsive"}:
         raise ValueError("Unknown policy")
-    vals = (n_jobs, n_cores, maintain_ticks, distance_ticks, epoch)
-    if any(not isinstance(x, int) or x < 1 for x in vals) or n_cores < 3:
-        raise ValueError("n_jobs, n_cores >= 3, costs and epoch must be positive integers")
-    if not isinstance(switch_ticks, int) or switch_ticks < 0:
-        raise ValueError("switch_ticks must be nonnegative integer")
-    if not 0 <= ready_low < ready_high:
-        raise ValueError("Expected 0 <= ready_low < ready_high")
+    for name, value, minimum in (
+        ("n_jobs", n_jobs, 0), ("n_cores", n_cores, 3),
+        ("maintain_ticks", maintain_ticks, 1), ("distance_ticks", distance_ticks, 1),
+        ("switch_ticks", switch_ticks, 0), ("monitor_ticks", monitor_ticks, 0),
+        ("epoch", epoch, 1), ("ready_low", ready_low, 0),
+        ("ready_high", ready_high, 1), ("initial_maintainers", initial_maintainers, 1),
+    ):
+        _integer(name, value, minimum)
+    if ready_low >= ready_high or initial_maintainers not in (1, 2):
+        raise ValueError("Require ready_low < ready_high and 1 or 2 initial maintainers")
+    if type(trace) is not bool:
+        raise ValueError("trace must be boolean")
 
-    pending = deque(range(n_jobs))
-    ready = deque()
-    completed = []
-    workers = [Worker("maint")] + [Worker("dist") for _ in range(n_cores - 1)]
-    switches = 0
-    idle_distance = 0
-    desired_maintainers = 1
-    max_ticks = n_jobs * (maintain_ticks + distance_ticks + switch_ticks + 5) * 3
-    for tick in range(max_ticks):
-        if policy == "responsive" and tick % epoch == 0:
-            if pending and len(ready) <= ready_low:
-                desired_maintainers = 2
-            elif len(ready) >= ready_high or not pending:
-                desired_maintainers = 1
+    workers = [Worker("maint" if i < initial_maintainers else "dist")
+               for i in range(n_cores)]
+    helper = workers[1]
+    pending, ready = deque(range(n_jobs)), deque()
+    completed, maintained, events = [], [], []
+    activity = Counter({key: 0 for key in ACTIVITIES})
+    decisions = switches = tick = 0
 
-        if policy == "responsive":
-            n_maintainers = sum(w.role == "maint" for w in workers)
-            if n_maintainers < desired_maintainers:
-                # Move one *idle* distance worker; do not preempt its task.
-                for w in workers:
-                    if w.role == "dist" and w.job is None and w.switching == 0:
-                        w.role, w.switching = "maint", switch_ticks
-                        switches += 1
-                        break
-            elif n_maintainers > desired_maintainers:
-                for w in workers:
-                    if w.role == "maint" and w.job is None and w.switching == 0:
-                        w.role, w.switching = "dist", switch_ticks
-                        switches += 1
-                        break
+    def event(kind, worker, **data):
+        if trace:
+            events.append(dict(tick=tick, kind=kind, worker=worker, **data))
 
-        produced = []
-        results = []
-        for w in workers:
-            if w.switching:
-                w.switching -= 1
+    # Permanent producer and consumer ensure progress. Even if the helper never
+    # serves a job, each job can traverse both stages in this conservative bound.
+    limit = n_jobs * (maintain_ticks + distance_ticks) + 1
+    while len(completed) < n_jobs:
+        if tick >= limit:
+            raise RuntimeError("Model violated its permanent-worker progress bound")
+        # Apply a previously sampled decision only AFTER monitoring has elapsed.
+        # Do not immediately resample on a decision's application boundary.
+        applying = helper.target is not None
+        if (policy != "fixed" and tick % epoch == 0 and not applying
+                and helper.job is None and not helper.switching):
+            target = choose_role(helper.role, len(pending), len(ready), ready_low, ready_high)
+            helper.target = target if policy == "responsive" else helper.role
+            helper.monitoring = monitor_ticks
+            decisions += 1
+            event("sample", 1, pending=len(pending), ready=len(ready), target=helper.target)
+        if helper.target is not None and not helper.monitoring:
+            if helper.role != helper.target:
+                helper.role = helper.target
+                helper.switching = switch_ticks
+                switches += 1
+                event("switch", 1, role=helper.role)
+            helper.target = None
+
+        # Snapshot before dispatch/service: last in-flight maintenance still
+        # starves an empty distance queue, independently of worker loop order.
+        upstream_live = bool(pending) or any(
+            w.role == "maint" and w.job is not None for w in workers)
+        produced, results = [], []
+        for i, worker in enumerate(workers):
+            if worker.monitoring:
+                worker.monitoring -= 1
+                activity["monitoring"] += 1
                 continue
-            if w.job is None:
-                queue = pending if w.role == "maint" else ready
+            if worker.switching:
+                worker.switching -= 1
+                activity["switching"] += 1
+                continue
+            if worker.job is None:
+                queue = pending if worker.role == "maint" else ready
                 if queue:
-                    w.job = queue.popleft()
-                    w.left = maintain_ticks if w.role == "maint" else distance_ticks
-                elif w.role == "dist" and pending:
-                    idle_distance += 1
-            if w.job is not None:
-                w.left -= 1
-                if w.left == 0:
-                    (produced if w.role == "maint" else results).append(w.job)
-                    w.job = None
-        # Results published on next tick, not instantaneously to later workers.
+                    worker.job = queue.popleft()
+                    worker.left = maintain_ticks if worker.role == "maint" else distance_ticks
+                    event("start", i, role=worker.role, job=worker.job)
+                else:
+                    key = ("idle_maintenance" if worker.role == "maint" else
+                           "starved_distance" if upstream_live else "drain_idle_distance")
+                    activity[key] += 1
+                    continue
+            activity["maintenance" if worker.role == "maint" else "distance"] += 1
+            worker.left -= 1
+            if worker.left == 0:
+                (produced if worker.role == "maint" else results).append(worker.job)
+                event("finish", i, role=worker.role, job=worker.job)
+                worker.job = None
         ready.extend(produced)
+        maintained.extend(produced)
         completed.extend(results)
-        if len(completed) == n_jobs:
-            if len(set(completed)) != n_jobs or pending or ready or any(w.job is not None for w in workers):
-                raise AssertionError("Model duplicated or dropped jobs")
-            return dict(policy=policy, n_jobs=n_jobs, n_cores=n_cores,
-                        maintain_ticks=maintain_ticks, distance_ticks=distance_ticks,
-                        switch_ticks=switch_ticks, epoch=epoch,
-                        ticks=tick + 1, idle_distance_worker_ticks=idle_distance,
-                        role_switches=switches, all_jobs_completed=True,
-                        job_ids=sorted(completed),
-                        evidence="SYNTHETIC_MODEL_ONLY_NOT_ANN_LATENCY_OR_RECALL")
-    raise RuntimeError("Model did not finish within its bounded tick budget")
+        tick += 1
+
+    expected = list(range(n_jobs))
+    if (sorted(maintained) != expected or sorted(completed) != expected
+            or pending or ready or any(w.job is not None for w in workers)
+            or activity["maintenance"] != n_jobs * maintain_ticks
+            or activity["distance"] != n_jobs * distance_ticks
+            or sum(activity.values()) != n_cores * tick):
+        raise AssertionError("Job conservation or worker-time accounting failed")
+    result = dict(
+        evidence="MODEL_ONLY", model_version=2, policy=policy,
+        config=dict(n_jobs=n_jobs, n_cores=n_cores, maintain_ticks=maintain_ticks,
+                    distance_ticks=distance_ticks, switch_ticks=switch_ticks,
+                    monitor_ticks=monitor_ticks, epoch=epoch, ready_low=ready_low,
+                    ready_high=ready_high, initial_maintainers=initial_maintainers),
+        ticks=tick, worker_ticks=dict(activity), decisions=decisions,
+        role_switches=switches, all_jobs_completed=True, job_ids=sorted(completed),
+        # A job-completion horizon may truncate an irrelevant helper transition.
+        unfinished_helper_overhead_ticks=helper.monitoring + helper.switching,
+    )
+    if trace:
+        result["events"] = events
+    return result
 
 
 def compare(**kwargs):
-    original = run_model(policy="fixed", **kwargs)
-    proposed = run_model(policy="responsive", **kwargs)
-    assert original["job_ids"] == proposed["job_ids"] == list(range(original["n_jobs"]))
-    return dict(fixed={k:v for k,v in original.items() if k != "job_ids"},
-                responsive={k:v for k,v in proposed.items() if k != "job_ids"},
-                model_speed_ratio=round(original["ticks"] / proposed["ticks"], 6),
-                same_frozen_work=True,
-                caveat="No ANN search or Recall; ratio refers only to synthetic model ticks")
+    """Same work against BOTH static allocations and a monitoring-only control."""
+    outputs = {}
+    for name, policy, count in (("fixed", "fixed", 1), ("fixed_two", "fixed", 2),
+                                ("observe", "observe", 1), ("responsive", "responsive", 1)):
+        outputs[name] = run_model(policy=policy, initial_maintainers=count, **kwargs)
+    if any(r["job_ids"] != outputs["fixed"]["job_ids"] for r in outputs.values()):
+        raise AssertionError("Policies did not complete identical work")
+    for result in outputs.values():
+        del result["job_ids"]
+    ticks = outputs["responsive"]["ticks"]
+    return dict(evidence="MODEL_ONLY", **outputs, same_frozen_work=True,
+                fixed_over_responsive=outputs["fixed"]["ticks"] / ticks if ticks else None,
+                best_static_over_responsive=min(outputs["fixed"]["ticks"],
+                                               outputs["fixed_two"]["ticks"]) / ticks if ticks else None,
+                caveat="Open pipeline makespan only; no ANN, Recall or hardware speedup")
+
+
+def suite():
+    """108 prespecified homogeneous cases; no fitted thresholds or random seeds."""
+    return [dict(parameters=dict(n_jobs=n, maintain_ticks=m, distance_ticks=d,
+                                 switch_ticks=s, monitor_ticks=o),
+                 comparison=compare(n_jobs=n, maintain_ticks=m, distance_ticks=d,
+                                    switch_ticks=s, monitor_ticks=o))
+            for n, m, d, s, o in product((16, 120), (1, 2, 6), (1, 5), (0, 1, 40), (0, 1, 4))]
 
 
 def main():
-    ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--jobs", type=int, default=120)
-    ap.add_argument("--cores", type=int, default=4)
-    ap.add_argument("--maintain-ticks", type=int, default=4)
-    ap.add_argument("--distance-ticks", type=int, default=1)
-    ap.add_argument("--switch-ticks", type=int, default=2)
-    ap.add_argument("--epoch", type=int, default=4)
-    args=ap.parse_args()
-    result=compare(n_jobs=args.jobs,n_cores=args.cores,maintain_ticks=args.maintain_ticks,
-                   distance_ticks=args.distance_ticks,switch_ticks=args.switch_ticks,epoch=args.epoch)
-    print(json.dumps(result,ensure_ascii=False,indent=2))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--suite", action="store_true", help="emit the full fixed sensitivity matrix")
+    for name, default in (("jobs", 120), ("cores", 4), ("maintain-ticks", 4),
+                          ("distance-ticks", 1), ("switch-ticks", 2), ("monitor-ticks", 1),
+                          ("epoch", 4), ("ready-low", 1), ("ready-high", 5)):
+        parser.add_argument("--" + name, type=int, default=default)
+    args = parser.parse_args()
+    result = suite() if args.suite else compare(
+        n_jobs=args.jobs, n_cores=args.cores, maintain_ticks=args.maintain_ticks,
+        distance_ticks=args.distance_ticks, switch_ticks=args.switch_ticks,
+        monitor_ticks=args.monitor_ticks, epoch=args.epoch,
+        ready_low=args.ready_low, ready_high=args.ready_high)
+    print(json.dumps(result, indent=2, allow_nan=False))
 
 
 if __name__ == "__main__":

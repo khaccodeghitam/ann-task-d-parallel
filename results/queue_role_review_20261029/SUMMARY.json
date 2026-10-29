@@ -1,0 +1,440 @@
+{
+  "date": "2026-10-29",
+  "evidence": {
+    "ann_hypothesis": "INCONCLUSIVE",
+    "e0": "MODEL_ONLY",
+    "native_ann_runs": 0,
+    "novelty": "UNKNOWN",
+    "offline_export_tool": "IMPLEMENTED_NOT_BENCHMARKED",
+    "universal_adaptation_claim": "REFUTED_WITH_SCOPE"
+  },
+  "iqan_audit": {
+    "benchmark_status": "NOT_RUN",
+    "boost_headers_present": false,
+    "build_status": "NOT_BUILT_MISSING_TOOLCHAIN",
+    "commit": "da7359439ffa94909f243dd3df6be71b76ce1e35",
+    "license_file_sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+    "repository": "https://github.com/johnpzh/iQAN_AE",
+    "tools": {
+      "cmake": null,
+      "g++": null,
+      "gcc": null
+    },
+    "tree": "d6c936e7f36c4da28f1a484c913d084bd6f2d4d6"
+  },
+  "main_commit": "1613b53cca2e3853f8d6f06b89772a3587dea1ab",
+  "original": {
+    "counterexamples": {
+      "boolean_jobs_accepted": true,
+      "fractional_threshold_accepted": true,
+      "off_epoch_counterexample": {
+        "model_ticks": 13,
+        "parameters": {
+          "distance_ticks": 1,
+          "epoch": 4,
+          "maintain_ticks": 5,
+          "n_jobs": 4
+        },
+        "switch_ticks_observed": [
+          0,
+          10
+        ]
+      }
+    },
+    "examples": [
+      {
+        "fixed_ticks": 721,
+        "responsive_ticks": 362
+      },
+      {
+        "fixed_ticks": 31,
+        "responsive_ticks": 57
+      }
+    ],
+    "first_full_suite": {
+      "cause": "numpy missing",
+      "discovered": 413,
+      "import_errors": 3,
+      "log": "original-full.log"
+    },
+    "focused_passed": 4,
+    "focused_tests": 4
+  },
+  "raw_archive_id": "QUEUE_ROLE_REVIEW_20261029",
+  "raw_files_sha256": {
+    "MODEL_PLAN.json": "7a3989a82be761aec4699c5d44c83a8a2e91980721b49f15105c7896d76cc874",
+    "iqan-audit.json": "474e9ed100328895723296282be7c20b1316efb3183663da0b5802b1b86a9107",
+    "model-v2-matrix.json": "dc8e705a879c89498de2d5b4f24deee5b9a54bfe3e808bcbe11fc3d9991ebefa",
+    "original-cases.json": "53fe6646ef313ad175d4afc52d3abc256a29dac8676419b3093409ac303d032a",
+    "original-counterexamples.json": "1df289b5d9cfaec551ba821a58fb1f73970c366f53bd47f8b4181580d851dbac",
+    "original-focused.log": "53ef0fc5f00f1f59559d11635e80295e755ed0a51d3ace096bd3cb0534e5eee5",
+    "original-full.log": "0ed56430c64b3169f43692d3e4c6415d6054aa37cbf062e14fbb0b5f83ce6fdf",
+    "original_queue_role_e0.py": "9482134841366396e8552545d37ddce13c8530457694a03b4f4eeff6b9c71ce2",
+    "python-packages.json": "9ce50d6ae5fa026bc8daab13c1437385e2f16954c8c9119a08a8d75e1f09f8f7",
+    "revised-examples.json": "c4ccc66c0a296a1f62529da0e7d086b6906b2d7a0bae9f18d21e2a9223917573",
+    "revised-focused.log": "ae18a220e9aa51d4e25538a5f79e1db23e433ee87224dd62e60620a4d58539ef",
+    "revised-full.log": "b46c2ef307b4a98af65787685dabb0db9e248b4c12c69b4d356f899a653c1781"
+  },
+  "reviewed_commit": "c59e36651d1cdde22c8a1faa3039c96bb05fc2cf",
+  "revised": {
+    "best_static_wins": [
+      {
+        "best_static_ticks": 37,
+        "parameters": {
+          "distance_ticks": 5,
+          "maintain_ticks": 2,
+          "monitor_ticks": 0,
+          "n_jobs": 16,
+          "switch_ticks": 0
+        },
+        "responsive_ticks": 32
+      },
+      {
+        "best_static_ticks": 245,
+        "parameters": {
+          "distance_ticks": 5,
+          "maintain_ticks": 2,
+          "monitor_ticks": 0,
+          "n_jobs": 120,
+          "switch_ticks": 0
+        },
+        "responsive_ticks": 217
+      },
+      {
+        "best_static_ticks": 245,
+        "parameters": {
+          "distance_ticks": 5,
+          "maintain_ticks": 2,
+          "monitor_ticks": 4,
+          "n_jobs": 120,
+          "switch_ticks": 0
+        },
+        "responsive_ticks": 231
+      }
+    ],
+    "examples": [
+      {
+        "comparison": {
+          "best_static_over_responsive": 0.9917582417582418,
+          "caveat": "Open pipeline makespan only; no ANN, Recall or hardware speedup",
+          "evidence": "MODEL_ONLY",
+          "fixed": {
+            "all_jobs_completed": true,
+            "config": {
+              "distance_ticks": 1,
+              "epoch": 4,
+              "initial_maintainers": 1,
+              "maintain_ticks": 6,
+              "monitor_ticks": 1,
+              "n_cores": 4,
+              "n_jobs": 120,
+              "ready_high": 5,
+              "ready_low": 1,
+              "switch_ticks": 1
+            },
+            "decisions": 0,
+            "evidence": "MODEL_ONLY",
+            "model_version": 2,
+            "policy": "fixed",
+            "role_switches": 0,
+            "ticks": 721,
+            "unfinished_helper_overhead_ticks": 0,
+            "worker_ticks": {
+              "distance": 120,
+              "drain_idle_distance": 2,
+              "idle_maintenance": 1,
+              "maintenance": 720,
+              "monitoring": 0,
+              "starved_distance": 2041,
+              "switching": 0
+            }
+          },
+          "fixed_over_responsive": 1.9807692307692308,
+          "fixed_two": {
+            "all_jobs_completed": true,
+            "config": {
+              "distance_ticks": 1,
+              "epoch": 4,
+              "initial_maintainers": 2,
+              "maintain_ticks": 6,
+              "monitor_ticks": 1,
+              "n_cores": 4,
+              "n_jobs": 120,
+              "ready_high": 5,
+              "ready_low": 1,
+              "switch_ticks": 1
+            },
+            "decisions": 0,
+            "evidence": "MODEL_ONLY",
+            "model_version": 2,
+            "policy": "fixed",
+            "role_switches": 0,
+            "ticks": 361,
+            "unfinished_helper_overhead_ticks": 0,
+            "worker_ticks": {
+              "distance": 120,
+              "drain_idle_distance": 0,
+              "idle_maintenance": 2,
+              "maintenance": 720,
+              "monitoring": 0,
+              "starved_distance": 602,
+              "switching": 0
+            }
+          },
+          "observe": {
+            "all_jobs_completed": true,
+            "config": {
+              "distance_ticks": 1,
+              "epoch": 4,
+              "initial_maintainers": 1,
+              "maintain_ticks": 6,
+              "monitor_ticks": 1,
+              "n_cores": 4,
+              "n_jobs": 120,
+              "ready_high": 5,
+              "ready_low": 1,
+              "switch_ticks": 1
+            },
+            "decisions": 181,
+            "evidence": "MODEL_ONLY",
+            "model_version": 2,
+            "policy": "observe",
+            "role_switches": 0,
+            "ticks": 721,
+            "unfinished_helper_overhead_ticks": 0,
+            "worker_ticks": {
+              "distance": 120,
+              "drain_idle_distance": 1,
+              "idle_maintenance": 1,
+              "maintenance": 720,
+              "monitoring": 181,
+              "starved_distance": 1861,
+              "switching": 0
+            }
+          },
+          "responsive": {
+            "all_jobs_completed": true,
+            "config": {
+              "distance_ticks": 1,
+              "epoch": 4,
+              "initial_maintainers": 1,
+              "maintain_ticks": 6,
+              "monitor_ticks": 1,
+              "n_cores": 4,
+              "n_jobs": 120,
+              "ready_high": 5,
+              "ready_low": 1,
+              "switch_ticks": 1
+            },
+            "decisions": 2,
+            "evidence": "MODEL_ONLY",
+            "model_version": 2,
+            "policy": "responsive",
+            "role_switches": 1,
+            "ticks": 364,
+            "unfinished_helper_overhead_ticks": 0,
+            "worker_ticks": {
+              "distance": 120,
+              "drain_idle_distance": 1,
+              "idle_maintenance": 5,
+              "maintenance": 720,
+              "monitoring": 2,
+              "starved_distance": 607,
+              "switching": 1
+            }
+          },
+          "same_frozen_work": true
+        },
+        "parameters": {
+          "distance_ticks": 1,
+          "maintain_ticks": 6,
+          "monitor_ticks": 1,
+          "n_jobs": 120,
+          "switch_ticks": 1
+        }
+      },
+      {
+        "comparison": {
+          "best_static_over_responsive": 0.7380952380952381,
+          "caveat": "Open pipeline makespan only; no ANN, Recall or hardware speedup",
+          "evidence": "MODEL_ONLY",
+          "fixed": {
+            "all_jobs_completed": true,
+            "config": {
+              "distance_ticks": 5,
+              "epoch": 4,
+              "initial_maintainers": 1,
+              "maintain_ticks": 1,
+              "monitor_ticks": 1,
+              "n_cores": 4,
+              "n_jobs": 16,
+              "ready_high": 5,
+              "ready_low": 1,
+              "switch_ticks": 40
+            },
+            "decisions": 0,
+            "evidence": "MODEL_ONLY",
+            "model_version": 2,
+            "policy": "fixed",
+            "role_switches": 0,
+            "ticks": 31,
+            "unfinished_helper_overhead_ticks": 0,
+            "worker_ticks": {
+              "distance": 80,
+              "drain_idle_distance": 7,
+              "idle_maintenance": 15,
+              "maintenance": 16,
+              "monitoring": 0,
+              "starved_distance": 6,
+              "switching": 0
+            }
+          },
+          "fixed_over_responsive": 0.7380952380952381,
+          "fixed_two": {
+            "all_jobs_completed": true,
+            "config": {
+              "distance_ticks": 5,
+              "epoch": 4,
+              "initial_maintainers": 2,
+              "maintain_ticks": 1,
+              "monitor_ticks": 1,
+              "n_cores": 4,
+              "n_jobs": 16,
+              "ready_high": 5,
+              "ready_low": 1,
+              "switch_ticks": 40
+            },
+            "decisions": 0,
+            "evidence": "MODEL_ONLY",
+            "model_version": 2,
+            "policy": "fixed",
+            "role_switches": 0,
+            "ticks": 41,
+            "unfinished_helper_overhead_ticks": 0,
+            "worker_ticks": {
+              "distance": 80,
+              "drain_idle_distance": 0,
+              "idle_maintenance": 66,
+              "maintenance": 16,
+              "monitoring": 0,
+              "starved_distance": 2,
+              "switching": 0
+            }
+          },
+          "observe": {
+            "all_jobs_completed": true,
+            "config": {
+              "distance_ticks": 5,
+              "epoch": 4,
+              "initial_maintainers": 1,
+              "maintain_ticks": 1,
+              "monitor_ticks": 1,
+              "n_cores": 4,
+              "n_jobs": 16,
+              "ready_high": 5,
+              "ready_low": 1,
+              "switch_ticks": 40
+            },
+            "decisions": 2,
+            "evidence": "MODEL_ONLY",
+            "model_version": 2,
+            "policy": "observe",
+            "role_switches": 0,
+            "ticks": 32,
+            "unfinished_helper_overhead_ticks": 0,
+            "worker_ticks": {
+              "distance": 80,
+              "drain_idle_distance": 9,
+              "idle_maintenance": 16,
+              "maintenance": 16,
+              "monitoring": 2,
+              "starved_distance": 5,
+              "switching": 0
+            }
+          },
+          "responsive": {
+            "all_jobs_completed": true,
+            "config": {
+              "distance_ticks": 5,
+              "epoch": 4,
+              "initial_maintainers": 1,
+              "maintain_ticks": 1,
+              "monitor_ticks": 1,
+              "n_cores": 4,
+              "n_jobs": 16,
+              "ready_high": 5,
+              "ready_low": 1,
+              "switch_ticks": 40
+            },
+            "decisions": 1,
+            "evidence": "MODEL_ONLY",
+            "model_version": 2,
+            "policy": "responsive",
+            "role_switches": 1,
+            "ticks": 42,
+            "unfinished_helper_overhead_ticks": 0,
+            "worker_ticks": {
+              "distance": 80,
+              "drain_idle_distance": 1,
+              "idle_maintenance": 27,
+              "maintenance": 16,
+              "monitoring": 1,
+              "starved_distance": 3,
+              "switching": 40
+            }
+          },
+          "same_frozen_work": true
+        },
+        "parameters": {
+          "distance_ticks": 5,
+          "maintain_ticks": 1,
+          "monitor_ticks": 1,
+          "n_jobs": 16,
+          "switch_ticks": 40
+        }
+      }
+    ],
+    "focused_passed": 21,
+    "focused_tests": 21,
+    "full_suite_passed": 491,
+    "full_suite_tests": 491,
+    "model_cases": 108,
+    "outcomes": {
+      "best_static": {
+        "loss": 90,
+        "tie": 15,
+        "win": 3
+      },
+      "fixed": {
+        "loss": 26,
+        "tie": 13,
+        "win": 69
+      },
+      "fixed_two": {
+        "loss": 70,
+        "tie": 8,
+        "win": 30
+      }
+    },
+    "policy_runs": 432
+  },
+  "runtime": {
+    "packages": {
+      "attrs": "26.1.0",
+      "jsonschema": "4.26.0",
+      "jsonschema-specifications": "2025.9.1",
+      "numpy": "2.5.4",
+      "referencing": "0.37.0",
+      "rpds-py": "2026.9.1",
+      "typing_extensions": "4.16.0"
+    },
+    "python": "3.12.3",
+    "python_binary_sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+  },
+  "source_sha256": {
+    "research/queue_role_e0.py": "71c1ebd33bdc498da59ca38dd7374105237536c4026e0517668abb80da018cf5",
+    "research/queue_role_e1_metrics.py": "ca013a076cb3c137bcb61ebb7a228c07edbb7fc37fbf167c56d897194e5f2060",
+    "tests/research/test_queue_role_e0.py": "8a7ca9135d0e85ee8d3be0edb6c8e892e9d985490ea6bfd30943ab48c6dbee37",
+    "tests/research/test_queue_role_e1_metrics.py": "ca570d70e9b12d20b061aec5a566c99f822cd512e33997dcae500bfd18af38de"
+  }
+}
