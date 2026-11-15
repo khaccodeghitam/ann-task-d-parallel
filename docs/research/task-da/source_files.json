@@ -1,0 +1,130 @@
+[
+  {
+    "repository": "task_a",
+    "ref": "backup/r86-source-only-20261114",
+    "commit": "2558e018c71f412b4e4e4eddb79264c7ce6ac730",
+    "path": "source_snapshot_r86_20261114/README_SOURCE_SNAPSHOT.md",
+    "sha256": "9d020d6ffc1554051f7519fe8f4c458417bbfc020aed21a497f56b17d3a84516",
+    "bytes": 592
+  },
+  {
+    "repository": "task_a",
+    "ref": "backup/r86-source-only-20261114",
+    "commit": "2558e018c71f412b4e4e4eddb79264c7ce6ac730",
+    "path": "source_snapshot_r86_20261114/ann-task-a__experiments_owned/R86/r86_v1_2_source/algorithms/utils/graph.h",
+    "sha256": "4f25e523b2d3b98e0465f313717fe9aa0cf2a30f720c6a29b04ca1b49620fc7d",
+    "bytes": 32500
+  },
+  {
+    "repository": "task_a",
+    "ref": "backup/r86-source-only-20261114",
+    "commit": "2558e018c71f412b4e4e4eddb79264c7ce6ac730",
+    "path": "source_snapshot_r86_20261114/ann-task-a-github__src/PiPNN/algorithms/PipNN/neighbors.h",
+    "sha256": "29293c2a6210db7c666db1f4589ecbfc0c8864ac57f07b743fa33797931bc1ef",
+    "bytes": 4149
+  },
+  {
+    "repository": "task_a",
+    "ref": "backup/r86-source-only-20261114",
+    "commit": "2558e018c71f412b4e4e4eddb79264c7ce6ac730",
+    "path": "source_snapshot_r86_20261114/Downloads_research_scripts/r86_msturing1m_data_gate_v1.py",
+    "sha256": "10368d4304398b994db763aa4f38ec5bebe1d1eadf41ab8ea3a3c16e81b3a7df",
+    "bytes": 9176
+  },
+  {
+    "repository": "task_a",
+    "ref": "backup/r86-source-only-20261114",
+    "commit": "2558e018c71f412b4e4e4eddb79264c7ce6ac730",
+    "path": "source_snapshot_r86_20261114/Downloads_research_scripts/r86_msturing1m_eval_source_prep_v1.py",
+    "sha256": "a93114b4461f855c4e819f50b50d8840bf004c0ba90cb7fbf4af97d6796f33d7",
+    "bytes": 3440
+  },
+  {
+    "repository": "task_a",
+    "ref": "backup/r86-source-only-20261114",
+    "commit": "2558e018c71f412b4e4e4eddb79264c7ce6ac730",
+    "path": "source_snapshot_r86_20261114/Downloads_research_scripts/R86_FASTTRACK_1M_10M_v1/r86_mst1m_fasttrack_formal_v1.py",
+    "sha256": "3f6cde145120298411c0be94fd4d983b52aa7eabe1fe77dc410dd255f6ec797e",
+    "bytes": 27347
+  },
+  {
+    "repository": "task_a",
+    "ref": "research/r85-h17-flat-tuning-20261111",
+    "commit": "4e49912618d021fceb7bf3faa769479b4e539cd6",
+    "path": "research/R85/README.md",
+    "sha256": "184c54d0df2909af44d3b63ce9d72ec9b934a52961e4f3496965ed4ad7d0b115",
+    "bytes": 1577
+  },
+  {
+    "repository": "task_a",
+    "ref": "research/r85-h17-flat-tuning-20261111",
+    "commit": "4e49912618d021fceb7bf3faa769479b4e539cd6",
+    "path": "h17/PiPNN-top2/algorithms/utils/graph.h",
+    "sha256": "17e51779f32db56c9c50b6d514a8ff68539fd19b734804df3abdb63f88dd443e",
+    "bytes": 30453
+  },
+  {
+    "repository": "task_a",
+    "ref": "research/h17-two-tier-r77",
+    "commit": "d1b5b1a44122a6ce667ece548ea95a3b12df2d19",
+    "path": "h17/PiPNN-top2/algorithms/utils/graph.h",
+    "sha256": "17e51779f32db56c9c50b6d514a8ff68539fd19b734804df3abdb63f88dd443e",
+    "bytes": 30453
+  },
+  {
+    "repository": "task_a",
+    "ref": "research/h17-two-tier-r77",
+    "commit": "d1b5b1a44122a6ce667ece548ea95a3b12df2d19",
+    "path": "h17/PiPNN-top2/algorithms/PipNN/pipnn_utils.h",
+    "sha256": "b4a7e39a1ddf6c9f41f136360773aa9aef50ae7d19921b0b49b6422408c4c520",
+    "bytes": 19655
+  },
+  {
+    "repository": "task_d",
+    "ref": "codex/e3-phase-aware-adaptation",
+    "commit": "c6cc91b15a07236f84e4fdf2ea7b1652af6e3723",
+    "path": "research/async_roles_e1/engine.hpp",
+    "sha256": "9dd88751f03f33996c9c5376f69d877bd03bcd29418a8e7dd70d467da088ecce",
+    "bytes": 8786
+  },
+  {
+    "repository": "task_d",
+    "ref": "codex/e3-phase-aware-adaptation",
+    "commit": "c6cc91b15a07236f84e4fdf2ea7b1652af6e3723",
+    "path": "research/async_roles_e1/main.cpp",
+    "sha256": "3688b4388b6d16b88d1f40c8896bd3ddd6d3d2b4bcfa83de74c641a294617252",
+    "bytes": 3802
+  },
+  {
+    "repository": "task_d",
+    "ref": "codex/e3-phase-aware-adaptation",
+    "commit": "c6cc91b15a07236f84e4fdf2ea7b1652af6e3723",
+    "path": "research/async_roles_e3/engine.hpp",
+    "sha256": "95c65c40697ce076a68960ddf3ce543af7ed2d3b23eb71d27df47b76e4634065",
+    "bytes": 12564
+  },
+  {
+    "repository": "task_d",
+    "ref": "codex/e3-phase-aware-adaptation",
+    "commit": "c6cc91b15a07236f84e4fdf2ea7b1652af6e3723",
+    "path": "docs/research/e1-inspired/E1_SOURCE_AUDIT.md",
+    "sha256": "e43c6a41c5cb578cda4aec75a3e32ad311555f88f70008be5dd52d6fd1ac95cd",
+    "bytes": 3971
+  },
+  {
+    "repository": "task_d",
+    "ref": "codex/e3-phase-aware-adaptation",
+    "commit": "c6cc91b15a07236f84e4fdf2ea7b1652af6e3723",
+    "path": "docs/research/e1-inspired/E2_PARTIAL_RESULTS.md",
+    "sha256": "7bf95a2954065249bab6c145c6dc10e636952dc513cd4f7a6e4095840bcd897f",
+    "bytes": 5023
+  },
+  {
+    "repository": "task_d",
+    "ref": "codex/e3-phase-aware-adaptation",
+    "commit": "c6cc91b15a07236f84e4fdf2ea7b1652af6e3723",
+    "path": "docs/research/e1-inspired/E3_VALIDATION.md",
+    "sha256": "35057d2fc56b005245c8ac78e7b736bd1ce17ae30ceb6fb3286a5a7e5b56f8f7",
+    "bytes": 3807
+  }
+]

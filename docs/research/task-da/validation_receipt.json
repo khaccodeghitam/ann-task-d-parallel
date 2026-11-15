@@ -1,0 +1,64 @@
+{
+  "date": "2026-11-15",
+  "evidence_class": "SYNTHETIC_ONLY",
+  "benchmark_executed": false,
+  "research_gates": {
+    "P0": "HOLD",
+    "P1": "HOLD",
+    "P2": "HOLD"
+  },
+  "checks": {
+    "release_ctest": {
+      "status": "PASS",
+      "unittest_cases": 18
+    },
+    "asan_ubsan_lsan_ctest": {
+      "status": "PASS",
+      "unittest_cases": 18,
+      "execution": "outside process tracing; no host setting change"
+    },
+    "full_research_regression": {
+      "status": "PASS",
+      "tests": 509,
+      "skipped": 0
+    },
+    "preflight": {
+      "status": "EXPECTED_HOLD",
+      "exit_code": 1,
+      "missing_artifacts": 12
+    }
+  },
+  "limitations": [
+    "No real ANN graph or dataset available",
+    "No multi-worker implementation or tests",
+    "No benchmark or timing-overhead measurement",
+    "Remote CI not yet observed"
+  ],
+  "source_sha256": {
+    "research/task_da/preflight.py": "ddd0e6f203f46e8a1332b23e94f2b0062b8f0002f403a3c673ea3b04a8723ef9",
+    "research/task_da/graph_audit.py": "bf9d3c9e3e324cf7dd58f83d1dc4e6e74d376728e1d5b3a3f4b8809b2d13c15c",
+    "research/task_da/__init__.py": "32240017c810ab977d3ca6b0971bc3638c3b1a642f5e232ecf5104dc7818b50f",
+    "research/task_da/evaluate_smoke.py": "7785c45ad6e705c7d14abf1ad0246a804c27cdc4dfbbc5af64395f03aa3d5c21",
+    "research/task_da/search_common/engine.hpp": "2ca38624d2549534274743c144f901e8825bcbd607f53b87e91d1548173127bd",
+    "research/task_da/search_common/smoke.cpp": "ff4ce1ea83d6acfac5df1297fc692a367cdb16d69954aa483d2f4b7deb471049",
+    "research/task_da/CMakeLists.txt": "1753a953cf7f1bdcc89b74bc597366d4feacee805dcf94589b824f7ef3c094ba",
+    "tests/research/test_task_da.py": "69b96262acda32c758a8625baccfd9543dda4b1f59ed39dd8b70bdb212b27cc9"
+  },
+  "binaries": {
+    "build-task-da/task_da_smoke": "0d462c097f815af75de05f427c89b6a78a3ca35f6b925322bea1e67f1d6c17ed",
+    "build-task-da-asan/task_da_smoke": "554e4ddbcc51c1f15e366b458213e5b66158ab0c8efc71ec117ac1ddb9401af6"
+  },
+  "external_receipts": {
+    "asan-ubsan-lsan-ctest.log": "072664f234959d8cc78a1affb84f3dd428f3f15473549026779b390b6cfb3fb4",
+    "regression-final.log": "56ce732947265a8a9efc66f0639f7e39fd1d770f8da6fd1eba6e64477e5f9656",
+    "regression-initial-missing-dependency.log": "972418ac66c57841924cf67ba709b7e8935cc6d782dfe93b2e9c2282c5695c1d",
+    "release-ctest.log": "724c3f91535823bcb677edc3226b42ee5b6076555a7e299b3991c57625effdb1"
+  },
+  "host_observed": {
+    "compiler": "g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "cmake": "cmake version 3.28.3",
+    "python": "Python 3.12.3"
+  },
+  "source_refs": "source_refs.json",
+  "proposal_identity": "experiment_manifest.yaml"
+}

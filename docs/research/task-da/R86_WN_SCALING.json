@@ -1,0 +1,44 @@
+{
+  "retrieved_date": "2026-11-15",
+  "source_spreadsheet_id": "12ApqgMV8YykflyFXUT2VMbUhgyiGirtoOmRWCXCz3Ek",
+  "evidence_class": "A-OBS_REPORTED_NOT_RERUN",
+  "range": "'R86_WN_SCALING'!A1:X4",
+  "majorDimension": "ROWS",
+  "values": [
+    [
+      "R86 W(n) | SIFT1M prefixes | ON logical-work scaling: A0, A3, A4"
+    ],
+    [
+      "15/15 independent raw evidence audit PASS: 15 receipts, 993 native counters, 841506 raw leaf records, 40 occupancy snapshots, SHA matching for command/counter/leaf/occupancy/log, leaf identities and every hist bin; zero inconsistencies. Archive excludes graph binaries, so graph-byte SHA not independently recomputed. ON work only, not OFF build speed or 1M Search."
+    ],
+    [
+      "Source CSV SHA256 9f94272ffb0ef414e45b87be58bdd9e3c0b8db86431f6a13a509393660553581; SIFT1M base SHA256 8c7b3d999ba3133f865af72df078f77c2d248fdb80571d7ea1f1bb8e1750658e; ON binaries A0=396ef852992428cd3f935bcb33eeeeacc1bae565fbc4a441c1fa9d19720122ff; H17=ef707479be221cb7a3c6257298d22f614678878f0a7bfc724dc8b28fabdd21c4"
+    ],
+    [
+      "n",
+      "arm",
+      "C",
+      "K",
+      "N",
+      "W_P_total",
+      "W_A_total",
+      "W_L_total",
+      "W_pairs_total",
+      "proposals_total",
+      "merge_attempts_total",
+      "top2_q_writes_total",
+      "collision_same_id_total",
+      "hash_moves_total",
+      "prune_distance_calls_total",
+      "graph_bytes",
+      "graph_sha256",
+      "status",
+      "W_P_per_n",
+      "W_L_per_n",
+      "W_P_vs_A0",
+      "W_L_vs_A0",
+      "merge_vs_A0",
+      "hash_moves_vs_A0"
+    ]
+  ]
+}

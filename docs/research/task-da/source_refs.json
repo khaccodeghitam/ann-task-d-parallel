@@ -1,0 +1,12 @@
+{
+  "task_a": {
+    "main": "0e8efb2c98ea6f75d64c7bb2953ae907ef63ec19",
+    "research/r85-h17-flat-tuning-20261111": "4e49912618d021fceb7bf3faa769479b4e539cd6",
+    "research/h17-two-tier-r77": "d1b5b1a44122a6ce667ece548ea95a3b12df2d19",
+    "backup/r86-source-only-20261114": "2558e018c71f412b4e4e4eddb79264c7ce6ac730"
+  },
+  "task_d": {
+    "main": "be93cafce7247242c4a9f0bfba1fbc20112e28c7",
+    "codex/e3-phase-aware-adaptation": "c6cc91b15a07236f84e4fdf2ea7b1652af6e3723"
+  }
+}

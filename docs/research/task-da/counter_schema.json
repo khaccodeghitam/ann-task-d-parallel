@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "policy": "entry_best_first_v1",
+  "scope": "SEARCH_SINGLE_WORKER_NOT_BUILD",
+  "OFF_representation": null,
+  "ON_counters": {
+    "distance_evaluations": {"unit": "per_query", "meaning": "One squared-L2 calculation for each first-discovered vertex, including entry; at most n."},
+    "expansions": {"unit": "per_query", "meaning": "Pending vertices popped to inspect all stored outgoing arcs; at most n."},
+    "neighbor_attempts": {"unit": "per_query", "meaning": "Stored outgoing arcs examined, including duplicates and self-loops."},
+    "already_seen_attempts": {"unit": "per_query", "meaning": "Neighbor attempts whose ID was already discovered; NOT duplicate expansions or proven useless work."},
+    "frontier_insertions": {"unit": "per_query", "meaning": "First-discovered candidates admitted to the bounded best/pending frontier, including entry; later eviction does not negate insertion."}
+  },
+  "invariants": [
+    "distance_evaluations = 1 + neighbor_attempts - already_seen_attempts",
+    "expansions <= frontier_insertions <= distance_evaluations <= vertex_count",
+    "ON and OFF output IDs and squared distances agree for the same inputs"
+  ],
+  "not_implemented_or_not_measured": ["multi_worker_distance_attribution", "duplicate_expansions_trace", "sync_wait", "queue_wait", "merge_count", "idle_cycles", "branch_overlap", "frontier_quality_signal", "latency", "qps", "peak_rss", "instrumentation_overhead"]
+}

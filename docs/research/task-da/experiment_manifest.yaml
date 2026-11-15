@@ -1,0 +1,235 @@
+{
+  "schema_version": 1,
+  "study": "task_d_x_task_a",
+  "date": "2026-11-15",
+  "evidence_boundary": "Source pins are not proven build provenance. Sheet SHA values are reported, not locally recomputed.",
+  "repositories": {
+    "task_a": {
+      "main": "0e8efb2c98ea6f75d64c7bb2953ae907ef63ec19",
+      "research/r85-h17-flat-tuning-20261111": "4e49912618d021fceb7bf3faa769479b4e539cd6",
+      "research/h17-two-tier-r77": "d1b5b1a44122a6ce667ece548ea95a3b12df2d19",
+      "backup/r86-source-only-20261114": "2558e018c71f412b4e4e4eddb79264c7ce6ac730"
+    },
+    "task_d": {
+      "main": "be93cafce7247242c4a9f0bfba1fbc20112e28c7",
+      "codex/e3-phase-aware-adaptation": "c6cc91b15a07236f84e4fdf2ea7b1652af6e3723"
+    }
+  },
+  "proposal": {
+    "drive_file_id": "1R_Mo28f_AsgXAntO8GRBfCuwEsu0I3Au",
+    "sha256": "a7aef4ba2ed867ed8799f72baec463ab5bd59c6fbdd190327d38b6953b260b45",
+    "exact_user_suffix_1_copy": "NOT_AVAILABLE",
+    "local_download_matches_drive": true
+  },
+  "dataset": {
+    "id": "MS-Turing-1M_PUBLIC",
+    "n": 1000000,
+    "dimension": 100,
+    "query_count_reported": 100000,
+    "metric": "squared_L2",
+    "dtype": "float32",
+    "artifacts": {
+      "base": {
+        "path": null,
+        "reported_sha256": "44e83e1dd4c65999b75873101adc5ac06ca900d259a2befd05c2c3aa28ff4042",
+        "source": "E_PROTOCOL!H47",
+        "local_status": "MISSING",
+        "format": "LE32(n,d) + float32 row-major"
+      },
+      "queries": {
+        "path": null,
+        "reported_sha256": "48d087a17bec15a5ec9ea526fe9bd14ac31bbbb5cd200817b341adbb77695644",
+        "source": "E_PROTOCOL!I47",
+        "local_status": "MISSING",
+        "format": "LE32(nq,d) + float32 row-major"
+      },
+      "ground_truth": {
+        "path": null,
+        "reported_sha256": "fa5acf5ab262b42355296e99f920e6aa863f48820ca6f70fa37ca7966634c344",
+        "source": "E_PROTOCOL!J47",
+        "local_status": "MISSING",
+        "format": "LE32(nq,k) + all uint32 IDs + all float32 distances; NOT interleaved"
+      }
+    },
+    "gt_width_reported": 100
+  },
+  "graphs": [
+    {
+      "run_id": "R86_MST1M_A0_OFF_FORMAL_R1",
+      "arm": "A0",
+      "replicate": 1,
+      "path": null,
+      "reported_sha256": "55df31ac9b7716f779dca332ce9360c9e21a065f9298ec1c92c8ccdd37d72522",
+      "reported_builder_binary_sha256": "aa2d174ed063070045f1fbbc8051b1d97b851168b2f3bf53ee32215a867583be",
+      "build_flags_reported": "R86 six-arm pilot source parameters: -num_clusters 2 -cluster_size 1024 -table_size 160 -top_level_leaders 100 -fanout_scheme 10,3,1 -mst_deg 2 -prune 1 -prune_all 1 -prune_degree 64 -hash_bits 12 -alpha 1.1 -k 0; PARLAY_NUM_THREADS=4, taskset build CPU0,2,4,6; STOCK_FLAT_C160; OFF counters. Search taskset CPU0 threads=1.",
+      "source": "E_PROTOCOL!A47:X47",
+      "build_source_commit": null,
+      "build_source_diff_sha256": null,
+      "seed": null,
+      "raw_receipt_path": null,
+      "reported_random_source": "NOT_PINNED_OR_NOT_RECORDED_IN_PILOT_RECEIPT",
+      "local_status": "MISSING"
+    },
+    {
+      "run_id": "R86_MST1M_A1_OFF_FORMAL_R1",
+      "arm": "A1",
+      "replicate": 1,
+      "path": null,
+      "reported_sha256": "7da34f1c3e0ff8a67092a2c9f96bc35122b88fdbe36c59347d1f213b55c46979",
+      "reported_builder_binary_sha256": "5f673586210f93b424fc81791ec7873cb74600843b5004c0a4aaaf32bf936297",
+      "build_flags_reported": "R86 six-arm pilot source parameters: -num_clusters 2 -cluster_size 1024 -table_size 160 -top_level_leaders 100 -fanout_scheme 10,3,1 -mst_deg 2 -prune 1 -prune_all 1 -prune_degree 64 -hash_bits 12 -alpha 1.1 -k 0; PARLAY_NUM_THREADS=4, taskset build CPU0,2,4,6; H17_FLAT_C160; OFF counters. Search taskset CPU0 threads=1.",
+      "source": "E_PROTOCOL!A48:X48",
+      "build_source_commit": null,
+      "build_source_diff_sha256": null,
+      "seed": null,
+      "raw_receipt_path": null,
+      "reported_random_source": "NOT_PINNED_OR_NOT_RECORDED_IN_PILOT_RECEIPT",
+      "local_status": "MISSING"
+    },
+    {
+      "run_id": "R86_MST1M_A3_OFF_FORMAL_R1",
+      "arm": "A3",
+      "replicate": 1,
+      "path": null,
+      "reported_sha256": "0fff20ec47502c675c4905787d319390e49fa5bee856ac16c814c74697c5fbb2",
+      "reported_builder_binary_sha256": "5f673586210f93b424fc81791ec7873cb74600843b5004c0a4aaaf32bf936297",
+      "build_flags_reported": "R86 six-arm pilot source parameters: -num_clusters 2 -cluster_size 512 -table_size 64 -top_level_leaders 100 -fanout_scheme 10,3,1 -mst_deg 2 -prune 1 -prune_all 1 -prune_degree 64 -hash_bits 12 -alpha 1.1 -k 0; PARLAY_NUM_THREADS=4, taskset build CPU0,2,4,6; H17_FLAT_C64; OFF counters. Search taskset CPU0 threads=1.",
+      "source": "E_PROTOCOL!A50:X50",
+      "build_source_commit": null,
+      "build_source_diff_sha256": null,
+      "seed": null,
+      "raw_receipt_path": null,
+      "reported_random_source": "NOT_PINNED_OR_NOT_RECORDED_IN_PILOT_RECEIPT",
+      "local_status": "MISSING"
+    },
+    {
+      "run_id": "R86_MST1M_A3_OFF_FORMAL_R2",
+      "arm": "A3",
+      "replicate": 2,
+      "path": null,
+      "reported_sha256": "3d6113e721fa26c8a82f77d2e5bcbc60b6e55352532814694afb146c9c5f9c6c",
+      "reported_builder_binary_sha256": "5f673586210f93b424fc81791ec7873cb74600843b5004c0a4aaaf32bf936297",
+      "build_flags_reported": "R86 six-arm pilot source parameters: -num_clusters 2 -cluster_size 512 -table_size 64 -top_level_leaders 100 -fanout_scheme 10,3,1 -mst_deg 2 -prune 1 -prune_all 1 -prune_degree 64 -hash_bits 12 -alpha 1.1 -k 0; PARLAY_NUM_THREADS=4, taskset build CPU0,2,4,6; H17_FLAT_C64; OFF counters. Search taskset CPU0 threads=1.",
+      "source": "E_PROTOCOL!A55:X55",
+      "build_source_commit": null,
+      "build_source_diff_sha256": null,
+      "seed": null,
+      "raw_receipt_path": null,
+      "reported_random_source": "NOT_PINNED_OR_NOT_RECORDED_IN_PILOT_RECEIPT",
+      "local_status": "MISSING"
+    },
+    {
+      "run_id": "R86_MST1M_A1_OFF_FORMAL_R2",
+      "arm": "A1",
+      "replicate": 2,
+      "path": null,
+      "reported_sha256": "b08ef703f162b75f6c2512d29d58113212c185030dc5b230a7488c8244c82ede",
+      "reported_builder_binary_sha256": "5f673586210f93b424fc81791ec7873cb74600843b5004c0a4aaaf32bf936297",
+      "build_flags_reported": "R86 six-arm pilot source parameters: -num_clusters 2 -cluster_size 1024 -table_size 160 -top_level_leaders 100 -fanout_scheme 10,3,1 -mst_deg 2 -prune 1 -prune_all 1 -prune_degree 64 -hash_bits 12 -alpha 1.1 -k 0; PARLAY_NUM_THREADS=4, taskset build CPU0,2,4,6; H17_FLAT_C160; OFF counters. Search taskset CPU0 threads=1.",
+      "source": "E_PROTOCOL!A57:X57",
+      "build_source_commit": null,
+      "build_source_diff_sha256": null,
+      "seed": null,
+      "raw_receipt_path": null,
+      "reported_random_source": "NOT_PINNED_OR_NOT_RECORDED_IN_PILOT_RECEIPT",
+      "local_status": "MISSING"
+    },
+    {
+      "run_id": "R86_MST1M_A0_OFF_FORMAL_R2",
+      "arm": "A0",
+      "replicate": 2,
+      "path": null,
+      "reported_sha256": "e0e0be004e6b3bd9cf55c4f620863e2d002aa5798a9e258f5330ee2f1d1ee6b9",
+      "reported_builder_binary_sha256": "aa2d174ed063070045f1fbbc8051b1d97b851168b2f3bf53ee32215a867583be",
+      "build_flags_reported": "R86 six-arm pilot source parameters: -num_clusters 2 -cluster_size 1024 -table_size 160 -top_level_leaders 100 -fanout_scheme 10,3,1 -mst_deg 2 -prune 1 -prune_all 1 -prune_degree 64 -hash_bits 12 -alpha 1.1 -k 0; PARLAY_NUM_THREADS=4, taskset build CPU0,2,4,6; STOCK_FLAT_C160; OFF counters. Search taskset CPU0 threads=1.",
+      "source": "E_PROTOCOL!A58:X58",
+      "build_source_commit": null,
+      "build_source_diff_sha256": null,
+      "seed": null,
+      "raw_receipt_path": null,
+      "reported_random_source": "NOT_PINNED_OR_NOT_RECORDED_IN_PILOT_RECEIPT",
+      "local_status": "MISSING"
+    },
+    {
+      "run_id": "R86_MST1M_A3_OFF_FORMAL_R3",
+      "arm": "A3",
+      "replicate": 3,
+      "path": null,
+      "reported_sha256": "11f7a5059af309db0a08c4a9e0484d194c8ea5c6f17d8c8f9f67ceb299d85829",
+      "reported_builder_binary_sha256": "5f673586210f93b424fc81791ec7873cb74600843b5004c0a4aaaf32bf936297",
+      "build_flags_reported": "R86 six-arm pilot source parameters: -num_clusters 2 -cluster_size 512 -table_size 64 -top_level_leaders 100 -fanout_scheme 10,3,1 -mst_deg 2 -prune 1 -prune_all 1 -prune_degree 64 -hash_bits 12 -alpha 1.1 -k 0; PARLAY_NUM_THREADS=4, taskset build CPU0,2,4,6; H17_FLAT_C64; OFF counters. Search taskset CPU0 threads=1.",
+      "source": "E_PROTOCOL!A60:X60",
+      "build_source_commit": null,
+      "build_source_diff_sha256": null,
+      "seed": null,
+      "raw_receipt_path": null,
+      "reported_random_source": "NOT_PINNED_OR_NOT_RECORDED_IN_PILOT_RECEIPT",
+      "local_status": "MISSING"
+    },
+    {
+      "run_id": "R86_MST1M_A0_OFF_FORMAL_R3",
+      "arm": "A0",
+      "replicate": 3,
+      "path": null,
+      "reported_sha256": "a4ad500421b95700f34d1d2e267640decffbf3f54a88fdb2b3708cf33448405b",
+      "reported_builder_binary_sha256": "aa2d174ed063070045f1fbbc8051b1d97b851168b2f3bf53ee32215a867583be",
+      "build_flags_reported": "R86 six-arm pilot source parameters: -num_clusters 2 -cluster_size 1024 -table_size 160 -top_level_leaders 100 -fanout_scheme 10,3,1 -mst_deg 2 -prune 1 -prune_all 1 -prune_degree 64 -hash_bits 12 -alpha 1.1 -k 0; PARLAY_NUM_THREADS=4, taskset build CPU0,2,4,6; STOCK_FLAT_C160; OFF counters. Search taskset CPU0 threads=1.",
+      "source": "E_PROTOCOL!A63:X63",
+      "build_source_commit": null,
+      "build_source_diff_sha256": null,
+      "seed": null,
+      "raw_receipt_path": null,
+      "reported_random_source": "NOT_PINNED_OR_NOT_RECORDED_IN_PILOT_RECEIPT",
+      "local_status": "MISSING"
+    },
+    {
+      "run_id": "R86_MST1M_A1_OFF_FORMAL_R3",
+      "arm": "A1",
+      "replicate": 3,
+      "path": null,
+      "reported_sha256": "1b51bf7115450c208bc209d9419fd42425c8393e75f712ec1fabdd7fb69787b1",
+      "reported_builder_binary_sha256": "5f673586210f93b424fc81791ec7873cb74600843b5004c0a4aaaf32bf936297",
+      "build_flags_reported": "R86 six-arm pilot source parameters: -num_clusters 2 -cluster_size 1024 -table_size 160 -top_level_leaders 100 -fanout_scheme 10,3,1 -mst_deg 2 -prune 1 -prune_all 1 -prune_degree 64 -hash_bits 12 -alpha 1.1 -k 0; PARLAY_NUM_THREADS=4, taskset build CPU0,2,4,6; H17_FLAT_C160; OFF counters. Search taskset CPU0 threads=1.",
+      "source": "E_PROTOCOL!A64:X64",
+      "build_source_commit": null,
+      "build_source_diff_sha256": null,
+      "seed": null,
+      "raw_receipt_path": null,
+      "reported_random_source": "NOT_PINNED_OR_NOT_RECORDED_IN_PILOT_RECEIPT",
+      "local_status": "MISSING"
+    }
+  ],
+  "search_policy": {
+    "id": "entry_best_first_v1",
+    "entry_point": 0,
+    "entry_provenance": "PROPOSED_COMMON_POLICY_NOT_PIPNN_HEADER",
+    "workers_implemented": [
+      1
+    ],
+    "workers_planned": [
+      1,
+      4,
+      2
+    ],
+    "recall_k": 10,
+    "recall_floors": [
+      0.99,
+      0.998
+    ]
+  },
+  "host": {
+    "status": "NOT_QUALIFIED",
+    "governor": null,
+    "smt_numa_pinning": null,
+    "thermal_frequency_guard": null
+  },
+  "gates": {
+    "P0": "HOLD",
+    "P1": "HOLD",
+    "P2": "HOLD",
+    "P3": "HOLD",
+    "P4": "HOLD",
+    "P5": "NOT_OPEN",
+    "P6": "NOT_OPEN"
+  }
+}

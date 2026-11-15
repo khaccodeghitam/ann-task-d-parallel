@@ -1,0 +1,41 @@
+{
+  "evidence_class": "SYNTHETIC_ONLY",
+  "benchmark_executed": false,
+  "description": "four vertices; rows [[2,1,2,0],[2],[0],[]]; maximum degree header=8",
+  "audit": {
+    "scope": "STRUCTURAL_ONLY_NOT_RECALL_OR_PERFORMANCE",
+    "status": "PASS",
+    "format": "pipnn",
+    "file_sha256": "0312a245ac70e42a2923045738b7cb0cf7eb73b8e3269d97f5ad2e3d4496e8c7",
+    "vertices": 4,
+    "declared_max_degree": 8,
+    "entry_point": 0,
+    "arcs": 6,
+    "degree_mean": 1.5,
+    "degree_p95": 4,
+    "degree_max": 4,
+    "degree_histogram": {
+      "0": 1,
+      "1": 2,
+      "4": 1
+    },
+    "self_loops": 1,
+    "duplicate_arcs": 1,
+    "reachable_from_entry": 3,
+    "strong_connectivity": "NOT_MEASURED",
+    "ordered_adjacency_sha256": "51de528d71ca93993b6ae033f322f754224184aefff8a15f6805af9bbf28a8a2",
+    "topology_modified": false
+  },
+  "conversion": {
+    "status": "PASS",
+    "scope": "REPRESENTATION_PARITY_ONLY",
+    "changed_nodes": [],
+    "entry_point_equal": true,
+    "before_sha256": "0312a245ac70e42a2923045738b7cb0cf7eb73b8e3269d97f5ad2e3d4496e8c7",
+    "after_sha256": "acc083df707138d665c5da304c8158f4ba45678a5b463fa2d5ee877c06fd6e35",
+    "before_ordered_sha256": "51de528d71ca93993b6ae033f322f754224184aefff8a15f6805af9bbf28a8a2",
+    "after_ordered_sha256": "51de528d71ca93993b6ae033f322f754224184aefff8a15f6805af9bbf28a8a2"
+  },
+  "byte_exact_roundtrip": true,
+  "per_node_receipt_sha256": "66c38a92f96c8320e87cb7bc1bc9d9b9af1369e78a5834c9e95efd4142d16217"
+}
