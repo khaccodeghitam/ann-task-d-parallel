@@ -10,11 +10,16 @@ if(SANITIZER)
 endif()
 add_compile_options(-Wall -Wextra -Wpedantic -Werror)
 add_executable(task_da_smoke search_common/smoke.cpp)
+find_package(Threads REQUIRED)
+add_executable(task_da_p1_eval search_common/p1_eval.cpp)
+target_link_libraries(task_da_p1_eval PRIVATE Threads::Threads)
+add_executable(task_da_p2_eval search_common/p2_eval.cpp)
+target_link_libraries(task_da_p2_eval PRIVATE Threads::Threads)
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
 enable_testing()
 add_test(NAME task_da_contract COMMAND ${Python3_EXECUTABLE} -m unittest discover
   -s tests/research -p test_task_da.py -v)
 set_tests_properties(task_da_contract PROPERTIES
   WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../.."
-  ENVIRONMENT "TASK_DA_SMOKE=$<TARGET_FILE:task_da_smoke>"
+  ENVIRONMENT "TASK_DA_SMOKE=$<TARGET_FILE:task_da_smoke>;TASK_DA_P1_EVAL=$<TARGET_FILE:task_da_p1_eval>;TASK_DA_P2_EVAL=$<TARGET_FILE:task_da_p2_eval>"
   TIMEOUT 60)
