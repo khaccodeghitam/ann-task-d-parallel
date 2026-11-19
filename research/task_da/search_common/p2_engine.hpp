@@ -25,6 +25,8 @@
 namespace task_da {
 
 enum class MergeImpl { kSet, kFlat };
+enum class VisitedPolicy { kBaseline, kBarrierAllEvaled };
+enum class FrontierMode { kFull, kIncremental };
 
 struct P2Counters {
   uint64_t distance_evaluations = 0;
@@ -167,13 +169,17 @@ class P2SearchSession {
  public:
   P2SearchSession(const Graph& graph, const Vectors& base, size_t workers,
                   size_t sync_interval = 8, std::vector<int> cpu_list = {},
-                  MergeImpl merge_impl = MergeImpl::kSet)
+                  MergeImpl merge_impl = MergeImpl::kSet,
+                  VisitedPolicy visited_policy = VisitedPolicy::kBaseline,
+                  FrontierMode frontier_mode = FrontierMode::kFull)
       : graph_(graph),
         base_(base),
         workers_(workers),
         sync_interval_(sync_interval),
         cpu_list_(std::move(cpu_list)),
         merge_impl_(merge_impl),
+        visited_policy_(visited_policy),
+        frontier_mode_(frontier_mode),
         settled_epoch_(base.n, 0),
         global_expanded_epoch_(base.n, 0),
         worker_states_(workers) {
@@ -188,6 +194,9 @@ class P2SearchSession {
     }
     if (!cpu_list_.empty() && cpu_list_.size() != workers_) {
       throw std::invalid_argument("cpu_list length must match workers");
+    }
+    if (frontier_mode_ == FrontierMode::kIncremental && merge_impl_ != MergeImpl::kFlat) {
+      throw std::invalid_argument("frontier_mode incremental requires merge_impl flat");
     }
 
     observed_cpus_.assign(workers_, -1);
@@ -231,6 +240,8 @@ class P2SearchSession {
   size_t workers() const noexcept { return workers_; }
   size_t sync_interval() const noexcept { return sync_interval_; }
   MergeImpl merge_impl() const noexcept { return merge_impl_; }
+  VisitedPolicy visited_policy() const noexcept { return visited_policy_; }
+  FrontierMode frontier_mode() const noexcept { return frontier_mode_; }
 
   template <bool Instrument>
   P2Result search(const std::vector<float>& query, size_t k, size_t beam) {
@@ -246,19 +257,34 @@ class P2SearchSession {
     if (workers_ == 1) {
       return search_single<Instrument>(query, k, beam);
     }
+    const bool mark_all = (visited_policy_ == VisitedPolicy::kBarrierAllEvaled);
+    const bool inc_frontier = (frontier_mode_ == FrontierMode::kIncremental);
     if (merge_impl_ == MergeImpl::kFlat) {
-      return search_multi<Instrument, true>(query, k, beam);
+      if (mark_all) {
+        if (inc_frontier) return search_multi<Instrument, true, true, true>(query, k, beam);
+        return search_multi<Instrument, true, true, false>(query, k, beam);
+      }
+      if (inc_frontier) return search_multi<Instrument, true, false, true>(query, k, beam);
+      return search_multi<Instrument, true, false, false>(query, k, beam);
     }
-    return search_multi<Instrument, false>(query, k, beam);
+    if (mark_all) return search_multi<Instrument, false, true, false>(query, k, beam);
+    return search_multi<Instrument, false, false, false>(query, k, beam);
   }
 
  private:
+  struct FlatEntry {
+    Hit hit;
+    uint8_t expanded;
+  };
+
   const Graph& graph_;
   const Vectors& base_;
   const size_t workers_;
   const size_t sync_interval_;
   const std::vector<int> cpu_list_;
   const MergeImpl merge_impl_;
+  const VisitedPolicy visited_policy_;
+  const FrontierMode frontier_mode_;
   std::vector<int> observed_cpus_;
 
   // Persistent epoch arrays avoid per-query O(n) memset overhead fairly across p=1,2,4.
@@ -276,6 +302,8 @@ class P2SearchSession {
   std::vector<Hit> global_best_vec_;
   std::vector<Hit> merge_scratch_;
   std::vector<Hit> next_best_vec_;
+  std::vector<FlatEntry> global_best_flat_;
+  std::vector<FlatEntry> next_best_flat_;
   std::vector<Hit> active_frontier_;
 
   alignas(64) std::atomic<uint64_t> work_seq_{0};
@@ -328,7 +356,7 @@ class P2SearchSession {
     return distance;
   }
 
-  template <bool Instrument>
+  template <bool Instrument, bool MarkAllEvaled>
   void run_worker_round(size_t w, uint16_t q_epoch) {
     detail::WorkerState& ws = worker_states_[w];
     if (ws.init_seeds.empty()) {
@@ -341,8 +369,10 @@ class P2SearchSession {
     ws.local_pending.clear();
     ws.local_discovered.clear();
     ws.local_expanded.clear();
-    if constexpr (Instrument) {
+    if constexpr (Instrument || MarkAllEvaled) {
       ws.local_newly_evaled.clear();
+    }
+    if constexpr (Instrument) {
       ws.round_dist_evals = 0;
       ws.round_expansions = 0;
       ws.round_neighbor_attempts = 0;
@@ -376,9 +406,11 @@ class P2SearchSession {
           continue;
         }
         const double distance = squared_l2(nbr, query);
+        if constexpr (Instrument || MarkAllEvaled) {
+          ws.local_newly_evaled.push_back(nbr);
+        }
         if constexpr (Instrument) {
           ++ws.round_dist_evals;
-          ws.local_newly_evaled.push_back(nbr);
         }
         const Hit hit{distance, nbr};
         if (has_full && !(hit < global_worst)) continue;
@@ -409,6 +441,7 @@ class P2SearchSession {
     }
     worker_states_[w].done_seq.store(1, std::memory_order_release);
 
+    const bool mark_all = (visited_policy_ == VisitedPolicy::kBarrierAllEvaled);
     uint64_t next_seq = 1;
     uint32_t spins = 0;
     while (true) {
@@ -425,9 +458,11 @@ class P2SearchSession {
 
       const uint16_t q_epoch = query_epoch_;
       if (active_instrument_) {
-        run_worker_round<true>(w, q_epoch);
+        if (mark_all) run_worker_round<true, true>(w, q_epoch);
+        else run_worker_round<true, false>(w, q_epoch);
       } else {
-        run_worker_round<false>(w, q_epoch);
+        if (mark_all) run_worker_round<false, true>(w, q_epoch);
+        else run_worker_round<false, false>(w, q_epoch);
       }
       worker_states_[w].done_seq.store(next_seq, std::memory_order_release);
       ++next_seq;
@@ -498,8 +533,9 @@ class P2SearchSession {
     return result;
   }
 
-  template <bool Instrument, bool FlatMerge>
+  template <bool Instrument, bool FlatMerge, bool MarkAllEvaled, bool IncFrontier>
   P2Result search_multi(const std::vector<float>& query, size_t k, size_t beam) {
+    static_assert(!IncFrontier || FlatMerge, "IncFrontier requires FlatMerge");
     P2Result result;
     const uint16_t q_epoch = next_query_epoch();
     uint32_t on_epoch = 0;
@@ -510,7 +546,12 @@ class P2SearchSession {
       result.counters.per_worker_idle_rounds.assign(workers_, 0);
     }
 
-    if constexpr (FlatMerge) {
+    if constexpr (IncFrontier) {
+      global_best_flat_.clear();
+      merge_scratch_.clear();
+      if (global_best_flat_.capacity() < beam) global_best_flat_.reserve(beam);
+      if (next_best_flat_.capacity() < beam) next_best_flat_.reserve(beam);
+    } else if constexpr (FlatMerge) {
       global_best_vec_.clear();
       merge_scratch_.clear();
       if (global_best_vec_.capacity() < beam) global_best_vec_.reserve(beam);
@@ -528,7 +569,9 @@ class P2SearchSession {
     settled_epoch_[entry] = q_epoch;
     global_expanded_epoch_[entry] = q_epoch;
     const Hit entry_hit{squared_l2(entry, query), entry};
-    if constexpr (FlatMerge) {
+    if constexpr (IncFrontier) {
+      global_best_flat_.push_back(FlatEntry{entry_hit, 1});
+    } else if constexpr (FlatMerge) {
       global_best_vec_.push_back(entry_hit);
     } else {
       global_best_.insert(entry_hit);
@@ -563,7 +606,18 @@ class P2SearchSession {
         ++result.counters.per_worker_distance_evaluations[0];
       }
       const Hit hit{distance, nbr};
-      if constexpr (FlatMerge) {
+      if constexpr (IncFrontier) {
+        if (global_best_flat_.size() < beam || hit < global_best_flat_.back().hit) {
+          auto pos = std::lower_bound(
+              global_best_flat_.begin(), global_best_flat_.end(), hit,
+              [](const FlatEntry& e, const Hit& h) { return e.hit < h; });
+          global_best_flat_.insert(pos, FlatEntry{hit, 0});
+          if constexpr (Instrument) ++result.counters.frontier_insertions;
+          if (global_best_flat_.size() > beam) {
+            global_best_flat_.pop_back();
+          }
+        }
+      } else if constexpr (FlatMerge) {
         if (global_best_vec_.size() < beam || hit < global_best_vec_.back()) {
           auto pos = std::lower_bound(global_best_vec_.begin(), global_best_vec_.end(), hit);
           global_best_vec_.insert(pos, hit);
@@ -583,23 +637,49 @@ class P2SearchSession {
       }
     }
 
-    active_frontier_.clear();
-    if constexpr (FlatMerge) {
-      for (const Hit& hit : global_best_vec_) {
-        if (global_expanded_epoch_[hit.second] != q_epoch) {
-          active_frontier_.push_back(hit);
+    const size_t max_dispatch = workers_ * sync_interval_;
+    size_t dispatched = 0;
+    size_t first_unexp = 0;
+    size_t prev_last_disp = 0;
+
+    if constexpr (IncFrontier) {
+      for (size_t w = 0; w < workers_; ++w) {
+        worker_states_[w].init_seeds.clear();
+      }
+      first_unexp = global_best_flat_.size();
+      for (size_t i = 0; i < global_best_flat_.size(); ++i) {
+        if (global_best_flat_[i].expanded == 0) {
+          if (first_unexp == global_best_flat_.size()) first_unexp = i;
+          worker_states_[dispatched % workers_].init_seeds.push_back(global_best_flat_[i].hit);
+          ++dispatched;
+          prev_last_disp = i;
+          if (dispatched == max_dispatch) break;
         }
       }
     } else {
-      for (const Hit& hit : global_best_) {
-        if (global_expanded_epoch_[hit.second] != q_epoch) {
-          active_frontier_.push_back(hit);
+      active_frontier_.clear();
+      if constexpr (FlatMerge) {
+        for (const Hit& hit : global_best_vec_) {
+          if (global_expanded_epoch_[hit.second] != q_epoch) {
+            active_frontier_.push_back(hit);
+          }
+        }
+      } else {
+        for (const Hit& hit : global_best_) {
+          if (global_expanded_epoch_[hit.second] != q_epoch) {
+            active_frontier_.push_back(hit);
+          }
         }
       }
     }
 
-    while (!active_frontier_.empty()) {
-      if constexpr (FlatMerge) {
+    while (IncFrontier ? (dispatched > 0) : !active_frontier_.empty()) {
+      if constexpr (IncFrontier) {
+        global_has_full_beam_ = (global_best_flat_.size() == beam);
+        if (global_has_full_beam_) {
+          global_worst_hit_ = global_best_flat_.back().hit;
+        }
+      } else if constexpr (FlatMerge) {
         global_has_full_beam_ = (global_best_vec_.size() == beam);
         if (global_has_full_beam_) {
           global_worst_hit_ = global_best_vec_.back();
@@ -611,11 +691,13 @@ class P2SearchSession {
         }
       }
 
-      for (size_t w = 0; w < workers_; ++w) {
-        worker_states_[w].init_seeds.clear();
-      }
-      for (size_t i = 0; i < active_frontier_.size(); ++i) {
-        worker_states_[i % workers_].init_seeds.push_back(active_frontier_[i]);
+      if constexpr (!IncFrontier) {
+        for (size_t w = 0; w < workers_; ++w) {
+          worker_states_[w].init_seeds.clear();
+        }
+        for (size_t i = 0; i < active_frontier_.size(); ++i) {
+          worker_states_[i % workers_].init_seeds.push_back(active_frontier_[i]);
+        }
       }
 
       const uint64_t next_seq = ++round_seq_;
@@ -623,7 +705,7 @@ class P2SearchSession {
       if constexpr (Instrument) t_dispatch = detail::now_ns();
       work_seq_.store(next_seq, std::memory_order_release);
 
-      run_worker_round<Instrument>(0, q_epoch);
+      run_worker_round<Instrument, MarkAllEvaled>(0, q_epoch);
 
       for (size_t w = 1; w < workers_; ++w) {
         uint32_t spins = 0;
@@ -670,6 +752,12 @@ class P2SearchSession {
           continue;
         }
 
+        if constexpr (MarkAllEvaled) {
+          for (Id id : ws.local_newly_evaled) {
+            settled_epoch_[id] = q_epoch;
+          }
+        }
+
         for (Id id : ws.local_expanded) {
           global_expanded_epoch_[id] = q_epoch;
           settled_epoch_[id] = q_epoch;
@@ -683,18 +771,33 @@ class P2SearchSession {
           }
         }
 
-        if constexpr (FlatMerge) {
+        if constexpr (IncFrontier) {
+          const bool has_full = (global_best_flat_.size() == beam);
+          const Hit cur_worst = has_full ? global_best_flat_.back().hit : Hit{0.0, 0};
+          for (const Hit& hit : ws.local_discovered) {
+            if constexpr (!MarkAllEvaled) {
+              settled_epoch_[hit.second] = q_epoch;
+            }
+            if (!has_full || hit < cur_worst) {
+              merge_scratch_.push_back(hit);
+            }
+          }
+        } else if constexpr (FlatMerge) {
           const bool has_full = (global_best_vec_.size() == beam);
           const Hit cur_worst = has_full ? global_best_vec_.back() : Hit{0.0, 0};
           for (const Hit& hit : ws.local_discovered) {
-            settled_epoch_[hit.second] = q_epoch;
+            if constexpr (!MarkAllEvaled) {
+              settled_epoch_[hit.second] = q_epoch;
+            }
             if (!has_full || hit < cur_worst) {
               merge_scratch_.push_back(hit);
             }
           }
         } else {
           for (const Hit& hit : ws.local_discovered) {
-            settled_epoch_[hit.second] = q_epoch;
+            if constexpr (!MarkAllEvaled) {
+              settled_epoch_[hit.second] = q_epoch;
+            }
             if (global_best_.size() < beam || hit < *global_best_.rbegin()) {
               global_best_.insert(hit);
               if (global_best_.size() > beam) {
@@ -705,7 +808,84 @@ class P2SearchSession {
         }
       }
 
-      if constexpr (FlatMerge) {
+      if constexpr (IncFrontier) {
+        for (size_t w = 0; w < workers_; ++w) {
+          worker_states_[w].init_seeds.clear();
+        }
+        dispatched = 0;
+        size_t next_first_unexp = beam;
+        size_t next_last_disp = 0;
+
+        if (!merge_scratch_.empty()) {
+          std::sort(merge_scratch_.begin(), merge_scratch_.end());
+          merge_scratch_.erase(
+              std::unique(merge_scratch_.begin(), merge_scratch_.end()),
+              merge_scratch_.end());
+          next_best_flat_.clear();
+          size_t i = 0;
+          size_t j = 0;
+          const size_t n1 = global_best_flat_.size();
+          const size_t n2 = merge_scratch_.size();
+          while ((i < n1 || j < n2) && next_best_flat_.size() < beam) {
+            FlatEntry entry_out;
+            if (j >= n2 || (i < n1 && global_best_flat_[i].hit < merge_scratch_[j])) {
+              entry_out = global_best_flat_[i];
+              if (entry_out.expanded == 0 && i <= prev_last_disp &&
+                  global_expanded_epoch_[entry_out.hit.second] == q_epoch) {
+                entry_out.expanded = 1;
+              }
+              ++i;
+            } else if (i >= n1 || merge_scratch_[j] < global_best_flat_[i].hit) {
+              const Hit& h = merge_scratch_[j++];
+              const uint8_t exp = (global_expanded_epoch_[h.second] == q_epoch) ? 1 : 0;
+              entry_out = FlatEntry{h, exp};
+            } else {
+              entry_out = global_best_flat_[i];
+              if (entry_out.expanded == 0 &&
+                  global_expanded_epoch_[entry_out.hit.second] == q_epoch) {
+                entry_out.expanded = 1;
+              }
+              ++i;
+              ++j;
+            }
+            const size_t out_idx = next_best_flat_.size();
+            next_best_flat_.push_back(entry_out);
+            if (entry_out.expanded == 0) {
+              if (next_first_unexp == beam) next_first_unexp = out_idx;
+              if (dispatched < max_dispatch) {
+                worker_states_[dispatched % workers_].init_seeds.push_back(entry_out.hit);
+                ++dispatched;
+                next_last_disp = out_idx;
+              }
+            }
+          }
+          global_best_flat_.swap(next_best_flat_);
+          merge_scratch_.clear();
+        } else {
+          const size_t n1 = global_best_flat_.size();
+          for (size_t i = first_unexp; i < n1; ++i) {
+            FlatEntry& e = global_best_flat_[i];
+            if (e.expanded == 0) {
+              if (i <= prev_last_disp &&
+                  global_expanded_epoch_[e.hit.second] == q_epoch) {
+                e.expanded = 1;
+                continue;
+              }
+              if (next_first_unexp == beam) next_first_unexp = i;
+              if (dispatched < max_dispatch) {
+                worker_states_[dispatched % workers_].init_seeds.push_back(e.hit);
+                ++dispatched;
+                next_last_disp = i;
+              }
+              if (dispatched == max_dispatch && i >= prev_last_disp) {
+                break;
+              }
+            }
+          }
+        }
+        first_unexp = (next_first_unexp == beam) ? global_best_flat_.size() : next_first_unexp;
+        prev_last_disp = next_last_disp;
+      } else if constexpr (FlatMerge) {
         if (!merge_scratch_.empty()) {
           std::sort(merge_scratch_.begin(), merge_scratch_.end());
           merge_scratch_.erase(
@@ -764,7 +944,12 @@ class P2SearchSession {
       }
     }
 
-    if constexpr (FlatMerge) {
+    if constexpr (IncFrontier) {
+      for (const FlatEntry& e : global_best_flat_) {
+        if (result.hits.size() == k) break;
+        result.hits.push_back(e.hit);
+      }
+    } else if constexpr (FlatMerge) {
       for (const Hit& hit : global_best_vec_) {
         if (result.hits.size() == k) break;
         result.hits.push_back(hit);

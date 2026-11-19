@@ -136,6 +136,8 @@ struct Options {
   std::string warmup_ids_path;
   std::string mode;
   std::string merge_impl = "set";
+  std::string visited_policy = "baseline";
+  std::string frontier_mode = "full";
   std::vector<size_t> beams;
   std::vector<int> cpu_list;
   task_da::Id entry = 0;
@@ -151,8 +153,9 @@ Options parse_args(int argc, char** argv) {
     throw std::invalid_argument(
         "usage: task_da_p2_eval <pipnn|nsg> <graph> <base.fbin> <query.fbin> "
         "--beams <b1,b2> --mode <ON|OFF> --out-dir <dir> "
-        "[--workers 1|2|4] [--sync-interval 8] [--merge-impl set|flat] [--k 10] [--entry 0] "
-        "[--query-ids file] [--warmup-ids file] [--cpu-list c0,...] "
+        "[--workers 1|2|4] [--sync-interval 8] [--merge-impl set|flat] "
+        "[--visited-policy baseline|barrier_all_evaled] [--frontier-mode full|incremental] "
+        "[--k 10] [--entry 0] [--query-ids file] [--warmup-ids file] [--cpu-list c0,...] "
         "[--max-beam 4096] [--jobs 1]");
   }
   Options opt;
@@ -189,6 +192,10 @@ Options parse_args(int argc, char** argv) {
       opt.sync_interval = std::stoull(need(flag));
     } else if (flag == "--merge-impl") {
       opt.merge_impl = need(flag);
+    } else if (flag == "--visited-policy") {
+      opt.visited_policy = need(flag);
+    } else if (flag == "--frontier-mode") {
+      opt.frontier_mode = need(flag);
     } else if (flag == "--max-beam") {
       opt.max_beam = std::stoull(need(flag));
     } else if (flag == "--jobs") {
@@ -201,6 +208,15 @@ Options parse_args(int argc, char** argv) {
   if (opt.mode != "ON" && opt.mode != "OFF") throw std::invalid_argument("--mode must be ON or OFF");
   if (opt.merge_impl != "set" && opt.merge_impl != "flat") {
     throw std::invalid_argument("--merge-impl must be set or flat");
+  }
+  if (opt.visited_policy != "baseline" && opt.visited_policy != "barrier_all_evaled") {
+    throw std::invalid_argument("--visited-policy must be baseline or barrier_all_evaled");
+  }
+  if (opt.frontier_mode != "full" && opt.frontier_mode != "incremental") {
+    throw std::invalid_argument("--frontier-mode must be full or incremental");
+  }
+  if (opt.frontier_mode == "incremental" && opt.merge_impl != "flat") {
+    throw std::invalid_argument("--frontier-mode incremental requires --merge-impl flat");
   }
   if (opt.out_dir.empty()) throw std::invalid_argument("--out-dir required");
   if (opt.beams.empty()) throw std::invalid_argument("--beams required");
@@ -317,8 +333,14 @@ int main(int argc, char** argv) {
     {
       const task_da::MergeImpl merge_impl =
           (opt.merge_impl == "flat") ? task_da::MergeImpl::kFlat : task_da::MergeImpl::kSet;
-      task_da::P2SearchSession session(
-          graph, base, opt.workers, opt.sync_interval, opt.cpu_list, merge_impl);
+      const task_da::VisitedPolicy visited_policy =
+          (opt.visited_policy == "barrier_all_evaled") ? task_da::VisitedPolicy::kBarrierAllEvaled
+                                                       : task_da::VisitedPolicy::kBaseline;
+      const task_da::FrontierMode frontier_mode =
+          (opt.frontier_mode == "incremental") ? task_da::FrontierMode::kIncremental
+                                               : task_da::FrontierMode::kFull;
+      task_da::P2SearchSession session(graph, base, opt.workers, opt.sync_interval, opt.cpu_list,
+                                       merge_impl, visited_policy, frontier_mode);
       observed_cpus = session.observed_cpus();
 
       auto write_beam_outputs = [&](auto&& run_out) {
@@ -352,6 +374,8 @@ int main(int argc, char** argv) {
              << ",\"workers\":" << opt.workers
              << ",\"sync_interval\":" << opt.sync_interval
              << ",\"merge_impl\":\"" << opt.merge_impl << "\""
+             << ",\"visited_policy\":\"" << opt.visited_policy << "\""
+             << ",\"frontier_mode\":\"" << opt.frontier_mode << "\""
              << ",\"jobs\":1"
              << ",\"mode\":\"" << opt.mode << "\""
              << ",\"instrumentation\":" << (instrument ? "true" : "false")
@@ -507,6 +531,8 @@ int main(int argc, char** argv) {
          << ",\"workers\":" << opt.workers
          << ",\"sync_interval\":" << opt.sync_interval
          << ",\"merge_impl\":\"" << opt.merge_impl << "\""
+         << ",\"visited_policy\":\"" << opt.visited_policy << "\""
+         << ",\"frontier_mode\":\"" << opt.frontier_mode << "\""
          << ",\"jobs\":1"
          << ",\"mode\":\"" << opt.mode << "\""
          << ",\"warmup_count\":" << warmup_ids.size()

@@ -424,14 +424,12 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         pre_tel = read_telemetry_snapshot(cpus)
         cmd = [
             str(args.binary),
-            "--graph",
-            str(cell["graph_path"]),
-            "--graph-format",
             "pipnn",
-            "--base",
+            str(cell["graph_path"]),
             str(base_path),
-            "--query",
             str(query_path),
+            "--entry",
+            "0",
             "--query-ids",
             str(args.pilot_ids),
             "--warmup-ids",

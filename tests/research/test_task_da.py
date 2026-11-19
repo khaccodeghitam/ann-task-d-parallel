@@ -543,7 +543,7 @@ class P2EvaluatorUnitTests(unittest.TestCase):
 class NativeP2MultiWalkerTests(unittest.TestCase):
     def _run_p2(self, root, gpath, bpath, qpath, *, workers, beam, mode, out_name,
                 k=3, entry=0, sync_interval=8, qids=None, wids=None, cpu_list=None,
-                merge_impl=None, jobs=1, ok=True):
+                merge_impl=None, visited_policy=None, frontier_mode=None, jobs=1, ok=True):
         out_dir = root / out_name
         cmd = [
             os.environ['TASK_DA_P2_EVAL'], 'pipnn', str(gpath), str(bpath), str(qpath),
@@ -559,6 +559,10 @@ class NativeP2MultiWalkerTests(unittest.TestCase):
             cmd += ['--cpu-list', cpu_list]
         if merge_impl is not None:
             cmd += ['--merge-impl', merge_impl]
+        if visited_policy is not None:
+            cmd += ['--visited-policy', visited_policy]
+        if frontier_mode is not None:
+            cmd += ['--frontier-mode', frontier_mode]
         proc = subprocess.run(cmd, capture_output=True, text=True)
         if not ok:
             self.assertNotEqual(proc.returncode, 0, msg=proc.stdout)
@@ -782,6 +786,132 @@ class NativeP2MultiWalkerTests(unittest.TestCase):
                          out_name='bad_cpu', k=3, cpu_list='0', ok=False)
             self._run_p2(root, g_chain, b_chain, qpath, workers=2, beam=10, mode='ON',
                          out_name='bad_merge', k=3, merge_impl='bogus', ok=False)
+            self._run_p2(root, g_chain, b_chain, qpath, workers=2, beam=10, mode='ON',
+                         out_name='bad_visited', k=3, visited_policy='bogus', ok=False)
+            self._run_p2(root, g_chain, b_chain, qpath, workers=2, beam=10, mode='ON',
+                         out_name='bad_frontier', k=3, merge_impl='flat', frontier_mode='bogus', ok=False)
+            self._run_p2(root, g_chain, b_chain, qpath, workers=2, beam=10, mode='ON',
+                         out_name='bad_set_inc', k=3, merge_impl='set', frontier_mode='incremental', ok=False)
+
+    def test_ablation_b1_visited_and_a1_incremental_frontier_parity(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            rng = random.Random(20261119)
+            n = 96
+            adj = [set() for _ in range(n)]
+            for i in range(n):
+                adj[i].add((i + 1) % n)
+                adj[(i + 1) % n].add(i)
+                for _ in range(10):
+                    adj[i].add(rng.randrange(n))
+            edges = [sorted(s) for s in adj]
+            base = [[rng.uniform(-10.0, 10.0) for _ in range(6)] for _ in range(n)]
+            queries = [[rng.uniform(-10.0, 10.0) for _ in range(6)] for _ in range(16)]
+
+            gpath = root / 'g96.pipnn'
+            bpath = root / 'b96.fbin'
+            qpath = root / 'q96.fbin'
+            pipnn(gpath, edges)
+            fbin(bpath, base)
+            fbin(qpath, queries)
+
+            # Bounded beam=16 over n=96 triggers many rejected neighbors across rounds.
+            total_b1_dup_saved = 0
+            for p in (2, 4):
+                for s_val in (1, 2, 4):
+                    _, r_base_on = self._run_p2(
+                        root, gpath, bpath, qpath, workers=p, beam=16, mode='ON',
+                        out_name=f'base_p{p}_S{s_val}_on', k=5, sync_interval=s_val,
+                        merge_impl='flat', visited_policy='baseline', frontier_mode='full',
+                    )
+                    _, r_b1_on = self._run_p2(
+                        root, gpath, bpath, qpath, workers=p, beam=16, mode='ON',
+                        out_name=f'b1_p{p}_S{s_val}_on', k=5, sync_interval=s_val,
+                        merge_impl='flat', visited_policy='barrier_all_evaled', frontier_mode='full',
+                    )
+                    _, r_b1_off = self._run_p2(
+                        root, gpath, bpath, qpath, workers=p, beam=16, mode='OFF',
+                        out_name=f'b1_p{p}_S{s_val}_off', k=5, sync_interval=s_val,
+                        merge_impl='flat', visited_policy='barrier_all_evaled', frontier_mode='full',
+                    )
+                    _, r_a1_on = self._run_p2(
+                        root, gpath, bpath, qpath, workers=p, beam=16, mode='ON',
+                        out_name=f'a1_p{p}_S{s_val}_on', k=5, sync_interval=s_val,
+                        merge_impl='flat', visited_policy='baseline', frontier_mode='incremental',
+                    )
+                    _, r_a1_off = self._run_p2(
+                        root, gpath, bpath, qpath, workers=p, beam=16, mode='OFF',
+                        out_name=f'a1_p{p}_S{s_val}_off', k=5, sync_interval=s_val,
+                        merge_impl='flat', visited_policy='baseline', frontier_mode='incremental',
+                    )
+                    _, r_ab_on = self._run_p2(
+                        root, gpath, bpath, qpath, workers=p, beam=16, mode='ON',
+                        out_name=f'ab_p{p}_S{s_val}_on', k=5, sync_interval=s_val,
+                        merge_impl='flat', visited_policy='barrier_all_evaled', frontier_mode='incremental',
+                    )
+                    _, r_ab_off = self._run_p2(
+                        root, gpath, bpath, qpath, workers=p, beam=16, mode='OFF',
+                        out_name=f'ab_p{p}_S{s_val}_off', k=5, sync_interval=s_val,
+                        merge_impl='flat', visited_policy='barrier_all_evaled', frontier_mode='incremental',
+                    )
+
+                    check_p2_on_off_parity(r_b1_on, r_b1_off, n)
+                    check_p2_on_off_parity(r_a1_on, r_a1_off, n)
+                    check_p2_on_off_parity(r_ab_on, r_ab_off, n)
+
+                    for rb, rb1, ra1, rab in zip(r_base_on, r_b1_on, r_a1_on, r_ab_on):
+                        cb = validate_p2_counters_row(rb, n)
+                        cb1 = validate_p2_counters_row(rb1, n)
+                        ca1 = validate_p2_counters_row(ra1, n)
+                        cab = validate_p2_counters_row(rab, n)
+
+                        # A1 must match baseline bit-for-bit on IDs, distances, and ALL algorithmic counters
+                        self.assertEqual(ra1['ids'], rb['ids'])
+                        self.assertEqual(ra1['squared_l2'], rb['squared_l2'])
+                        for ckey in ('distance_evaluations', 'unique_distance_evaluations',
+                                     'duplicate_distance_evaluations', 'expansions',
+                                     'unique_expansions', 'duplicate_expansions',
+                                     'neighbor_attempts', 'already_seen_attempts',
+                                     'frontier_insertions', 'sync_merge_count',
+                                     'per_worker_expansions', 'per_worker_distance_evaluations',
+                                     'per_worker_idle_rounds'):
+                            self.assertEqual(ca1[ckey], cb[ckey], msg=f'A1 mismatch {ckey}')
+                            self.assertEqual(cab[ckey], cb1[ckey], msg=f'B1+A1 mismatch {ckey}')
+
+                        # B1 must match baseline bit-for-bit on IDs, distances, expansions, unique L2s, merges
+                        self.assertEqual(rb1['ids'], rb['ids'])
+                        self.assertEqual(rb1['squared_l2'], rb['squared_l2'])
+                        self.assertEqual(rab['ids'], rb['ids'])
+                        self.assertEqual(rab['squared_l2'], rb['squared_l2'])
+                        for ckey in ('unique_distance_evaluations', 'expansions',
+                                     'unique_expansions', 'duplicate_expansions',
+                                     'neighbor_attempts', 'frontier_insertions',
+                                     'sync_merge_count', 'per_worker_expansions',
+                                     'per_worker_idle_rounds'):
+                            self.assertEqual(cb1[ckey], cb[ckey], msg=f'B1 mismatch {ckey}')
+
+                        # Conservation: every avoided duplicate L2 moves to already_seen_attempts
+                        saved = cb['duplicate_distance_evaluations'] - cb1['duplicate_distance_evaluations']
+                        self.assertGreaterEqual(saved, 0)
+                        self.assertEqual(cb1['already_seen_attempts'] - cb['already_seen_attempts'], saved)
+                        total_b1_dup_saved += saved
+
+            self.assertGreater(total_b1_dup_saved, 0)
+
+            # Singleton / isolated entry & chain idle-round edge cases with incremental + B1
+            sing_g = root / 'sing.pipnn'
+            sing_b = root / 'sing.fbin'
+            sing_q = root / 'sing_q.fbin'
+            pipnn(sing_g, [[]])
+            fbin(sing_b, [[1.0, 2.0]])
+            fbin(sing_q, [[0.0, 0.0]])
+            _, rs = self._run_p2(
+                root, sing_g, sing_b, sing_q, workers=4, beam=1, mode='ON',
+                out_name='sing_ab', k=1, sync_interval=4,
+                merge_impl='flat', visited_policy='barrier_all_evaled', frontier_mode='incremental',
+            )
+            self.assertEqual(rs[0]['ids'], [0])
+            validate_p2_counters_row(rs[0], 1)
 
 
 if __name__ == '__main__':
