@@ -1,0 +1,39 @@
+{
+  "schema_version": "p2-multiwalker-exploratory-v1",
+  "scope": "Task D x Task A — P2 intra-query multi-walker (workers in {1, 2, 4}, inter-query jobs == 1)",
+  "baseline_p1_invariance": {
+    "workers_1_delegation": "workers == 1 executes exact entry_best_first_v1 traversal order using persistent settled_epoch table (bit-identical hits, squared_l2, and P1 counters to task_da::Index::search)",
+    "workers_1_conservation": "distance_evaluations == 1 + neighbor_attempts - already_seen_attempts"
+  },
+  "fields": {
+    "distance_evaluations": "Total exact squared-L2 computations summed across all workers (>= 1).",
+    "unique_distance_evaluations": "Count of distinct vertices evaluated at least once during the query (<= distance_evaluations).",
+    "duplicate_distance_evaluations": "distance_evaluations - unique_distance_evaluations (>= 0; == 0 when workers == 1).",
+    "expansions": "Total vertex pop-and-expand operations summed across all workers (alias total_expansions).",
+    "unique_expansions": "Count of distinct vertices expanded at least once during the query (>= 1).",
+    "duplicate_expansions": "expansions - unique_expansions (true duplicate vertex expansions across workers; strictly separated from already_seen_attempts; == 0 when workers == 1).",
+    "neighbor_attempts": "Total directed outgoing arcs inspected across all expanded vertices.",
+    "already_seen_attempts": "Arc inspections hitting settled_epoch or worker local_seen before computing distance (revisit edge checks, NOT duplicate vertex expansions).",
+    "frontier_insertions": "Total candidate insertions into bounded candidate frontiers.",
+    "sync_merge_count": "Number of round merge/rebalance barriers after initial entry fanout (0 when workers == 1).",
+    "sync_wait_ns": "Worker-nanoseconds active workers spent waiting at merge barriers + serial merge duration (summed over active workers in Mode ON; 0 when workers == 1).",
+    "barrier_wait_ns": "Worker-nanoseconds active workers spent waiting strictly for peer stragglers at arrival barriers before merge begins (0 when workers == 1).",
+    "merge_time_ns": "Nanoseconds spent inside the single-writer global_best merge and round-robin frontier rebalance step (0 when workers == 1).",
+    "worker_idle_ns": "Worker-nanoseconds workers spent completely unscheduled in rounds where assigned frontier slice was empty (0 when workers == 1).",
+    "per_worker_expansions": "Array of length == workers listing expansions executed by each worker (entry counted on worker 0).",
+    "per_worker_distance_evaluations": "Array of length == workers listing L2 distance evaluations computed by each worker (entry & entry-neighbors counted on worker 0).",
+    "per_worker_idle_rounds": "Array of length == workers listing number of rounds where that worker received 0 frontier seeds."
+  },
+  "required_invariants_mode_on": [
+    "distance_evaluations >= 1",
+    "distance_evaluations == 1 + neighbor_attempts - already_seen_attempts",
+    "distance_evaluations == unique_distance_evaluations + duplicate_distance_evaluations",
+    "expansions >= 1",
+    "expansions == unique_expansions + duplicate_expansions",
+    "unique_expansions <= unique_distance_evaluations",
+    "expansions == sum(per_worker_expansions)",
+    "distance_evaluations == sum(per_worker_distance_evaluations)",
+    "len(per_worker_expansions) == len(per_worker_distance_evaluations) == len(per_worker_idle_rounds) == workers",
+    "workers == 1 implies duplicate_expansions == 0, duplicate_distance_evaluations == 0, sync_merge_count == 0, sync_wait_ns == 0, worker_idle_ns == 0"
+  ]
+}

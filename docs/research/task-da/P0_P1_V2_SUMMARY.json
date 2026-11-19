@@ -1,0 +1,672 @@
+{
+  "date": "2026-11-17",
+  "evidence_validation": {
+    "recovery_dir": "artifact-evidence/p0-p1-recovery-20261117T161322+0700",
+    "v2_smoke_dir": "artifact-evidence/p0-p1-v2-smoke-20261117T170810+0700",
+    "recovery_checksums_verified": 279,
+    "recovery_checksum_failures": 0,
+    "datasets_and_graphs_verified": 12,
+    "raw_receipts_and_logs_cross_verified": 261,
+    "preflight_v2_resolved_exit_code": 1,
+    "preflight_v2_resolved_blockers": 28,
+    "status": "PASS_EVIDENCE_CHECKSUMS_AND_CROSS_LINKS_WITH_OPEN_PROVENANCE_GAPS"
+  },
+  "gt_protocol_v2": {
+    "gt_sha256": "fa5acf5ab262b42355296e99f920e6aa863f48820ca6f70fa37ca7966634c344",
+    "gt_bytes": 80000008,
+    "negative_rank0_rows_count": 3,
+    "exact_35_queries_top10_order_exact": true,
+    "exact_35_queries_top100_set_exact": true,
+    "max_abs_err_vs_sq_l2_f64": 6.845816600264953e-07,
+    "validator_file": "research/task_da/evaluate_smoke.py",
+    "validator_sha256": "c73830a5e7eb16100822fb32659ef45f6b15357f1485e4ceb277508f0ecb768f",
+    "validator_default_gt_aux_min": 0.0,
+    "validator_opt_in_gt_aux_min": -1e-05,
+    "negative_rows_probe_default_exit": 2,
+    "negative_rows_probe_opt_in": {
+      "scope": "SMOKE_RECALL_ONLY_NOT_P1_GATE_PASS",
+      "queries": 3,
+      "k": 10,
+      "recall_at_k": 0.1,
+      "incomplete_top_k_queries": 3,
+      "gt_distance_semantics": "ID_ONLY_WITH_OPT_IN_BOUNDED_AUX_NEGATIVE_TOLERANCE",
+      "gt_aux_min": -1e-05,
+      "accepted_negative_gt_distances": 3,
+      "accepted_negative_gt_queries": 3,
+      "benchmark_executed": false
+    },
+    "tests_research_total": 510,
+    "tests_research_failures": 0,
+    "tests_research_skipped": 0
+  },
+  "p1_smoke_runs": [
+    {
+      "run_id": "R86_MST1M_A0_OFF_FORMAL_R1",
+      "arm": "A0",
+      "rep": 1,
+      "beam": 384,
+      "mode": "ON",
+      "entry_point": 0,
+      "k": 10,
+      "query_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "graph_sha256": "55df31ac9b7716f779dca332ce9360c9e21a065f9298ec1c92c8ccdd37d72522",
+      "engine_binary": "build-task-da/task_da_smoke",
+      "engine_binary_sha256": "0d462c097f815af75de05f427c89b6a78a3ca35f6b925322bea1e67f1d6c17ed",
+      "jsonl_path": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/p0-p1-v2-smoke-20261117T170810+0700/smoke_A0_R1_beam384_ON.jsonl",
+      "jsonl_sha256": "584e4f0f5dd78395699a4f081df4fe51ab353b34926c10f3ad7e56d487b13e10",
+      "max_result_distance_diff_vs_f64": 7.771561172376096e-16,
+      "evaluate_default": {
+        "scope": "SMOKE_RECALL_ONLY_NOT_P1_GATE_PASS",
+        "queries": 32,
+        "k": 10,
+        "recall_at_k": 0.9875,
+        "incomplete_top_k_queries": 0,
+        "gt_distance_semantics": "NOT_USED_FOR_RECALL",
+        "gt_aux_min": 0.0,
+        "accepted_negative_gt_distances": 0,
+        "accepted_negative_gt_queries": 0,
+        "benchmark_executed": false
+      },
+      "evaluate_protocol_v2": {
+        "scope": "SMOKE_RECALL_ONLY_NOT_P1_GATE_PASS",
+        "queries": 32,
+        "k": 10,
+        "recall_at_k": 0.9875,
+        "incomplete_top_k_queries": 0,
+        "gt_distance_semantics": "ID_ONLY_WITH_OPT_IN_BOUNDED_AUX_NEGATIVE_TOLERANCE",
+        "gt_aux_min": -1e-05,
+        "accepted_negative_gt_distances": 0,
+        "accepted_negative_gt_queries": 0,
+        "benchmark_executed": false
+      }
+    },
+    {
+      "run_id": "R86_MST1M_A0_OFF_FORMAL_R1",
+      "arm": "A0",
+      "rep": 1,
+      "beam": 384,
+      "mode": "OFF",
+      "entry_point": 0,
+      "k": 10,
+      "query_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "graph_sha256": "55df31ac9b7716f779dca332ce9360c9e21a065f9298ec1c92c8ccdd37d72522",
+      "engine_binary": "build-task-da/task_da_smoke",
+      "engine_binary_sha256": "0d462c097f815af75de05f427c89b6a78a3ca35f6b925322bea1e67f1d6c17ed",
+      "jsonl_path": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/p0-p1-v2-smoke-20261117T170810+0700/smoke_A0_R1_beam384_OFF.jsonl",
+      "jsonl_sha256": "b4caa153b1c33c3a36a5b2ba56af4cb965ba8bbb9f356030ff8256139f0b2bb6",
+      "max_result_distance_diff_vs_f64": 7.771561172376096e-16,
+      "evaluate_default": {
+        "scope": "SMOKE_RECALL_ONLY_NOT_P1_GATE_PASS",
+        "queries": 32,
+        "k": 10,
+        "recall_at_k": 0.9875,
+        "incomplete_top_k_queries": 0,
+        "gt_distance_semantics": "NOT_USED_FOR_RECALL",
+        "gt_aux_min": 0.0,
+        "accepted_negative_gt_distances": 0,
+        "accepted_negative_gt_queries": 0,
+        "benchmark_executed": false
+      },
+      "evaluate_protocol_v2": {
+        "scope": "SMOKE_RECALL_ONLY_NOT_P1_GATE_PASS",
+        "queries": 32,
+        "k": 10,
+        "recall_at_k": 0.9875,
+        "incomplete_top_k_queries": 0,
+        "gt_distance_semantics": "ID_ONLY_WITH_OPT_IN_BOUNDED_AUX_NEGATIVE_TOLERANCE",
+        "gt_aux_min": -1e-05,
+        "accepted_negative_gt_distances": 0,
+        "accepted_negative_gt_queries": 0,
+        "benchmark_executed": false
+      }
+    },
+    {
+      "run_id": "R86_MST1M_A3_OFF_FORMAL_R1",
+      "arm": "A3",
+      "rep": 1,
+      "beam": 832,
+      "mode": "ON",
+      "entry_point": 0,
+      "k": 10,
+      "query_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "graph_sha256": "0fff20ec47502c675c4905787d319390e49fa5bee856ac16c814c74697c5fbb2",
+      "engine_binary": "build-task-da/task_da_smoke",
+      "engine_binary_sha256": "0d462c097f815af75de05f427c89b6a78a3ca35f6b925322bea1e67f1d6c17ed",
+      "jsonl_path": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/p0-p1-v2-smoke-20261117T170810+0700/smoke_A3_R1_beam832_ON.jsonl",
+      "jsonl_sha256": "9235cd8439228c7832431ce9d3255e98626667994574a04731605b43ba601dfa",
+      "max_result_distance_diff_vs_f64": 7.771561172376096e-16,
+      "evaluate_default": {
+        "scope": "SMOKE_RECALL_ONLY_NOT_P1_GATE_PASS",
+        "queries": 32,
+        "k": 10,
+        "recall_at_k": 0.96875,
+        "incomplete_top_k_queries": 0,
+        "gt_distance_semantics": "NOT_USED_FOR_RECALL",
+        "gt_aux_min": 0.0,
+        "accepted_negative_gt_distances": 0,
+        "accepted_negative_gt_queries": 0,
+        "benchmark_executed": false
+      },
+      "evaluate_protocol_v2": {
+        "scope": "SMOKE_RECALL_ONLY_NOT_P1_GATE_PASS",
+        "queries": 32,
+        "k": 10,
+        "recall_at_k": 0.96875,
+        "incomplete_top_k_queries": 0,
+        "gt_distance_semantics": "ID_ONLY_WITH_OPT_IN_BOUNDED_AUX_NEGATIVE_TOLERANCE",
+        "gt_aux_min": -1e-05,
+        "accepted_negative_gt_distances": 0,
+        "accepted_negative_gt_queries": 0,
+        "benchmark_executed": false
+      }
+    },
+    {
+      "run_id": "R86_MST1M_A3_OFF_FORMAL_R1",
+      "arm": "A3",
+      "rep": 1,
+      "beam": 832,
+      "mode": "OFF",
+      "entry_point": 0,
+      "k": 10,
+      "query_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31
+      ],
+      "graph_sha256": "0fff20ec47502c675c4905787d319390e49fa5bee856ac16c814c74697c5fbb2",
+      "engine_binary": "build-task-da/task_da_smoke",
+      "engine_binary_sha256": "0d462c097f815af75de05f427c89b6a78a3ca35f6b925322bea1e67f1d6c17ed",
+      "jsonl_path": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/p0-p1-v2-smoke-20261117T170810+0700/smoke_A3_R1_beam832_OFF.jsonl",
+      "jsonl_sha256": "f9a40d45fb7a77d388c63122396dad6f7d26f5cb6c4303691442adc4d99369fc",
+      "max_result_distance_diff_vs_f64": 7.771561172376096e-16,
+      "evaluate_default": {
+        "scope": "SMOKE_RECALL_ONLY_NOT_P1_GATE_PASS",
+        "queries": 32,
+        "k": 10,
+        "recall_at_k": 0.96875,
+        "incomplete_top_k_queries": 0,
+        "gt_distance_semantics": "NOT_USED_FOR_RECALL",
+        "gt_aux_min": 0.0,
+        "accepted_negative_gt_distances": 0,
+        "accepted_negative_gt_queries": 0,
+        "benchmark_executed": false
+      },
+      "evaluate_protocol_v2": {
+        "scope": "SMOKE_RECALL_ONLY_NOT_P1_GATE_PASS",
+        "queries": 32,
+        "k": 10,
+        "recall_at_k": 0.96875,
+        "incomplete_top_k_queries": 0,
+        "gt_distance_semantics": "ID_ONLY_WITH_OPT_IN_BOUNDED_AUX_NEGATIVE_TOLERANCE",
+        "gt_aux_min": -1e-05,
+        "accepted_negative_gt_distances": 0,
+        "accepted_negative_gt_queries": 0,
+        "benchmark_executed": false
+      }
+    }
+  ],
+  "p1_smoke_parity": {
+    "A0": {
+      "ids_exact_match": true,
+      "squared_l2_exact_match": true,
+      "complete_top_k_match": true
+    },
+    "A3": {
+      "ids_exact_match": true,
+      "squared_l2_exact_match": true,
+      "complete_top_k_match": true
+    }
+  },
+  "p1_smoke_sample_rows": {
+    "A0_R1_beam384": [
+      {
+        "query_id": 0,
+        "ids": [
+          84139,
+          98069,
+          733955,
+          126930,
+          241689,
+          639103,
+          530233,
+          54250,
+          248827,
+          738038
+        ],
+        "squared_l2": [
+          0.48739319736953196,
+          0.5208382869782984,
+          0.5810897993954734,
+          0.5839411333690947,
+          0.6749065403834439,
+          0.6762047300686179,
+          0.6835926980854046,
+          0.702193023411042,
+          0.720032492062846,
+          0.749686370151096
+        ],
+        "counters": {
+          "distance_evaluations": 11876,
+          "expansions": 390,
+          "neighbor_attempts": 17592,
+          "already_seen_attempts": 5717,
+          "frontier_insertions": 1314
+        }
+      },
+      {
+        "query_id": 1,
+        "ids": [
+          19749,
+          38592,
+          685362,
+          313293,
+          246269,
+          724705,
+          574646,
+          962208,
+          189788,
+          449084
+        ],
+        "squared_l2": [
+          0.4462395476915516,
+          0.5667574286112314,
+          0.5699874316487438,
+          0.6245439877341277,
+          0.6450442746980553,
+          0.6519506862634177,
+          0.6524838688781628,
+          0.6630603600957505,
+          0.6657286632171318,
+          0.6759441053334616
+        ],
+        "counters": {
+          "distance_evaluations": 14398,
+          "expansions": 389,
+          "neighbor_attempts": 21647,
+          "already_seen_attempts": 7250,
+          "frontier_insertions": 1428
+        }
+      },
+      {
+        "query_id": 31,
+        "ids": [
+          196256,
+          990988,
+          665563,
+          177430,
+          160536,
+          727181,
+          505413,
+          602338,
+          852320,
+          875105
+        ],
+        "squared_l2": [
+          0.6132427684244596,
+          0.6373798098559952,
+          0.7209130625517697,
+          0.7322994634653155,
+          0.7740382760455432,
+          0.7788827455295335,
+          0.7889268993921177,
+          0.7978949162453151,
+          0.800048589237805,
+          0.8086414599769283
+        ],
+        "counters": {
+          "distance_evaluations": 17732,
+          "expansions": 390,
+          "neighbor_attempts": 23472,
+          "already_seen_attempts": 5741,
+          "frontier_insertions": 1675
+        }
+      }
+    ],
+    "A3_R1_beam832": [
+      {
+        "query_id": 0,
+        "ids": [
+          84139,
+          98069,
+          733955,
+          126930,
+          241689,
+          639103,
+          530233,
+          54250,
+          248827,
+          738038
+        ],
+        "squared_l2": [
+          0.48739319736953196,
+          0.5208382869782984,
+          0.5810897993954734,
+          0.5839411333690947,
+          0.6749065403834439,
+          0.6762047300686179,
+          0.6835926980854046,
+          0.702193023411042,
+          0.720032492062846,
+          0.749686370151096
+        ],
+        "counters": {
+          "distance_evaluations": 18117,
+          "expansions": 837,
+          "neighbor_attempts": 29155,
+          "already_seen_attempts": 11039,
+          "frontier_insertions": 2175
+        }
+      },
+      {
+        "query_id": 1,
+        "ids": [
+          19749,
+          38592,
+          685362,
+          313293,
+          246269,
+          724705,
+          574646,
+          962208,
+          189788,
+          449084
+        ],
+        "squared_l2": [
+          0.4462395476915516,
+          0.5667574286112314,
+          0.5699874316487438,
+          0.6245439877341277,
+          0.6450442746980553,
+          0.6519506862634177,
+          0.6524838688781628,
+          0.6630603600957505,
+          0.6657286632171318,
+          0.6759441053334616
+        ],
+        "counters": {
+          "distance_evaluations": 18530,
+          "expansions": 835,
+          "neighbor_attempts": 30327,
+          "already_seen_attempts": 11798,
+          "frontier_insertions": 2264
+        }
+      },
+      {
+        "query_id": 31,
+        "ids": [
+          196256,
+          990988,
+          665563,
+          177430,
+          160536,
+          727181,
+          505413,
+          602338,
+          852320,
+          875105
+        ],
+        "squared_l2": [
+          0.6132427684244596,
+          0.6373798098559952,
+          0.7209130625517697,
+          0.7322994634653155,
+          0.7740382760455432,
+          0.7788827455295335,
+          0.7889268993921177,
+          0.7978949162453151,
+          0.800048589237805,
+          0.8086414599769283
+        ],
+        "counters": {
+          "distance_evaluations": 18600,
+          "expansions": 840,
+          "neighbor_attempts": 27883,
+          "already_seen_attempts": 9284,
+          "frontier_insertions": 3116
+        }
+      }
+    ]
+  },
+  "missing_and_not_verified": [
+    {
+      "item": "campaign_manifest.json",
+      "status": "MISSING",
+      "expected_sha256": "",
+      "historical_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/campaign_manifest.json",
+      "owner": "Task A owner",
+      "reason": "Not included in TaskD_R86_MST1M_Handoff_v1.tar.gz; ~/ann-task-a not present on thinhbui-linux"
+    },
+    {
+      "item": "builder_stock_off",
+      "status": "MISSING",
+      "expected_sha256": "aa2d174ed063070045f1fbbc8051b1d97b851168b2f3bf53ee32215a867583be",
+      "historical_path": "/home/tai/ann-task-a/experiments/R86/gates/highway_r85_four_binary_jvYREW/build_stock_off/algorithms/PipNN/neighbors-pipnn_FLOAT_T_EUCLIDEAN",
+      "owner": "Task A owner",
+      "reason": "README_HANDOFF.txt confirms binary files were not exported in Handoff_v1"
+    },
+    {
+      "item": "builder_h17_off",
+      "status": "MISSING",
+      "expected_sha256": "5f673586210f93b424fc81791ec7873cb74600843b5004c0a4aaaf32bf936297",
+      "historical_path": "/home/tai/ann-task-a/experiments/R86/gates/highway_r85_four_binary_jvYREW/build_h17_off/algorithms/PipNN/neighbors-pipnn_FLOAT_T_EUCLIDEAN",
+      "owner": "Task A owner",
+      "reason": "README_HANDOFF.txt confirms binary files were not exported in Handoff_v1"
+    },
+    {
+      "item": "builder_compile_link_metadata",
+      "status": "MISSING",
+      "expected_sha256": "",
+      "historical_path": "/home/tai/ann-task-a/experiments/R86/gates/highway_r85_four_binary_jvYREW/{provenance.txt,source_sha256.txt,four_binary_manifest.json,stock_off.*.log,h17_off.*.log,build_*/CMakeCache.txt,flags.make,link.txt}",
+      "owner": "Task A owner",
+      "reason": "Compile/link metadata and CMake build trees not included in Handoff_v1 or source snapshot"
+    },
+    {
+      "item": "historical_search_v3",
+      "status": "MISSING",
+      "expected_sha256": "ea6c757b47b1267b7009ff0a1a80a3fdeaaf59740c4c2036712accf9ba0d0af5",
+      "historical_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_eval/r86_msturing1m_graph_recall_v3",
+      "owner": "Task A owner",
+      "reason": "Binary not exported in Handoff_v1; source r86_msturing1m_graph_recall.cc present in snapshot"
+    },
+    {
+      "item": "historical_search_v4",
+      "status": "MISSING",
+      "expected_sha256": "bb6576ad3e1e0cc770535aa06355c664993ca70bd1170d6dd4d202ab5767e144",
+      "historical_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_eval/r86_msturing1m_graph_recall_v4_highbeam",
+      "owner": "Task A owner",
+      "reason": "Binary not exported in Handoff_v1; source r86_msturing1m_graph_recall_v4_highbeam.cc present in snapshot"
+    },
+    {
+      "item": "search_compile_link_manifests",
+      "status": "MISSING",
+      "expected_sha256": "",
+      "historical_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_eval/{r86_msturing1m_eval_native_link_v3.json,r86_msturing1m_eval_native_link_v3.log,r86_msturing1m_highbeam_v4_manifest.json,r86_msturing1m_highbeam_v4_compile.log}",
+      "owner": "Task A owner",
+      "reason": "Search compile/link manifests and logs not exported in Handoff_v1"
+    },
+    {
+      "item": "build_source_commit_and_diff",
+      "status": "NOT_VERIFIED",
+      "expected_sha256": "",
+      "historical_path": "/home/tai/ann-task-a/experiments/R86/r86_v1_2_source",
+      "owner": "Task A owner",
+      "reason": "provenance_current_checkout.json reports r86_v1_2_source is NOT_A_GIT_WORKTREE and pipnn-clean-443a328 is dirty on 4 files; E_PROTOCOL commit/diff blank"
+    },
+    {
+      "item": "dependency_revisions_and_toolchain",
+      "status": "NOT_VERIFIED",
+      "expected_sha256": "",
+      "historical_path": "/home/tai/ann-task-a/experiments/R86/r86_v1_2_builds/stock_off/_deps; /home/tai/ann-task-a/experiments/H85/r85_0_matched_baseline/build_stock/_deps/highway-src",
+      "owner": "Task A owner",
+      "reason": "Actual built binaries & flags.make/link.txt missing; snapshot stock_off CMakeCXXCompiler.cmake shows GCC 13.3.0 but lacks target flags.make/link.txt"
+    },
+    {
+      "item": "seed_and_randomness_linkage",
+      "status": "NOT_RECORDED",
+      "expected_sha256": "",
+      "historical_path": "",
+      "owner": "Task A owner",
+      "reason": "README_HANDOFF.txt & E_PROTOCOL confirm seed was NOT_RECORDED; native.build.log shows 'leader method: random' and distinct build outputs across r1-r3, binary linkage unverified"
+    },
+    {
+      "item": "gt_acquisition_and_diagnostic_receipts",
+      "status": "NOT_VERIFIED",
+      "expected_sha256": "",
+      "historical_path": "/home/tai/ann-task-a/data/MSTuring_1M_v1/MS_TURING_1M_REPRO_MANIFEST.json",
+      "owner": "Task A / Task D",
+      "reason": "Download/diagnostic scripts recovered in source snapshot, but actual execution log & MS_TURING_1M_REPRO_MANIFEST.json missing; 3 rank-0 negative distances require formal GT policy in new protocol"
+    },
+    {
+      "item": "historical_host_receipt",
+      "status": "NOT_VERIFIED",
+      "expected_sha256": "",
+      "historical_path": "",
+      "owner": "Task A owner",
+      "reason": "No historical Task A host CPU/RAM/governor/SMT/NUMA receipt recovered in Handoff_v1 or source snapshot"
+    },
+    {
+      "item": "current_host_qualification",
+      "status": "NOT_VERIFIED",
+      "expected_sha256": "",
+      "historical_path": "thinhbui-linux (AMD Ryzen 5 PRO 4650U, schedutil, 12 logical CPUs / 6 cores SMT on)",
+      "owner": "User / Task D host owner",
+      "reason": "Current host observed read-only; not qualified with governor/affinity/residency/thermal protocol before P3"
+    }
+  ],
+  "gates": {
+    "P0_byte_identity_12_assets_and_261_receipts": "PASS",
+    "P0_historical_provenance_and_host": "HOLD",
+    "P1_gt_v2_contract_and_common_engine_smoke_A0_A3": "PASS_SCOPED_CORRECTNESS_ONLY",
+    "P1_full_campaign_and_prospective_calibration": "HOLD",
+    "P2_multi_walker": "CLOSED",
+    "P3_benchmark": "CLOSED"
+  }
+}

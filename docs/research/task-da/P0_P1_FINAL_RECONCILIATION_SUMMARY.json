@@ -1,0 +1,539 @@
+{
+  "date": "2026-11-17",
+  "reconciliation_evidence_dir": "artifact-evidence/p0-p1-final-reconciliation-20261117T223637+0700",
+  "source_evidence_dirs": [
+    "artifact-evidence/TaskA_R86_Artifact_Recovery_20261117",
+    "artifact-evidence/p0-p1-recovery-20261117T161322+0700",
+    "artifact-evidence/p0-p1-v2-smoke-20261117T170810+0700",
+    "artifact-evidence/p0-p1-20261117T151056+0700"
+  ],
+  "manifest_v3_path": "docs/research/task-da/experiment_manifest_v3_reconciled.json",
+  "manifest_v3_sha256": "9094fb348269918077b37e901b887eae7ac1662c74a45aa43a237cd227e57d16",
+  "cross_host_checksum_reconciliation": {
+    "reconciliation_dir": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/p0-p1-final-reconciliation-20261117T223637+0700",
+    "generated_local": "2026-11-17T22:39:47.549614+07:00",
+    "original_manifest": {
+      "path": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/TaskA_R86_Artifact_Recovery_20261117/TASK_A_R86_CHECKSUMS.sha256",
+      "sha256": "6bf86df550bd58bbdff653aca8e5117f1eb2873fc22b64fb94d4834de0a96c62",
+      "total_lines": 428,
+      "raw_sha256sum_c_exit_code": 1,
+      "status_counts_all_428_lines": {
+        "VERIFIED": 417,
+        "NOT_TRANSFERRED": 11
+      },
+      "relative_90_lines": {
+        "VERIFIED": 90
+      },
+      "tai_absolute_338_lines": {
+        "VERIFIED": 327,
+        "NOT_TRANSFERRED": 11
+      },
+      "tai_338_resolution_roots": {
+        "TaskA_R86_Artifact_Recovery_20261117": 90,
+        "UNRESOLVED": 11,
+        "graph(/home/thinhbui/Documents/ChatGPT/graph)": 12,
+        "p0-p1-recovery-20261117T161322+0700": 225
+      },
+      "tai_338_also_verified_in_task_a_f0c3336": 163
+    },
+    "extra_p0_p1_recovery_formal_calib": {
+      "count": 36,
+      "status_counts": {
+        "VERIFIED": 36
+      }
+    },
+    "thinhbui_local_sha256_manifest": {
+      "path": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/p0-p1-final-reconciliation-20261117T223637+0700/THINHBUI_CHECKSUMS_LOCAL.sha256",
+      "unique_local_files_verified": 363,
+      "sha256sum_c_exit_code": 0
+    },
+    "not_transferred_items": [
+      {
+        "artifact_id": "EXE_COMP_G0_STOCK_OFF_R86HW",
+        "category": "companion_executable_historical",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/r86_v1_2_builds/stock_off/algorithms/PipNN/neighbors-pipnn_FLOAT_T_EUCLIDEAN",
+        "expected_sha256": "ba8e621fdcbf1649f101b2a0f63d13791061847e14608907ecbe601c4269b681",
+        "reason": "Historical reference ELF (EXE_COMP_G0_STOCK_OFF_R86HW) intentionally omitted from TaskA_R86_Artifact_Recovery_20261117 recovered_artifacts"
+      },
+      {
+        "artifact_id": "EXE_COMP_R85_A1C_EVAL_REF",
+        "category": "companion_executable_historical",
+        "manifest_path": "/home/tai/ann-task-a/experiments/H85/r85_a1c_matched_search/r85_a1c_graph_recall",
+        "expected_sha256": "11587916ffd70143d6d5246bf8d2e26c1927b81bf8b3298fbc2014bfb6c64a4e",
+        "reason": "Historical reference ELF (EXE_COMP_R85_A1C_EVAL_REF) intentionally omitted from TaskA_R86_Artifact_Recovery_20261117 recovered_artifacts"
+      },
+      {
+        "artifact_id": "GRAPH_A2_R1",
+        "category": "companion_graph",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/A2/r1/index.graph",
+        "expected_sha256": "964e8ce3df93f113bb5fb6ab809b6cf7da132dc6129ef0d7bbe8de52bbc31248",
+        "reason": "Companion arm heavy graph (A2/A4/D0) outside Task D A0/A1/A3 formal subset; intentionally excluded from thinhbui transfer"
+      },
+      {
+        "artifact_id": "GRAPH_A2_R2",
+        "category": "companion_graph",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/A2/r2/index.graph",
+        "expected_sha256": "d099a8154315016bf9783444bc041838dad738be60caad2ae91dc5daf07f28cf",
+        "reason": "Companion arm heavy graph (A2/A4/D0) outside Task D A0/A1/A3 formal subset; intentionally excluded from thinhbui transfer"
+      },
+      {
+        "artifact_id": "GRAPH_A2_R3",
+        "category": "companion_graph",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/A2/r3/index.graph",
+        "expected_sha256": "aa791b42e992c7d1fe712ccf783387bffcb2a894e891fa97dd01ca50739a52ff",
+        "reason": "Companion arm heavy graph (A2/A4/D0) outside Task D A0/A1/A3 formal subset; intentionally excluded from thinhbui transfer"
+      },
+      {
+        "artifact_id": "GRAPH_A4_R1",
+        "category": "companion_graph",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/A4/r1/index.graph",
+        "expected_sha256": "149ec7f36c1d347cd1461533a85a13e8e76cf0af91ace68c62598e348101ad37",
+        "reason": "Companion arm heavy graph (A2/A4/D0) outside Task D A0/A1/A3 formal subset; intentionally excluded from thinhbui transfer"
+      },
+      {
+        "artifact_id": "GRAPH_A4_R2",
+        "category": "companion_graph",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/A4/r2/index.graph",
+        "expected_sha256": "69d3e528b931623e9b7d48d71e60fb59c9b3155680da4fdb9873ed394fd43b86",
+        "reason": "Companion arm heavy graph (A2/A4/D0) outside Task D A0/A1/A3 formal subset; intentionally excluded from thinhbui transfer"
+      },
+      {
+        "artifact_id": "GRAPH_A4_R3",
+        "category": "companion_graph",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/A4/r3/index.graph",
+        "expected_sha256": "53a6b0d3f1e179cccfd979d2ad5806f5a669456db7aa25aef40b8ba441c4bc44",
+        "reason": "Companion arm heavy graph (A2/A4/D0) outside Task D A0/A1/A3 formal subset; intentionally excluded from thinhbui transfer"
+      },
+      {
+        "artifact_id": "GRAPH_D0_R1",
+        "category": "companion_graph",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/D0/r1/index.graph",
+        "expected_sha256": "2dd3409c4a54d3e9eb0ebacec7c86f868cbdae3375e2acbcd3989ca2066cfb28",
+        "reason": "Companion arm heavy graph (A2/A4/D0) outside Task D A0/A1/A3 formal subset; intentionally excluded from thinhbui transfer"
+      },
+      {
+        "artifact_id": "GRAPH_D0_R2",
+        "category": "companion_graph",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/D0/r2/index.graph",
+        "expected_sha256": "ff67de6d7a47b14754c387d482d2e724385aa0db9fbdd7604023a3a9a7309159",
+        "reason": "Companion arm heavy graph (A2/A4/D0) outside Task D A0/A1/A3 formal subset; intentionally excluded from thinhbui transfer"
+      },
+      {
+        "artifact_id": "GRAPH_D0_R3",
+        "category": "companion_graph",
+        "manifest_path": "/home/tai/ann-task-a/experiments/R86/msturing_1m_sixarm/formal_mst1m_v1/D0/r3/index.graph",
+        "expected_sha256": "4d4b7755d12418cd0cbc6218de5144997f47171e7ae1ea5bcd7b3de9c73dbff8",
+        "reason": "Companion arm heavy graph (A2/A4/D0) outside Task D A0/A1/A3 formal subset; intentionally excluded from thinhbui transfer"
+      }
+    ]
+  },
+  "source_to_binary_provenance": {
+    "base_commit_h70": "443a328dc71a3b7be753d52ca2b3c9a4ba77f3fd",
+    "h70_git_diff_patch_sha256": "d6bcbe9aaae95c0916fa58599355cc93040a19ff41b89bb6109a7b3be5739121",
+    "h70_reverse_apply_dry_run_rc": 0,
+    "r86_counter_patch_sha256": "70c9088092f58c16be6835cddad6710003216723164bd74fff81510c909e0a8c",
+    "r86_forward_apply_rc": 0,
+    "patched_h70_vs_staged_r86_files_checked": 210,
+    "patched_h70_vs_staged_r86_mismatches": [],
+    "dependency_pins_from_script": {
+      "highway": "6bc2d47793bae9c521fb4150936669647700765d",
+      "parlaylib": "51017699dcc421f80479cdb238d3092233ad0d26",
+      "eigen": "3147391d946bb4b6c68edd901f2add6ac1f31f8c",
+      "abseil_cpp": "bc257a88f7c1939f24e0379f14a3589e926c950c"
+    },
+    "seed_and_randomness_audit": {
+      "cli_seed_flag": "NONE_IN_NEIGHBORSTIME_OR_PIPNN",
+      "runtime_seed_receipt": "NOT_RECORDED",
+      "hardcoded_seed_pipnn_h_498": 555,
+      "seed_evolution_pipnn_h_429": "SEED = parlay::hash64(SEED)",
+      "unused_random_device_pipnn_h_373_376": "std::random_device rd; std::mt19937 rng(rd()); parlay::random rnd(uni(rng)); (dead code, rnd never used)",
+      "hash_family_default_seed_hash_h_15": 0,
+      "random_permute_commented_out_pipnn_h_557": true,
+      "search_evaluator_random_flag": false,
+      "search_evaluator_start_point": 0,
+      "search_evaluator_cut": 1.35,
+      "replicate_variance_cause": "PARLAY_NUM_THREADS=4 concurrent reservoir merge_neighbors + parallel leaf scheduling on same SEED=555 (not independent RNG streams)"
+    },
+    "executables_static_audit_no_execution": [
+      {
+        "relpath": "A_builder_stock_off/neighbors-pipnn_FLOAT_T_EUCLIDEAN",
+        "sha256": "aa2d174ed063070045f1fbbc8051b1d97b851168b2f3bf53ee32215a867583be",
+        "bytes": 2836408,
+        "build_id_sha1": "7abbf2c2d610aff0e43b636fc87fd697de067db9",
+        "gcc_comment": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "needed_shared_libs": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "uses_ymm_avx2": true,
+        "uses_zmm_avx512": true,
+        "file_type": "ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=7abbf2c2d610aff0e43b636fc87fd697de067db9, for GNU/Linux 3.2.0, with debug_info, not stripped"
+      },
+      {
+        "relpath": "A_builder_stock_off_MVzZH3_duplicate/neighbors-pipnn_FLOAT_T_EUCLIDEAN",
+        "sha256": "aa2d174ed063070045f1fbbc8051b1d97b851168b2f3bf53ee32215a867583be",
+        "bytes": 2836408,
+        "build_id_sha1": "7abbf2c2d610aff0e43b636fc87fd697de067db9",
+        "gcc_comment": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "needed_shared_libs": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "uses_ymm_avx2": true,
+        "uses_zmm_avx512": true,
+        "file_type": "ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=7abbf2c2d610aff0e43b636fc87fd697de067db9, for GNU/Linux 3.2.0, with debug_info, not stripped"
+      },
+      {
+        "relpath": "B_builder_h17_off/neighbors-pipnn_FLOAT_T_EUCLIDEAN",
+        "sha256": "5f673586210f93b424fc81791ec7873cb74600843b5004c0a4aaaf32bf936297",
+        "bytes": 2840040,
+        "build_id_sha1": "930b31acc375459f7a02723312e1b7620ae45ba9",
+        "gcc_comment": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "needed_shared_libs": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "uses_ymm_avx2": true,
+        "uses_zmm_avx512": true,
+        "file_type": "ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=930b31acc375459f7a02723312e1b7620ae45ba9, for GNU/Linux 3.2.0, with debug_info, not stripped"
+      },
+      {
+        "relpath": "C_search_eval_v3/r86_msturing1m_graph_recall_v3",
+        "sha256": "ea6c757b47b1267b7009ff0a1a80a3fdeaaf59740c4c2036712accf9ba0d0af5",
+        "bytes": 553840,
+        "build_id_sha1": "bbac7c10ab38f7063081c6c06c02c5df86680b87",
+        "gcc_comment": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "needed_shared_libs": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6"
+        ],
+        "uses_ymm_avx2": true,
+        "uses_zmm_avx512": false,
+        "file_type": "ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=bbac7c10ab38f7063081c6c06c02c5df86680b87, for GNU/Linux 3.2.0, with debug_info, not stripped"
+      },
+      {
+        "relpath": "D_search_eval_v4_highbeam/r86_msturing1m_graph_recall_v4_highbeam",
+        "sha256": "bb6576ad3e1e0cc770535aa06355c664993ca70bd1170d6dd4d202ab5767e144",
+        "bytes": 553856,
+        "build_id_sha1": "3edea046a21c076d27cc233f0dfeda125d7b06fa",
+        "gcc_comment": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "needed_shared_libs": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6"
+        ],
+        "uses_ymm_avx2": true,
+        "uses_zmm_avx512": false,
+        "file_type": "ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=3edea046a21c076d27cc233f0dfeda125d7b06fa, for GNU/Linux 3.2.0, with debug_info, not stripped"
+      },
+      {
+        "relpath": "companions/D0_builder_h17_tier_off_v2/neighbors-pipnn_FLOAT_T_EUCLIDEAN",
+        "sha256": "7c2aad71a97f9c2b2e6de6026085be43954a7dd0845feffb672f6782c84575ab",
+        "bytes": 2851192,
+        "build_id_sha1": "1fed297b0a8141f74aa962e78d45ce974e2fd148",
+        "gcc_comment": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "needed_shared_libs": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "uses_ymm_avx2": true,
+        "uses_zmm_avx512": true,
+        "file_type": "ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=1fed297b0a8141f74aa962e78d45ce974e2fd148, for GNU/Linux 3.2.0, with debug_info, not stripped"
+      },
+      {
+        "relpath": "companions/G11_counter64/r86_msturing1m_graph_recall_v4_diag_counter64",
+        "sha256": "a98b8748b92787e6ccbf52556a8eef2c24bff4580c6275c9fa464dd82af4d3a4",
+        "bytes": 545176,
+        "build_id_sha1": "39627f90c201820c66e94b5ec0e595b81564d47b",
+        "gcc_comment": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "needed_shared_libs": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6"
+        ],
+        "uses_ymm_avx2": true,
+        "uses_zmm_avx512": false,
+        "file_type": "ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=39627f90c201820c66e94b5ec0e595b81564d47b, for GNU/Linux 3.2.0, with debug_info, not stripped"
+      },
+      {
+        "relpath": "companions/jvYREW_h17_on/neighbors-pipnn_FLOAT_T_EUCLIDEAN",
+        "sha256": "ef707479be221cb7a3c6257298d22f614678878f0a7bfc724dc8b28fabdd21c4",
+        "bytes": 2554272,
+        "build_id_sha1": "5d21592966ff90583e2c38ea83a60c87848067a7",
+        "gcc_comment": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "needed_shared_libs": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "uses_ymm_avx2": true,
+        "uses_zmm_avx512": true,
+        "file_type": "ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=5d21592966ff90583e2c38ea83a60c87848067a7, for GNU/Linux 3.2.0, with debug_info, not stripped"
+      },
+      {
+        "relpath": "companions/jvYREW_stock_on/neighbors-pipnn_FLOAT_T_EUCLIDEAN",
+        "sha256": "396ef852992428cd3f935bcb33eeeeacc1bae565fbc4a441c1fa9d19720122ff",
+        "bytes": 2549944,
+        "build_id_sha1": "3508e96711814cde40e872a605b2f747c2309303",
+        "gcc_comment": [
+          "GCC: (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0"
+        ],
+        "needed_shared_libs": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "uses_ymm_avx2": true,
+        "uses_zmm_avx512": true,
+        "file_type": "ELF 64-bit LSB pie executable, x86-64, version 1 (GNU/Linux), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=3508e96711814cde40e872a605b2f747c2309303, for GNU/Linux 3.2.0, with debug_info, not stripped"
+      }
+    ]
+  },
+  "preflight_v3_result": {
+    "exit_code": 1,
+    "scope": "ARTIFACT_PREFLIGHT_ONLY",
+    "P0": "HOLD",
+    "P1": "HOLD",
+    "available_count": 12,
+    "total_checked": 12,
+    "structure_pass_count": 9,
+    "blockers_v2_count": 28,
+    "blockers_v3_count": 10,
+    "blockers_v3": [
+      "R86_MST1M_A0_OFF_FORMAL_R1: seed not verified",
+      "R86_MST1M_A1_OFF_FORMAL_R1: seed not verified",
+      "R86_MST1M_A3_OFF_FORMAL_R1: seed not verified",
+      "R86_MST1M_A3_OFF_FORMAL_R2: seed not verified",
+      "R86_MST1M_A1_OFF_FORMAL_R2: seed not verified",
+      "R86_MST1M_A0_OFF_FORMAL_R2: seed not verified",
+      "R86_MST1M_A3_OFF_FORMAL_R3: seed not verified",
+      "R86_MST1M_A0_OFF_FORMAL_R3: seed not verified",
+      "R86_MST1M_A1_OFF_FORMAL_R3: seed not verified",
+      "benchmark host stability and raw build provenance require independent review"
+    ]
+  },
+  "p1_smoke_v2_preserved": [
+    {
+      "run_id": "R86_MST1M_A0_OFF_FORMAL_R1",
+      "arm": "A0",
+      "rep": 1,
+      "beam": 384,
+      "mode": "ON",
+      "recall_at_10": 0.9875,
+      "graph_sha256": "55df31ac9b7716f779dca332ce9360c9e21a065f9298ec1c92c8ccdd37d72522",
+      "engine_sha256": "0d462c097f815af75de05f427c89b6a78a3ca35f6b925322bea1e67f1d6c17ed",
+      "jsonl_sha256": "584e4f0f5dd78395699a4f081df4fe51ab353b34926c10f3ad7e56d487b13e10"
+    },
+    {
+      "run_id": "R86_MST1M_A0_OFF_FORMAL_R1",
+      "arm": "A0",
+      "rep": 1,
+      "beam": 384,
+      "mode": "OFF",
+      "recall_at_10": 0.9875,
+      "graph_sha256": "55df31ac9b7716f779dca332ce9360c9e21a065f9298ec1c92c8ccdd37d72522",
+      "engine_sha256": "0d462c097f815af75de05f427c89b6a78a3ca35f6b925322bea1e67f1d6c17ed",
+      "jsonl_sha256": "b4caa153b1c33c3a36a5b2ba56af4cb965ba8bbb9f356030ff8256139f0b2bb6"
+    },
+    {
+      "run_id": "R86_MST1M_A3_OFF_FORMAL_R1",
+      "arm": "A3",
+      "rep": 1,
+      "beam": 832,
+      "mode": "ON",
+      "recall_at_10": 0.96875,
+      "graph_sha256": "0fff20ec47502c675c4905787d319390e49fa5bee856ac16c814c74697c5fbb2",
+      "engine_sha256": "0d462c097f815af75de05f427c89b6a78a3ca35f6b925322bea1e67f1d6c17ed",
+      "jsonl_sha256": "9235cd8439228c7832431ce9d3255e98626667994574a04731605b43ba601dfa"
+    },
+    {
+      "run_id": "R86_MST1M_A3_OFF_FORMAL_R1",
+      "arm": "A3",
+      "rep": 1,
+      "beam": 832,
+      "mode": "OFF",
+      "recall_at_10": 0.96875,
+      "graph_sha256": "0fff20ec47502c675c4905787d319390e49fa5bee856ac16c814c74697c5fbb2",
+      "engine_sha256": "0d462c097f815af75de05f427c89b6a78a3ca35f6b925322bea1e67f1d6c17ed",
+      "jsonl_sha256": "f9a40d45fb7a77d388c63122396dad6f7d26f5cb6c4303691442adc4d99369fc"
+    }
+  ],
+  "blockers_delta": [
+    {
+      "blocker_id": "BLK_CAMPAIGN_MANIFEST",
+      "prior_status_v2": "MISSING",
+      "current_status_v3": "CLOSED",
+      "resolution": "Recovered campaign_manifest.json (sha256 f0d1d807bae9029b5178331eb7c686d639955c125441a0f0d6c5ad65fd020baf) in TaskA_R86_Artifact_Recovery_20261117."
+    },
+    {
+      "blocker_id": "BLK_BUILDER_STOCK_OFF",
+      "prior_status_v2": "MISSING_ELF_REPORTED_ONLY",
+      "current_status_v3": "CLOSED",
+      "resolution": "Verified ELF + MVzZH3 duplicate (sha256 aa2d174ed063070045f1fbbc8051b1d97b851168b2f3bf53ee32215a867583be, BuildID 7abbf2c2d610aff0e43b636fc87fd697de067db9, GCC 13.3.0, AVX-512)."
+    },
+    {
+      "blocker_id": "BLK_BUILDER_H17_OFF",
+      "prior_status_v2": "MISSING_ELF_REPORTED_ONLY",
+      "current_status_v3": "CLOSED",
+      "resolution": "Verified ELF (sha256 5f673586210f93b424fc81791ec7873cb74600843b5004c0a4aaaf32bf936297, BuildID 930b31acc375459f7a02723312e1b7620ae45ba9, -DR71_H17_TOP2=1, AVX-512)."
+    },
+    {
+      "blocker_id": "BLK_SEARCH_EVAL_V3_V4",
+      "prior_status_v2": "MISSING_ELF_REPORTED_ONLY",
+      "current_status_v3": "CLOSED",
+      "resolution": "Verified v3 (ea6c757b..., BuildID bbac7c10...) & v4 (bb6576ad..., BuildID 3edea046...) ELFs, source diff >512->4096, and 11/11 H70 utils headers."
+    },
+    {
+      "blocker_id": "BLK_SOURCE_COMMIT_AND_DIFF",
+      "prior_status_v2": "NOT_VERIFIED (18 preflight blockers)",
+      "current_status_v3": "CLOSED_FOR_BUILDERS",
+      "resolution": "H70 443a328dc7 + H70_git_diff.patch (rc=0 reverse) + R86_counter_source_v1_2.patch (rc=0 forward) reproduces 210/210 staged r86_v1_2_source files with 0 mismatches."
+    },
+    {
+      "blocker_id": "BLK_BUILDER_CMAKE_FLAGS_DEPS",
+      "prior_status_v2": "NOT_VERIFIED",
+      "current_status_v3": "CLOSED",
+      "resolution": "Recovered jvYREW CMakeCache.txt, flags.make, link.txt, compile_commands.json, cmake_pch.hxx.gch.d (444 /home/tai tokens), and FetchContent dependency pins."
+    },
+    {
+      "blocker_id": "BLK_EVAL_COMPILE_MANIFESTS",
+      "prior_status_v2": "MISSING",
+      "current_status_v3": "CLOSED_EXCEPT_DEPFILE",
+      "resolution": "Recovered v3/v4 native link JSON manifests and 0-byte compile logs; only compiler -MD/-MF .d depfile absent."
+    },
+    {
+      "blocker_id": "BLK_COMPANION_ASSETS_11",
+      "prior_status_v2": "UNTRACKED_OUT_OF_SCOPE",
+      "current_status_v3": "NOT_TRANSFERRED_INTENTIONAL",
+      "resolution": "9 companion graphs (A2/A4/D0 x r1..r3) + 2 historical ref ELFs (G0 stock_off, R85 A1C eval) explicitly classified NOT_TRANSFERRED from tai-linux."
+    },
+    {
+      "blocker_id": "BLK_RUNTIME_SEED",
+      "prior_status_v2": "NOT_RECORDED (9 preflight blockers)",
+      "current_status_v3": "OPEN_NOT_RECORDED_SOURCE_MECHANISM_CLOSED",
+      "resolution": "Source path proved (SEED=555 + parlay::hash64 + dead random_device; no -seed CLI flag; variance from PARLAY_NUM_THREADS=4); runtime seed stays NOT_RECORDED (9 preflight blockers)."
+    },
+    {
+      "blocker_id": "BLK_CONTEMPORANEOUS_HOST_R86",
+      "prior_status_v2": "NOT_VERIFIED",
+      "current_status_v3": "OPEN_HISTORICAL_UNRECOVERABLE",
+      "resolution": "No Nov 13-15 lscpu/NUMA/SMT/governor/thermal/MemTotal receipt logged during R86; only CMake kernel Linux-7.0.0-42-generic & taskset/MemAvailable>=7GiB verified."
+    },
+    {
+      "blocker_id": "BLK_MS_TURING_REPRO_MANIFEST",
+      "prior_status_v2": "NOT_VERIFIED",
+      "current_status_v3": "OPEN_MISSING_NEVER_CREATED",
+      "resolution": "MS_TURING_1M_REPRO_MANIFEST.json never existed in R86 workspace; replaced operationally by campaign_manifest.json + Protocol v2 GT audit."
+    },
+    {
+      "blocker_id": "BLK_EVAL_V3_V4_DEPFILE",
+      "prior_status_v2": "NOT_VERIFIED",
+      "current_status_v3": "OPEN_NOT_VERIFIED",
+      "resolution": "Direct /usr/bin/c++ compilation omitted -MD/-MF; inferred from verbatim JSON command + verified H70 utils headers."
+    },
+    {
+      "blocker_id": "BLK_R86_V1_2_STANDALONE_GIT",
+      "prior_status_v2": "NOT_VERIFIED",
+      "current_status_v3": "OPEN_NOT_RECORDED_SUPERSEDED_BY_PATCH_CHAIN",
+      "resolution": "r86_v1_2_source staged without .git; exact source identity reconstructed via H70+patches (210/210 files)."
+    },
+    {
+      "blocker_id": "BLK_FULL_P1_EXECUTION",
+      "prior_status_v2": "HOLD",
+      "current_status_v3": "OPEN_READY_TO_EXECUTE",
+      "resolution": "Needs common-engine 10K val / 90K test prospective calibration and 100K/10K GT exact check across all 9 graphs."
+    },
+    {
+      "blocker_id": "BLK_CURRENT_HOST_P3_QUAL",
+      "prior_status_v2": "NOT_QUALIFIED_FOR_P3",
+      "current_status_v3": "OPEN_NOT_QUALIFIED",
+      "resolution": "thinhbui-linux (Ryzen 5 PRO 4650U, schedutil, Zen2 AVX2 vs tai-linux AVX-512) requires governor/SMT/affinity/thermal qualification before P3."
+    }
+  ],
+  "scoped_gate_decisions": [
+    {
+      "scope": "P0_binary_and_artifact_identity",
+      "status": "PASS",
+      "blocking_downstream": false,
+      "summary": "417/428 TASK_A_R86_CHECKSUMS lines + 36 calib files (363/363 unique local files) VERIFIED via sha256sum -c rc=0; 12/12 graph/data AVAILABLE; 261/261 receipts verified; 4/4 mandatory historical ELFs (+1 MVzZH3 dup +4 companions) match SHA-256; 11 companion items intentionally NOT_TRANSFERRED; 0 MISSING; 0 HASH_MISMATCH."
+    },
+    {
+      "scope": "P0_source_and_build_provenance",
+      "status": "PASS_SCOPED_WITH_DOCUMENTED_GAPS",
+      "blocking_downstream": false,
+      "summary": "H70 443a328dc7 + H70_git_diff (rc=0 rev) + R86_counter_source_v1_2 (rc=0 fwd) reconstructs 210/210 files with 0 mismatches; jvYREW CMakeCache/flags.make/link.txt/compile_commands/cmake_pch.hxx.gch.d + FetchContent pins + GCC 13.3.0 BuildIDs + v3/v4 manifests + 11/11 H70 eval headers + source SEED=555/hash64 path verified. Open gaps: r86_v1_2_source lacks .git; eval v3/v4 lacks -MD/-MF depfile; MS_TURING_1M_REPRO_MANIFEST.json missing; runtime CLI seed NOT_RECORDED (r1..r3 variance from PARLAY_NUM_THREADS=4)."
+    },
+    {
+      "scope": "P0_historical_host_reproducibility",
+      "status": "HOLD",
+      "blocking_downstream": false,
+      "summary": "HISTORICAL_UNRECOVERABLE contemporaneous Nov 13-15 R86 lscpu/NUMA/SMT/governor/thermal/MemTotal receipt on tai-linux; static objdump shows tai-linux builder ELFs emit AVX-512 (%zmm) while thinhbui-linux (AMD Ryzen 5 PRO 4650U, Zen2 AVX2, schedutil) lacks AVX-512 and is unqualified for P3 timing reproduction."
+    },
+    {
+      "scope": "P0_overall",
+      "status": "HOLD",
+      "blocking_downstream": true,
+      "summary": "Cannot promote overall P0 to blanket PASS under PRE_REGISTRATION.md/preflight (preflight v3 exit=1, 10 blockers: 9x runtime seed not verified + host/provenance review). Reusing the 9 verified historical graphs for prospective Task D common-engine P1/P2/P3 requires recording these permanent P0 historical seed/host bounds (or running an explicit new-campaign rebuild)."
+    },
+    {
+      "scope": "P1_gt_and_graph_compatibility",
+      "status": "PASS_UNDER_PROTOCOL_V2",
+      "blocking_downstream": false,
+      "summary": "9/9 formal graphs pass graph_audit under entry_point=0 (A3-R2 node 840923 preserved immutable); GT fa5acf5a immutable with Protocol v2 --gt-aux-min -1e-5 opt-in (default 0.0 preserved; 3 rank-0 float32 cancellation negatives verified against float64; check_nn_recall.h ID-only parity confirmed; 510/510 research tests PASS; full 100K brute-force GT exactness beyond 35 spotchecks stays NOT_CERTIFIED)."
+    },
+    {
+      "scope": "P1_bounded_correctness_smoke",
+      "status": "PASS_SCOPED_CORRECTNESS_ONLY",
+      "blocking_downstream": false,
+      "summary": "task_da_smoke (0d462c09...) p=1 ON/OFF on A0-R1 (beam=384, Recall@10=0.9875) and A3-R1 (beam=832, Recall@10=0.96875) q=[0..31]: exact ON/OFF ID/distance/counter parity, max f64 diff 7.77e-16. No 100K recall floor or latency/QPS/speedup claimed."
+    },
+    {
+      "scope": "Full_P1_validation_and_calibration",
+      "status": "READY_TO_EXECUTE_NOT_YET_RUN",
+      "blocking_downstream": true,
+      "summary": "Prerequisites closed except execution itself: requires deterministic SHA256-sorted 10K validation / 90K test split, common-engine p=1 prospective beam calibration across all 9 graphs (A0, A1, A3 x R1..R3), optional 10K GT exact check, and full-scale ON/OFF parity."
+    },
+    {
+      "scope": "P2_P3_readiness",
+      "status": "HOLD",
+      "blocking_downstream": true,
+      "summary": "P2 multi-walker blocked until Full P1 validation/calibration PASS + P2 local queue/visited/merge/termination spec + p=1 parity & race tests. P3 additionally blocked by benchmark host qualification on thinhbui-linux (or qualified host)."
+    }
+  ]
+}
