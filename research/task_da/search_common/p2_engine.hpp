@@ -16,6 +16,9 @@
 #include <thread>
 #include <utility>
 #include <vector>
+#ifdef TASK_DA_ROUND_TRACE
+#include "p2_round_trace.hpp"
+#endif
 
 #ifdef __linux__
 #include <pthread.h>
@@ -51,6 +54,10 @@ struct P2Counters {
 struct P2Result {
   std::vector<Hit> hits;
   P2Counters counters;
+#ifdef TASK_DA_ROUND_TRACE
+  std::vector<RoundTrace> rounds;
+  bool trace_overflow = false;
+#endif
 };
 
 namespace detail {
@@ -145,6 +152,9 @@ struct LocalRoundSet {
 };
 
 struct alignas(64) WorkerState {
+#ifdef TASK_DA_ROUND_TRACE
+  TraceWorker trace;
+#endif
   std::atomic<uint64_t> done_seq{0};
   std::vector<Hit> init_seeds;
   std::set<Hit> local_top;
@@ -242,9 +252,25 @@ class P2SearchSession {
   MergeImpl merge_impl() const noexcept { return merge_impl_; }
   VisitedPolicy visited_policy() const noexcept { return visited_policy_; }
   FrontierMode frontier_mode() const noexcept { return frontier_mode_; }
+#ifdef TASK_DA_ROUND_TRACE
+  void enable_round_trace(bool enabled) {
+    if (enabled && (workers_ != 2 || sync_interval_ != 16 || graph_.max_degree > 64 ||
+        merge_impl_ != MergeImpl::kFlat || visited_policy_ != VisitedPolicy::kBarrierAllEvaled ||
+        frontier_mode_ != FrontierMode::kIncremental))
+      throw std::invalid_argument("trace requires p2 S16 flat+B1+A1 degree<=64");
+    trace_enabled_ = enabled;
+    if (enabled) for (auto& ws : worker_states_) {
+      ws.trace.evaluated.reserve(1024);
+      ws.trace.expanded.reserve(16);
+    }
+  }
+#endif
 
   template <bool Instrument>
   P2Result search(const std::vector<float>& query, size_t k, size_t beam) {
+#ifdef TASK_DA_ROUND_TRACE
+    if (!Instrument && trace_enabled_) throw std::invalid_argument("trace requires counters ON");
+#endif
     if (query.size() != base_.dim || !k || k > beam || beam > base_.n) {
       throw std::invalid_argument("search shape/k/beam");
     }
@@ -319,6 +345,9 @@ class P2SearchSession {
 
   std::vector<detail::WorkerState> worker_states_;
   std::vector<std::thread> threads_;
+#ifdef TASK_DA_ROUND_TRACE
+  bool trace_enabled_ = false, trace_active_ = false;
+#endif
 
   uint16_t next_query_epoch() {
     ++query_epoch_;
@@ -359,6 +388,15 @@ class P2SearchSession {
   template <bool Instrument, bool MarkAllEvaled>
   void run_worker_round(size_t w, uint16_t q_epoch) {
     detail::WorkerState& ws = worker_states_[w];
+#ifdef TASK_DA_ROUND_TRACE
+    if (trace_active_) {
+      ws.trace.evaluated.clear();
+      ws.trace.expanded.clear();
+      ws.trace.attempts = ws.trace.insertions = 0;
+      ws.trace.start_ns = detail::now_ns();
+      ws.trace.done_ns = ws.trace.start_ns;
+    }
+#endif
     if (ws.init_seeds.empty()) {
       ws.was_idle = true;
       return;
@@ -394,6 +432,9 @@ class P2SearchSession {
       const Id node = ws.local_pending.begin()->second;
       ws.local_pending.erase(ws.local_pending.begin());
       ws.local_expanded.push_back(node);
+#ifdef TASK_DA_ROUND_TRACE
+      if (trace_active_) ws.trace.expanded.push_back(node);
+#endif
       ++steps;
       if constexpr (Instrument) ++ws.round_expansions;
 
@@ -406,6 +447,9 @@ class P2SearchSession {
           continue;
         }
         const double distance = squared_l2(nbr, query);
+#ifdef TASK_DA_ROUND_TRACE
+        if (trace_active_) ws.trace.evaluated.emplace_back(node, nbr);
+#endif
         if constexpr (Instrument || MarkAllEvaled) {
           ws.local_newly_evaled.push_back(nbr);
         }
@@ -431,6 +475,13 @@ class P2SearchSession {
     if constexpr (Instrument) {
       ws.work_done_ns = detail::now_ns();
     }
+#ifdef TASK_DA_ROUND_TRACE
+    if (trace_active_) {
+      ws.trace.done_ns = ws.work_done_ns;
+      ws.trace.attempts = ws.round_neighbor_attempts;
+      ws.trace.insertions = ws.round_frontier_insertions;
+    }
+#endif
   }
 
   void worker_loop(size_t w) {
@@ -701,8 +752,38 @@ class P2SearchSession {
       }
 
       const uint64_t next_seq = ++round_seq_;
+#ifdef TASK_DA_ROUND_TRACE
+      // At most 128 records, conservatively <64KiB owned payload/capacity each.
+      // Only worker-private append buffers are written while workers run.
+      trace_active_ = trace_enabled_ && result.rounds.size() < 128;
+      if (trace_enabled_ && !trace_active_) result.trace_overflow = true;
+      if (trace_active_) {
+        const auto before = detail::now_ns();
+        result.rounds.emplace_back();
+        auto& tr = result.rounds.back();
+        tr.prepare_ns = before;
+        tr.seeds.reserve(32);
+        for (size_t w = 0; w < workers_; ++w) {
+          for (size_t i = 0; i < worker_states_[w].init_seeds.size(); ++i) {
+            const auto& hit = worker_states_[w].init_seeds[i];
+            const auto node = hit.second;
+            const auto degree = graph_.offsets[node+1] - graph_.offsets[node];
+            TraceSeed seed{node, static_cast<uint32_t>(w), static_cast<uint32_t>(i*2+w),
+                           static_cast<uint32_t>(degree), hit.first, {}};
+            seed.eligible.reserve(degree);
+            for (size_t e = graph_.offsets[node]; e < graph_.offsets[node+1]; ++e)
+              if (settled_epoch_[graph_.edges[e]] != q_epoch) seed.eligible.push_back(graph_.edges[e]);
+            tr.seeds.push_back(std::move(seed));
+          }
+        }
+        tr.snapshot_ns = detail::now_ns() - before;
+      }
+#endif
       uint64_t t_dispatch = 0;
       if constexpr (Instrument) t_dispatch = detail::now_ns();
+#ifdef TASK_DA_ROUND_TRACE
+      if (trace_active_) result.rounds.back().release_ns = t_dispatch;
+#endif
       work_seq_.store(next_seq, std::memory_order_release);
 
       run_worker_round<Instrument, MarkAllEvaled>(0, q_epoch);
@@ -721,6 +802,14 @@ class P2SearchSession {
 
       uint64_t t_all_arrived = 0;
       if constexpr (Instrument) t_all_arrived = detail::now_ns();
+#ifdef TASK_DA_ROUND_TRACE
+      if (trace_active_) {
+        auto& tr = result.rounds.back();
+        tr.arrived_ns = t_all_arrived;
+        for (size_t w = 0; w < 2; ++w) tr.workers[w] = worker_states_[w].trace;
+        tr.copy_ns = detail::now_ns() - t_all_arrived;
+      }
+#endif
 
       // Single-writer merge phase while helpers remain parked on work_seq_ == next_seq.
       for (size_t w = 0; w < workers_; ++w) {
@@ -942,6 +1031,9 @@ class P2SearchSession {
         result.counters.sync_wait_ns +=
             round_barrier_wait + static_cast<uint64_t>(active_helpers) * merge_ns;
       }
+#ifdef TASK_DA_ROUND_TRACE
+      if (trace_active_) result.rounds.back().end_ns = detail::now_ns();
+#endif
     }
 
     if constexpr (IncFrontier) {

@@ -146,6 +146,7 @@ struct Options {
   size_t sync_interval = 8;
   size_t max_beam = 4096;
   size_t jobs = 1;
+  bool round_trace = false;
 };
 
 Options parse_args(int argc, char** argv) {
@@ -170,7 +171,13 @@ Options parse_args(int argc, char** argv) {
       if (i + 1 >= argc) throw std::invalid_argument("missing value for " + name);
       return argv[++i];
     };
-    if (flag == "--beams") {
+    if (flag == "--round-trace") {
+#ifdef TASK_DA_ROUND_TRACE
+      opt.round_trace = true;
+#else
+      throw std::invalid_argument("round trace not compiled into this binary");
+#endif
+    } else if (flag == "--beams") {
       opt.beams = parse_size_list(need(flag));
     } else if (flag == "--mode") {
       opt.mode = need(flag);
@@ -206,6 +213,7 @@ Options parse_args(int argc, char** argv) {
   }
 
   if (opt.mode != "ON" && opt.mode != "OFF") throw std::invalid_argument("--mode must be ON or OFF");
+  if (opt.round_trace && opt.mode != "ON") throw std::invalid_argument("trace requires ON");
   if (opt.merge_impl != "set" && opt.merge_impl != "flat") {
     throw std::invalid_argument("--merge-impl must be set or flat");
   }
@@ -253,7 +261,11 @@ BeamRunOutput<Instrument> execute_beam(
     const std::vector<size_t>& warmup_ids,
     const std::vector<size_t>& query_ids,
     size_t k,
-    size_t beam) {
+    size_t beam,
+    bool round_trace) {
+#ifndef TASK_DA_ROUND_TRACE
+  (void)round_trace;
+#endif
   BeamRunOutput<Instrument> out;
   out.beam = beam;
   out.latencies_ns.resize(query_ids.size(), 0);
@@ -265,6 +277,9 @@ BeamRunOutput<Instrument> execute_beam(
   }
 
   const uint64_t t_batch_start = task_da::detail::now_ns();
+#ifdef TASK_DA_ROUND_TRACE
+  session.enable_round_trace(round_trace);
+#endif
   for (size_t i = 0; i < query_ids.size(); ++i) {
     const size_t qid = query_ids[i];
     const uint64_t t0 = task_da::detail::now_ns();
@@ -276,6 +291,9 @@ BeamRunOutput<Instrument> execute_beam(
   }
   const uint64_t t_batch_end = task_da::detail::now_ns();
   out.batch_wall_ns = (t_batch_end >= t_batch_start) ? (t_batch_end - t_batch_start) : 0;
+#ifdef TASK_DA_ROUND_TRACE
+  session.enable_round_trace(false);
+#endif
   return out;
 }
 
@@ -439,6 +457,9 @@ int main(int argc, char** argv) {
             write_json_array(os, c.per_worker_idle_rounds);
             os << '}';
           }
+#ifdef TASK_DA_ROUND_TRACE
+          if (opt.round_trace) task_da::write_round_trace(os, res.rounds, res.trace_overflow);
+#endif
           os << "}\n";
         }
 
@@ -503,7 +524,7 @@ int main(int argc, char** argv) {
         std::vector<BeamRunOutput<true>> beam_runs;
         beam_runs.reserve(opt.beams.size());
         for (size_t beam : opt.beams) {
-          beam_runs.push_back(execute_beam<true>(session, queries, warmup_ids, query_ids, opt.k, beam));
+          beam_runs.push_back(execute_beam<true>(session, queries, warmup_ids, query_ids, opt.k, beam, opt.round_trace));
         }
         session.stop_threads();
         for (const auto& r : beam_runs) write_beam_outputs(r);
@@ -511,7 +532,7 @@ int main(int argc, char** argv) {
         std::vector<BeamRunOutput<false>> beam_runs;
         beam_runs.reserve(opt.beams.size());
         for (size_t beam : opt.beams) {
-          beam_runs.push_back(execute_beam<false>(session, queries, warmup_ids, query_ids, opt.k, beam));
+          beam_runs.push_back(execute_beam<false>(session, queries, warmup_ids, query_ids, opt.k, beam, opt.round_trace));
         }
         session.stop_threads();
         for (const auto& r : beam_runs) write_beam_outputs(r);
