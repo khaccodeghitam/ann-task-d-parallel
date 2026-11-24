@@ -1,0 +1,330 @@
+{
+  "protocol": "AXD-G2-V2-3A-20261123",
+  "revision": "design-3",
+  "schema": "axd_g2_v2.3",
+  "scope": "p2-only; controlled pre-data amendment design-3; quality/performance NOT_OPEN; awaiting 900s minimal-TTY qualification and separate design-3 owner approval",
+  "supersedes_for_b1_guard": "design-2 (preserved immutable at freeze SHA 91186d57e5992e1df70f86a55ba928ad4d6613bb0b67ccbee0f485cc380d1749)",
+  "base_repository_commit": "f54b1bb653652dd13e760cc00c9fb46d0e643c1c",
+  "wrapper_source_identity": "uncommitted overlay pinned by components SHA256; no invented new commit",
+  "search_source_commit": "f2cd634b837a70735c3e31e5956f0524bfc26675",
+  "workers": 2,
+  "cpus": [
+    0,
+    2
+  ],
+  "worker_cores_cpus": [
+    0,
+    1,
+    2,
+    3
+  ],
+  "ccx0_cpus": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "beam": 432,
+  "sync_interval": 16,
+  "queries": 10000,
+  "warmup": 100,
+  "blocks": 12,
+  "python": "3.12.3",
+  "dependencies": {
+    "numpy": "2.5.5",
+    "attrs": "26.1.0",
+    "jsonschema-specifications": "2025.9.1",
+    "referencing": "0.37.0",
+    "typing_extensions": "4.16.0",
+    "rpds-py": "2026.9.1",
+    "jsonschema": "4.26.0"
+  },
+  "components": {
+    "research/task_da/g2_v2_design3_contract.py": "6b7e163fe8262b6fa1d9732dfc5c3c7381af0615f0c9f4279542e2d57978816b",
+    "research/task_da/g2_v2_design3_guard.py": "6795656a337a78c9ef90bc226f57aa8df6155241c9f207063eb770c2d488a61a",
+    "research/task_da/g2_v2_design3_analyzer.py": "e26776f030126d510f301610ad22ee766806c5f8b4674cf7fb38c5d3c9d872da",
+    "research/task_da/g2_v2_design3_runner.py": "9b8a94ca2cc7fa0e339cbab5f1bb1fa48a04208cfcda26b07c5780366028db09",
+    "research/task_da/g2_v2_design3_qualify.py": "0b5f45dd3fa0dceacb52d5ba7ddfd5b8a4f2c030ab33e3de408fc362520ad06a",
+    "scripts/run_g2_v2_design3_qualify.sh": "7b50301dda4cf2bbd1e52b0b784e216aaba2054d9c20640db64e18301aec7373",
+    "tests/research/test_g2_v2_design3.py": "732659ad359d1cf060d63b6746b0940afa32ac7a82f136806ac3a0e81b4025db",
+    "configs/axd_g2_v2_design3.schema.json": "2d7cec787e54c12fa8ed6fe4d4d4cb63d2ed713a6180fd07d71addf55108c99e",
+    "configs/axd_g2_v2_design3_artifacts.proposed.json": "6b49cce57a9520ef650dafda0ffd1deb735d6546569d7bbc5b1cdf2a3045f068",
+    "configs/axd_g2_v2_design3_approval.UNAPPROVED.json": "2bc0da3ed30f455ba5c3f15b366d2e899b01ae2e460023e4d38283fc8a2e1e12",
+    "configs/axd_g2_v2_build_reference.json": "c9ad18b0062fea39609089b26817d43adc2cb4f495cd72c3a3ef7261abbc87b3",
+    "requirements-g2-v2-design3.lock": "2f311d28dd072346f60aed97271a2971c323668497d27eabbaa6755200792b73",
+    "tools/research/run_paper_fullfan_check.py": "232ed904b54359af17161c2f785b81c77097aad4d99f68325e08faf88cfefcbb",
+    "tools/research/paper_portable_v2.py": "df8b74257cca8aee0f6e65c887ec3f659f86f0c7babfc15b86ed116b867a4f5e",
+    "tools/research/paper_rebaseline.py": "94038eb7e6945776cb3d436618d8e8d333cd2865f35a3016f53f51f77a5a4150",
+    "tools/research/run_ann_experiment.py": "ded8f542b65c36f24139c3f9eee7ab57f134cab60c308025fbd2175142b474c0",
+    "tools/research/trace_sampling.py": "3c29b9b264fde77b7c11390c6b8267f9795bbe23eea800abca1516a83e65a982",
+    "research/task_da/evaluate_p2.py": "851efd03f2101b969c296cc9136b3849f8b15fa6439641581be0217fd1887745",
+    "research/task_da/evaluate_p1.py": "abb774aee509d77e676a1773955ddb9fe165d1d674b2c7215b23c12f6ba65e47",
+    "research/task_da/evaluate_smoke.py": "cbc8848fbdadf9c5f0e7e5387e21d0e673920bf928b4350a1bb5ee9b9a8179b8",
+    "docs/research/task-da/AXD_G2_PREREG_V2.md": "f197b4fa884bc05fb0c6dd0358f332c586d2e0fd8ba8916c1eef25bfb12ce7d8",
+    "docs/research/task-da/AXD_G2_V2_STATISTICAL_DESIGN.md": "111ce96431e0d400eea5c18c23a8dfffd4f341da5a2850bc1884b623cfa361e5",
+    "docs/research/task-da/AXD_G2_V2_QUERY_SPLIT_AUDIT.md": "339437f175bcc3a475ddd03cfca695f523b0f1286ce606f4e4e112e9efb6e6ea",
+    "docs/research/task-da/AXD_G2_V2_GO_NO_GO_CRITERIA.md": "243728d524824b412ded087783a3eb94dcbe50fb81a776342cd65b844dc23ca0",
+    "docs/research/task-da/AXD_G2_PREREG_V2_DESIGN3_AMENDMENT.md": "a92c78d905d926c6c942faf9b1380cd284dcb6d4f1823c7300432ade0eb8d973"
+  },
+  "compiler": {
+    "executable": "/usr/bin/c++",
+    "version": "c++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "sha256": "1353e9bdd29a7295c7226bf6c63abccce056d8cac31f112e5cdbecc3f28c2769",
+    "compile_flags": [
+      "-O3",
+      "-DNDEBUG",
+      "-std=c++17",
+      "-Wall",
+      "-Wextra",
+      "-Wpedantic",
+      "-Werror"
+    ],
+    "link_flags": [
+      "-O3",
+      "-DNDEBUG"
+    ],
+    "flags_make_sha256": "6f13f5466bc616f9840b8ddfc8357b882422cd1d36f2d82f5f06f8383fd92cc8",
+    "link_txt_sha256": "4cb0ae9a71def6c5aa6a1941f5b1806891529d67f6de36651b889ccc69dd9a54",
+    "provenance_note": "recovered CMake metadata consistent with frozen source and ELF .comment; no rebuild or bit-reproduction claimed"
+  },
+  "artifact_sha256": {
+    "binary": "7a2685e5760b1e03c040684b3144a7f454086761e2d25ff147d11d33df8727d1",
+    "base": "44e83e1dd4c65999b75873101adc5ac06ca900d259a2befd05c2c3aa28ff4042",
+    "queries": "48d087a17bec15a5ec9ea526fe9bd14ac31bbbb5cd200817b341adbb77695644",
+    "gt": "fa5acf5ab262b42355296e99f920e6aa863f48820ca6f70fa37ca7966634c344",
+    "val": "a3c948e9aac4f40c1fb818a6f784c4fbb56473a0769affe3344493ed4eb87f57",
+    "warmup": "199ca6066269641347280d6ef4eaab39efee3397b87c23cd74d38ee85bcd4783",
+    "test": "457abdc13abc95d8d0f48ff32919a6013f5ed4bca469f9075312ae80dfe44b0d"
+  },
+  "graph_sha256": {
+    "stock_off_r1": "db4f5257f06d7ca6df0a040d19590d201bc3e9b1eab7bf0f36265732969716cc",
+    "stock_off_r2": "5de325e9bbb0b46208c4878b3af77ae79c7c1821096eb11064efab5c15d0ae84",
+    "stock_off_r3": "a7eb1ad15ff31130ce8411169f19b41d9bde75577ad5b5416e1b53a90ecbd010",
+    "fast_off_r1": "104a1bc69711e494dbf562772b867752dd915e53ff7ed4142763cdc98fb354e9",
+    "fast_off_r2": "4b69a53c548cdb47714902c2201fe732daf668683056aae9efa724982e11731a",
+    "fast_off_r3": "7c80157e8165e2792151e4934078fd7bd2fa2deebad2ad9864ba6aaf24da0462"
+  },
+  "validation_baseline": {
+    "stock_off_r1": {
+      "path": "runs/MS-Turing1M_stock_off_r1_base_b432/beam_432_p2_ON.jsonl",
+      "sha256": "e449dc71c460c93cb4137868d35cc546fb037fce36cebbff15cc0c4a3b3f1cf3"
+    },
+    "stock_off_r2": {
+      "path": "runs/MS-Turing1M_stock_off_r2_base_b432/beam_432_p2_ON.jsonl",
+      "sha256": "1cfd5446e2290d08d3aaa0ac7b4256d880fec8fb2043554be56ccf35924fd8ef"
+    },
+    "stock_off_r3": {
+      "path": "runs/MS-Turing1M_stock_off_r3_base_b432/beam_432_p2_ON.jsonl",
+      "sha256": "7a94e488655b0d19e9b984c4f417bfbc14fa4770f53a5aca17fcf39a08de6b26"
+    },
+    "fast_off_r1": {
+      "path": "runs/MS-Turing1M_fast_off_r1_base_b432/beam_432_p2_ON.jsonl",
+      "sha256": "b39a841415ab4d0e4a99289a97867a1fdfbfd38873edec4866c6a301e53b9397"
+    },
+    "fast_off_r2": {
+      "path": "runs/MS-Turing1M_fast_off_r2_base_b432/beam_432_p2_ON.jsonl",
+      "sha256": "2e74388fe28dcd42db7c20e2374eb8ccc4e947781dfe3c7489bce1823d3632de"
+    },
+    "fast_off_r3": {
+      "path": "runs/MS-Turing1M_fast_off_r3_base_b432/beam_432_p2_ON.jsonl",
+      "sha256": "f92d0412153982dcb1b2c0656f5abcaebf64152a5296fb67ed2b64b8659d4f00"
+    }
+  },
+  "build_reference": {
+    "stock_off_r1": {
+      "wall_s": 42.57,
+      "graph_bytes": 215313724,
+      "graph_sha256": "db4f5257f06d7ca6df0a040d19590d201bc3e9b1eab7bf0f36265732969716cc",
+      "builder_elf_sha256": "13bef65c01d4638959b16b74fc2b8b6130b433ebc09fff8f436c8b1503e688c9",
+      "receipt_sha256": "24e23a97f3eebed5661eba79b301d5d55f5fd752acffd2d6822104cf30ebc6a7",
+      "timefile_sha256": "0c557f8f12e38b145609979502cd0be217b82c57fcf9a878f20b8ec46f25f69c",
+      "build_threads": 4,
+      "source_commit": "f5e48bb681812ce51aed7272f30ecefc85ed427b",
+      "receipt_url": "https://github.com/nuyntai19/ann-task-a-research/blob/f5e48bb681812ce51aed7272f30ecefc85ed427b/experiments/R90/r90_p0a_v13_h85_24build_native_v1/MS-Turing1M_stock_off_r1.json"
+    },
+    "stock_off_r2": {
+      "wall_s": 41.99,
+      "graph_bytes": 215413516,
+      "graph_sha256": "5de325e9bbb0b46208c4878b3af77ae79c7c1821096eb11064efab5c15d0ae84",
+      "builder_elf_sha256": "13bef65c01d4638959b16b74fc2b8b6130b433ebc09fff8f436c8b1503e688c9",
+      "receipt_sha256": "ef8d26f4885db5e2fa1d9ebf3e8a07a901f220da6286c41178cb06a6c6525ff8",
+      "timefile_sha256": "c524a36d5a50403c574608c988eaed2e02753562f3c3e16f3a34dad6c34260c6",
+      "build_threads": 4,
+      "source_commit": "f5e48bb681812ce51aed7272f30ecefc85ed427b",
+      "receipt_url": "https://github.com/nuyntai19/ann-task-a-research/blob/f5e48bb681812ce51aed7272f30ecefc85ed427b/experiments/R90/r90_p0a_v13_h85_24build_native_v1/MS-Turing1M_stock_off_r2.json"
+    },
+    "stock_off_r3": {
+      "wall_s": 42.21,
+      "graph_bytes": 215432108,
+      "graph_sha256": "a7eb1ad15ff31130ce8411169f19b41d9bde75577ad5b5416e1b53a90ecbd010",
+      "builder_elf_sha256": "13bef65c01d4638959b16b74fc2b8b6130b433ebc09fff8f436c8b1503e688c9",
+      "receipt_sha256": "3b1e413785ebd03fe1362761f7afb6c6ead3a96c0190f973b96802163263a533",
+      "timefile_sha256": "70de7678ad7f278ca1cc5402a9d5b8dd271bba99ff70d4593dbf239e2788dce9",
+      "build_threads": 4,
+      "source_commit": "f5e48bb681812ce51aed7272f30ecefc85ed427b",
+      "receipt_url": "https://github.com/nuyntai19/ann-task-a-research/blob/f5e48bb681812ce51aed7272f30ecefc85ed427b/experiments/R90/r90_p0a_v13_h85_24build_native_v1/MS-Turing1M_stock_off_r3.json"
+    },
+    "fast_off_r1": {
+      "wall_s": 33.84,
+      "graph_bytes": 215398220,
+      "graph_sha256": "104a1bc69711e494dbf562772b867752dd915e53ff7ed4142763cdc98fb354e9",
+      "builder_elf_sha256": "fcfb16d0ca2b498f94db8383dfc311c2e7ba88cb3036281accd5f30c6d876793",
+      "receipt_sha256": "bd39cf0ff546673640e4561f0fe83da57aa7e5a58d23d2bac19cabf893d295c9",
+      "timefile_sha256": "fc1c8d110eea6956fa55685a5fa12314c5baaee2accfe7ac261dcc01ca49da5a",
+      "build_threads": 4,
+      "source_commit": "f5e48bb681812ce51aed7272f30ecefc85ed427b",
+      "receipt_url": "https://github.com/nuyntai19/ann-task-a-research/blob/f5e48bb681812ce51aed7272f30ecefc85ed427b/experiments/R90/r90_p0a_v13_h85_24build_native_v1/MS-Turing1M_fast_off_r1.json"
+    },
+    "fast_off_r2": {
+      "wall_s": 33.74,
+      "graph_bytes": 215429104,
+      "graph_sha256": "4b69a53c548cdb47714902c2201fe732daf668683056aae9efa724982e11731a",
+      "builder_elf_sha256": "fcfb16d0ca2b498f94db8383dfc311c2e7ba88cb3036281accd5f30c6d876793",
+      "receipt_sha256": "282f255751626fdf9db447ec8515fa7cda5c694a72df40f27e41586e18d08f2e",
+      "timefile_sha256": "8d45872e2fc11a48b31a937549c24007d3936888e7be9b2c511af8ff2aec952c",
+      "build_threads": 4,
+      "source_commit": "f5e48bb681812ce51aed7272f30ecefc85ed427b",
+      "receipt_url": "https://github.com/nuyntai19/ann-task-a-research/blob/f5e48bb681812ce51aed7272f30ecefc85ed427b/experiments/R90/r90_p0a_v13_h85_24build_native_v1/MS-Turing1M_fast_off_r2.json"
+    },
+    "fast_off_r3": {
+      "wall_s": 33.8,
+      "graph_bytes": 215460436,
+      "graph_sha256": "7c80157e8165e2792151e4934078fd7bd2fa2deebad2ad9864ba6aaf24da0462",
+      "builder_elf_sha256": "fcfb16d0ca2b498f94db8383dfc311c2e7ba88cb3036281accd5f30c6d876793",
+      "receipt_sha256": "b3a671c2c84d209854300c5663f57dfef923837fadc6b18b094a4a76b4fa5a97",
+      "timefile_sha256": "2d72814947be90fd9dc33162bb59708c4bb5c35b7e9a10f2affe82681772ff3f",
+      "build_threads": 4,
+      "source_commit": "f5e48bb681812ce51aed7272f30ecefc85ed427b",
+      "receipt_url": "https://github.com/nuyntai19/ann-task-a-research/blob/f5e48bb681812ce51aed7272f30ecefc85ed427b/experiments/R90/r90_p0a_v13_h85_24build_native_v1/MS-Turing1M_fast_off_r3.json"
+    }
+  },
+  "host_profile": {
+    "cpu_model": "AMD Ryzen 5 PRO 4650U",
+    "cpus": [
+      0,
+      2
+    ],
+    "cores": [
+      "0",
+      "1"
+    ],
+    "siblings": [
+      "0-1",
+      "2-3"
+    ],
+    "l3_shared_lists": [
+      "0-5",
+      "0-5"
+    ],
+    "allowed_cpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "kernel": "7.0.0-43-generic",
+    "clk_tck": 100,
+    "worker_cores_cpus": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "ccx0_cpus": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "ccx1_l3_shared_list": "6-11"
+  },
+  "host_profile_status": "verified live read-only topology; 900s minimal-TTY qualification pending owner execution",
+  "statistical_contract": {
+    "primary": "geometric paired ratios of arithmetic process mean latencies",
+    "minimum_reduction": 0.03,
+    "strict_tie_epsilon": 1e-12,
+    "recall_floor": 0.99,
+    "recall_equivalence": 0.0005,
+    "tail_budgets": [
+      0.05,
+      0.1
+    ],
+    "ram_floor_kib": 65536,
+    "ram_fraction": 0.1,
+    "background_capacity_fraction": 0.01,
+    "background_window_s": 5,
+    "cpu_max_gap_s": 2,
+    "bootstrap_replicates": 10000,
+    "query_block_length": 100,
+    "bootstrap_seed": 20261123,
+    "noise_guard_revision": "design-3",
+    "design3_noise_policies": {
+      "off": {
+        "worker_cores_window_s": 10.0,
+        "worker_cores_max_fraction": 0.01,
+        "ccx0_window_s": 10.0,
+        "ccx0_max_fraction": 0.02,
+        "host_window_s": 15.0,
+        "host_max_fraction": 0.025,
+        "single_proc_window_s": 10.0,
+        "single_proc_max_rate": 0.1,
+        "preflight_window_s": 15.0
+      },
+      "quality": {
+        "worker_cores_window_s": 10.0,
+        "worker_cores_max_fraction": null,
+        "ccx0_window_s": 10.0,
+        "ccx0_max_fraction": null,
+        "host_window_s": 15.0,
+        "host_max_fraction": 0.1,
+        "single_proc_window_s": 10.0,
+        "single_proc_max_rate": 0.25,
+        "preflight_window_s": 10.0
+      },
+      "qualification": {
+        "worker_cores_window_s": 10.0,
+        "worker_cores_max_fraction": 0.01,
+        "ccx0_window_s": 10.0,
+        "ccx0_max_fraction": 0.02,
+        "host_window_s": 15.0,
+        "host_max_fraction": 0.025,
+        "single_proc_window_s": 10.0,
+        "single_proc_max_rate": 0.1,
+        "preflight_window_s": 15.0
+      }
+    },
+    "qualification_duration_s": 900,
+    "paired_noise_balance_diagnostic": true
+  },
+  "design2_freeze_reference_sha256": "91186d57e5992e1df70f86a55ba928ad4d6613bb0b67ccbee0f485cc380d1749",
+  "legacy_guard_reference_sha256": "0cf76c6e72fe8da698d7c7da041430a7312d54894e4861f3ee31660f4bd454d9",
+  "package_transfer_sha256": "df092d838b717430e75148bc2c47ab4611af95eed8f014646f5520a3273e2d52",
+  "historical_validation_bundle_sha256": "82e740bcd6224bd28dfa2dcdbedba4902515b0fc578ed923250ef5d568337e15",
+  "frozen_search_source_files": {
+    "frozen_p2_eval.cpp": "b356ba8df3170a7ddd7d3cd4a63ab6d30361f806cb408dd4e5ad1ca4a59d9f85",
+    "frozen_p2_engine.hpp": "c4b1bdc2129d2468bb65cd170617915a54c753bbcee4f26ff330121d23cb02bc",
+    "engine.hpp": "2ca38624d2549534274743c144f901e8825bcbd607f53b87e91d1548173127bd"
+  },
+  "native_runtime_sha256": {
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb",
+    "/lib/x86_64-linux-gnu/libc.so.6": "755a371e86cc9f564ab54f66140747700fb0a103f698f659f2060f707897e09a",
+    "/lib/x86_64-linux-gnu/libm.so.6": "5dcc4d25466e29ca390ed6fabb371c69b65dff6fa4e91c34561057a020d6994a",
+    "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2": "5fc0940888e9d2e1a00e66d6b1a559c36364ee867683652e1074fa576952cc3f"
+  },
+  "native_runtime_note": "Prospective runtime byte pins from preparation environment, verified again only after authorization; not a historical rebuild claim.",
+  "libc_version": "glibc 2.39",
+  "python_executable_sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+}

@@ -1,0 +1,14 @@
+{
+  "schema": "axd_g2_v2.3",
+  "protocol": "AXD-G2-V2-3A-20261123",
+  "revision": "design-3",
+  "owner": "",
+  "approved_at": "",
+  "freeze_sha256": "OWNER_TO_FILL",
+  "artifacts_sha256": "OWNER_TO_FILL",
+  "qualification_sha256": "OWNER_TO_FILL",
+  "output_directory": "OWNER_TO_FILL",
+  "scope": "UNAPPROVED",
+  "quota_s": 0,
+  "quiet_host_confirmed": false
+}

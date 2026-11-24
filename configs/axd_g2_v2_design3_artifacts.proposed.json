@@ -1,0 +1,18 @@
+{
+  "binary": "/home/thinhbui/Documents/ChatGPT/Research ANN/task-d/build-task-da/task_da_p2_eval",
+  "base": "/home/thinhbui/Documents/ChatGPT/graph/data/MSTuring_1M_v1/base.1M.fbin",
+  "queries": "/home/thinhbui/Documents/ChatGPT/graph/data/MSTuring_1M_v1/query.public.100K.fbin",
+  "gt": "/home/thinhbui/Documents/ChatGPT/graph/data/MSTuring_1M_v1/groundtruth.public.100K.ibin",
+  "val": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/p1-full-validation-20261117T225717+0700/split/val_10k.ids",
+  "test": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/axd-g2-v2-inputs-design3/v2_test_10000.ids",
+  "warmup": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/p2-exploratory-0990-20261118/pilot_r1/warmup_val_100.ids",
+  "validation_root": "/home/thinhbui/Documents/ChatGPT/Research ANN/artifact-evidence/axd-g2-validation-20261122-G81SkWjO",
+  "graphs": {
+    "stock_off_r1": "/home/thinhbui/Documents/ChatGPT/Research ANN/task-d/.local/artifacts/task-a-r90-v13-six-original-graphs/TASK_A_R90_V13_MST1M_SIX_ORIGINAL_GRAPHS/MS-Turing1M_stock_off_r1.graph",
+    "stock_off_r2": "/home/thinhbui/Documents/ChatGPT/Research ANN/task-d/.local/artifacts/task-a-r90-v13-six-original-graphs/TASK_A_R90_V13_MST1M_SIX_ORIGINAL_GRAPHS/MS-Turing1M_stock_off_r2.graph",
+    "stock_off_r3": "/home/thinhbui/Documents/ChatGPT/Research ANN/task-d/.local/artifacts/task-a-r90-v13-six-original-graphs/TASK_A_R90_V13_MST1M_SIX_ORIGINAL_GRAPHS/MS-Turing1M_stock_off_r3.graph",
+    "fast_off_r1": "/home/thinhbui/Documents/ChatGPT/Research ANN/task-d/.local/artifacts/task-a-r90-v13-six-original-graphs/TASK_A_R90_V13_MST1M_SIX_ORIGINAL_GRAPHS/MS-Turing1M_fast_off_r1.graph",
+    "fast_off_r2": "/home/thinhbui/Documents/ChatGPT/Research ANN/task-d/.local/artifacts/task-a-r90-v13-six-original-graphs/TASK_A_R90_V13_MST1M_SIX_ORIGINAL_GRAPHS/MS-Turing1M_fast_off_r2.graph",
+    "fast_off_r3": "/home/thinhbui/Documents/ChatGPT/Research ANN/task-d/.local/artifacts/task-a-r90-v13-six-original-graphs/TASK_A_R90_V13_MST1M_SIX_ORIGINAL_GRAPHS/MS-Turing1M_fast_off_r3.graph"
+  }
+}
