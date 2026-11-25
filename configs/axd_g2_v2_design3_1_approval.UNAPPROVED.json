@@ -1,0 +1,16 @@
+{
+  "schema": "axd_g2_v2.3.1",
+  "protocol": "AXD-G2-V2-3A-20261123",
+  "revision": "design-3.1",
+  "owner": "",
+  "approved_at": "",
+  "freeze_sha256": "OWNER_TO_FILL",
+  "parent_design3_freeze_sha256": "425c748329292ffe15db2c52bdf53f5d219b47d1ecf95ac3c76a5429814159ae",
+  "artifacts_sha256": "OWNER_TO_FILL",
+  "qualification_sha256": "OWNER_TO_FILL",
+  "quality_sha256": "OWNER_TO_FILL",
+  "output_directory": "OWNER_TO_FILL",
+  "scope": "UNAPPROVED",
+  "quota_s": 0,
+  "quiet_host_confirmed": false
+}
