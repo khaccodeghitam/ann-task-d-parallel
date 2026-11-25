@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900">
+  <rect x="0" y="0" width="1600" height="900" fill="#FFFFFF"/>
+  <rect x="0.0" y="0.0" width="1600.0" height="86.0" fill="#1B4965"/>
+  <rect x="0.0" y="86.0" width="1600.0" height="4.0" fill="#2A9D8F"/>
+  <text x="36.0" y="36.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="23" fill="#FFFFFF" text-anchor="start" font-weight="bold">Hình 11 · Thông lượng của một luồng truy vấn QPS_wall (jobs=1, Host D — Measured OFF)</text>
+  <text x="36.0" y="64.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#E0F2FE" text-anchor="start">G2 v2 design-3.1 run2 (144/144 OFF) • MS-Turing-1M (v2_test_10000) • p=2, S=16, beam=432 • Cao hơn là tốt hơn</text>
+  <rect x="140.0" y="165.0" width="1020.0" height="560.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <line x1="140.0" y1="725.0" x2="1160.0" y2="725.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="126.0" y="728.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="end">0</text>
+  <line x1="140.0" y1="642.6" x2="1160.0" y2="642.6" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="126.0" y="646.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="end">50</text>
+  <line x1="140.0" y1="560.3" x2="1160.0" y2="560.3" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="126.0" y="563.9" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="end">100</text>
+  <line x1="140.0" y1="477.9" x2="1160.0" y2="477.9" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="126.0" y="481.5" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="end">150</text>
+  <line x1="140.0" y1="395.6" x2="1160.0" y2="395.6" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="126.0" y="399.1" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="end">200</text>
+  <line x1="140.0" y1="313.2" x2="1160.0" y2="313.2" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="126.0" y="316.8" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="end">250</text>
+  <line x1="140.0" y1="230.9" x2="1160.0" y2="230.9" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="126.0" y="234.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="end">300</text>
+  <text x="44.0" y="442.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">QPS_wall</text>
+  <text x="44.0" y="462.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start">(q/s, jobs=1)</text>
+  <rect x="204.0" y="270.0" width="96.0" height="455.0" fill="#457B9D" stroke="#1B4965" stroke-width="1.4" rx="5.0" ry="5.0"/>
+  <rect x="320.0" y="240.8" width="96.0" height="484.2" fill="#2A9D8F" stroke="#1B4965" stroke-width="1.4" rx="5.0" ry="5.0"/>
+  <text x="252.0" y="257.5" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="middle" font-weight="bold">276.24</text>
+  <text x="368.0" y="228.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#2A9D8F" text-anchor="middle" font-weight="bold">293.97</text>
+  <rect x="273.0" y="180.8" width="74.0" height="23.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="310.0" y="196.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#15803D" text-anchor="middle" font-weight="bold">+6.42%</text>
+  <text x="310.0" y="753.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="middle" font-weight="bold">Stock (3 graphs)</text>
+  <rect x="544.0" y="270.0" width="96.0" height="455.0" fill="#457B9D" stroke="#1B4965" stroke-width="1.4" rx="5.0" ry="5.0"/>
+  <rect x="660.0" y="240.8" width="96.0" height="484.2" fill="#2A9D8F" stroke="#1B4965" stroke-width="1.4" rx="5.0" ry="5.0"/>
+  <text x="592.0" y="257.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="middle" font-weight="bold">276.26</text>
+  <text x="708.0" y="228.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#2A9D8F" text-anchor="middle" font-weight="bold">294.00</text>
+  <rect x="613.0" y="180.8" width="74.0" height="23.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="650.0" y="196.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#15803D" text-anchor="middle" font-weight="bold">+6.42%</text>
+  <text x="650.0" y="753.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="middle" font-weight="bold">Fast v2 (3 graphs)</text>
+  <rect x="884.0" y="270.0" width="96.0" height="455.0" fill="#457B9D" stroke="#1B4965" stroke-width="1.4" rx="5.0" ry="5.0"/>
+  <rect x="1000.0" y="240.8" width="96.0" height="484.2" fill="#2A9D8F" stroke="#1B4965" stroke-width="1.4" rx="5.0" ry="5.0"/>
+  <text x="932.0" y="257.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="middle" font-weight="bold">276.25</text>
+  <text x="1048.0" y="228.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#2A9D8F" text-anchor="middle" font-weight="bold">293.99</text>
+  <rect x="953.0" y="180.8" width="74.0" height="23.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="990.0" y="196.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#15803D" text-anchor="middle" font-weight="bold">+6.42%</text>
+  <text x="990.0" y="753.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="middle" font-weight="bold">Gộp 6 Graphs</text>
+  <rect x="1196.0" y="165.0" width="368.0" height="560.0" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" rx="10.0" ry="10.0"/>
+  <text x="1216.0" y="197.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#1B4965" text-anchor="start" font-weight="bold">CHÚ GIẢI &amp; RANH GIỚI ĐO</text>
+  <rect x="1216.0" y="224.0" width="18.0" height="18.0" fill="#457B9D" rx="3.0" ry="3.0"/>
+  <text x="1244.0" y="235.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">Baseline (flat + full)</text>
+  <rect x="1216.0" y="254.0" width="18.0" height="18.0" fill="#2A9D8F" rx="3.0" ry="3.0"/>
+  <text x="1244.0" y="265.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">B1+A1 (bar_all + inc)</text>
+  <line x1="1216.0" y1="290.0" x2="1544.0" y2="290.0" stroke="#E2E8F0" stroke-width="1.2"/>
+  <text x="1216.0" y="316.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">1. Định nghĩa QPS_wall: 10,000 / batch_wall_s đo trên</text>
+  <text x="1216.0" y="335.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">batch truy vấn tuần tự (jobs = 1, 2 worker xử lý cùng</text>
+  <text x="1216.0" y="354.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">1 truy vấn). 2. Mức tăng đồng đều trên cả hai nhánh:</text>
+  <text x="1216.0" y="373.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">• Stock: 276.24 → 293.97 (+6.42%) • Fast v2: 276.26</text>
+  <text x="1216.0" y="392.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">→ 294.00 (+6.42%) • Gộp 6 graph: 276.25 → 293.99</text>
+  <text x="1216.0" y="411.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">(+6.42%) 3. Lưu ý tài nguyên: Peak RSS giữ phẳng</text>
+  <text x="1216.0" y="430.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">(871,696 → 871,705 KiB, +9.4 KiB; 72/72 PASS).</text>
+  <text x="1216.0" y="449.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Process CPU-s (toàn cửa sổ tiến trình, gồm ~3.9 s</text>
+  <text x="1216.0" y="468.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">load/warmup/JSONL) giảm 76.12 → 70.74 s (-7.07%).</text>
+  <rect x="1216.0" y="620.0" width="328.0" height="86.0" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" rx="8.0" ry="8.0"/>
+  <text x="1228.0" y="642.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start" font-weight="bold">Cảnh báo: QPS_wall (jobs=1) là tốc độ xử lý</text>
+  <text x="1228.0" y="661.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start" font-weight="bold">một luồng truy vấn, KHÔNG PHẢI concurrent</text>
+  <text x="1228.0" y="680.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start" font-weight="bold">multi-query serving throughput (D10).</text>
+  <line x1="36.0" y1="846.0" x2="1564.0" y2="846.0" stroke="#CBD5E1" stroke-width="1.0"/>
+  <text x="36.0" y="863.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start" font-weight="bold">Nguồn / Evidence: audit_results.json (cells_2x2, overall_secondary) • tables/table08_qps_by_arm.csv</text>
+  <text x="36.0" y="881.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start">Phạm vi &amp; Giới hạn: Chỉ áp dụng cho cấu hình p=2, S=16, beam=432, jobs=1 trên AMD Ryzen 5 PRO 4650U; không so trực tiếp với QPS 1-luồng AVX-512 của Host A.</text>
+</svg>

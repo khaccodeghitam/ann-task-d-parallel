@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1020" viewBox="0 0 1700 1020">
+  <rect x="0" y="0" width="1700" height="1020" fill="#FFFFFF"/>
+  <rect x="0.0" y="0.0" width="1700.0" height="86.0" fill="#1B4965"/>
+  <rect x="0.0" y="86.0" width="1700.0" height="4.0" fill="#2A9D8F"/>
+  <text x="36.0" y="36.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="23" fill="#FFFFFF" text-anchor="start" font-weight="bold">Hình 1 · Tiến trình Nghiên cứu Task D qua 4 Kỷ nguyên (2026-10-01 → 2026-11-25)</text>
+  <text x="36.0" y="64.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#E0F2FE" text-anchor="start">Mốc chính từ PipeANN đến G2. Các giai đoạn khảo sát và thực nghiệm có thời gian chồng lấn.</text>
+  <rect x="36.0" y="115.0" width="392.0" height="825.0" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" rx="10.0" ry="10.0"/>
+  <rect x="36.0" y="115.0" width="392.0" height="50.0" fill="#1B4965" rx="10.0" ry="10.0"/>
+  <rect x="36.0" y="153.0" width="392.0" height="12.0" fill="#1B4965"/>
+  <text x="232.0" y="142.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Kỷ nguyên 1: Nền tảng &amp; PipeANN</text>
+  <line x1="430.0" y1="140.0" x2="437.0" y2="140.0" stroke="#1B4965" stroke-width="2.5"/>
+  <polygon points="446.0,140.0 437.9,143.9 437.9,136.1" fill="#1B4965"/>
+  <rect x="52.0" y="181.0" width="360.0" height="225.0" fill="#FFFFFF" stroke="#15803D" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="64.0" y="205.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#1  •  2026-10-01–13</text>
+  <rect x="353.0" y="191.0" width="49.0" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="377.5" y="204.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">PASS</text>
+  <text x="64.0" y="238.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">Gate 0 &amp; Issue #32 PipeANN SIFT10M</text>
+  <line x1="64.0" y1="275.0" x2="400.0" y2="275.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="64.0" y="298.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">36/36 Custom Full-Fan 60/90W; T16 vs T8 =</text>
+  <text x="64.0" y="318.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">-13.36% QPS; D1/D4/D6 bảo lưu</text>
+  <line x1="232.0" y1="408.0" x2="232.0" y2="417.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="232.0,424.0 229.0,417.7 235.0,417.7" fill="#64748B"/>
+  <rect x="52.0" y="426.0" width="360.0" height="225.0" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="64.0" y="450.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#2  •  2026-10-13</text>
+  <rect x="342.5" y="436.0" width="59.5" height="21.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="372.2" y="449.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">NO-GO</text>
+  <text x="64.0" y="483.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">Sàng lọc Offline H-Lanes</text>
+  <line x1="64.0" y1="520.0" x2="400.0" y2="520.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="64.0" y="543.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">H-G: 2.56 GB, lợi ích 0; H-QV1: utility −0.000122;</text>
+  <text x="64.0" y="563.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">H-F: mô phỏng</text>
+  <rect x="448.0" y="115.0" width="392.0" height="825.0" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" rx="10.0" ry="10.0"/>
+  <rect x="448.0" y="115.0" width="392.0" height="50.0" fill="#6D28D9" rx="10.0" ry="10.0"/>
+  <rect x="448.0" y="153.0" width="392.0" height="12.0" fill="#6D28D9"/>
+  <text x="644.0" y="142.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Kỷ nguyên 2: Khảo sát 3 Cụm &amp; E0–E3</text>
+  <line x1="842.0" y1="140.0" x2="849.0" y2="140.0" stroke="#1B4965" stroke-width="2.5"/>
+  <polygon points="858.0,140.0 849.9,143.9 849.9,136.1" fill="#1B4965"/>
+  <rect x="464.0" y="181.0" width="360.0" height="225.0" fill="#FFFFFF" stroke="#15803D" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="476.0" y="205.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#3  •  2026-10-15–22</text>
+  <rect x="730.0" y="191.0" width="84.0" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="772.0" y="204.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">COMPLETE</text>
+  <text x="476.0" y="238.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">Góp ý GV &amp; Taxonomy D01–D10</text>
+  <line x1="476.0" y1="275.0" x2="812.0" y2="275.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="476.0" y="298.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">Đảo quy trình prior-art trước; chuẩn hóa 3 cụm</text>
+  <text x="476.0" y="318.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">khảo sát</text>
+  <line x1="644.0" y1="408.0" x2="644.0" y2="417.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="644.0,424.0 641.0,417.7 647.0,417.7" fill="#64748B"/>
+  <rect x="464.0" y="426.0" width="360.0" height="225.0" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="476.0" y="450.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#4  •  2026-10-29</text>
+  <rect x="739.5" y="436.0" width="74.5" height="21.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="776.8" y="449.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">REFUTED</text>
+  <text x="476.0" y="483.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">AverSearch E0 Queue-Role (108 ô)</text>
+  <line x1="476.0" y1="520.0" x2="812.0" y2="520.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="476.0" y="543.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">Responsive vs min(F1,F2): 3 thắng / 15 hòa / 90</text>
+  <text x="476.0" y="563.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">thua (MODEL_ONLY)</text>
+  <line x1="644.0" y1="653.0" x2="644.0" y2="662.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="644.0,669.0 641.0,662.7 647.0,662.7" fill="#64748B"/>
+  <rect x="464.0" y="671.0" width="360.0" height="225.0" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="476.0" y="695.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#5  •  2026-11-05</text>
+  <rect x="754.5" y="681.0" width="59.5" height="21.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="784.2" y="694.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">NO-GO</text>
+  <text x="476.0" y="728.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">E2 SIFT1M NSG &amp; Cụm 1–3 Closeout</text>
+  <line x1="476.0" y1="765.0" x2="812.0" y2="765.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="476.0" y="788.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">Single-mutex F1=19.21 &gt; Ad3=15.09 &gt; F2=10.72</text>
+  <text x="476.0" y="808.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">QPS; dừng 90.25°C; khảo sát 3 cụm hoàn tất</text>
+  <text x="476.0" y="828.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">12–14/11</text>
+  <rect x="860.0" y="115.0" width="392.0" height="825.0" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" rx="10.0" ry="10.0"/>
+  <rect x="860.0" y="115.0" width="392.0" height="50.0" fill="#D97706" rx="10.0" ry="10.0"/>
+  <rect x="860.0" y="153.0" width="392.0" height="12.0" fill="#D97706"/>
+  <text x="1056.0" y="142.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Kỷ nguyên 3: R86 A×D (P0–P4, H1–H3)</text>
+  <line x1="1254.0" y1="140.0" x2="1261.0" y2="140.0" stroke="#1B4965" stroke-width="2.5"/>
+  <polygon points="1270.0,140.0 1261.9,143.9 1261.9,136.1" fill="#1B4965"/>
+  <rect x="876.0" y="181.0" width="360.0" height="170.0" fill="#FFFFFF" stroke="#D97706" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="888.0" y="205.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#6  •  2026-11-15–18</text>
+  <rect x="1173.5" y="191.0" width="52.5" height="21.0" fill="#FEF3C7" stroke="#D97706" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1199.8" y="204.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#D97706" text-anchor="middle" font-weight="bold">HOLD</text>
+  <text x="888.0" y="238.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">Đề xuất A×D &amp; Full P1 V3</text>
+  <line x1="888.0" y1="275.0" x2="1224.0" y2="275.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="888.0" y="298.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">1.804M ON/OFF parity PASS; t0998 trượt 7/9</text>
+  <text x="888.0" y="318.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">(winner&#x27;s curse)</text>
+  <line x1="1056.0" y1="353.0" x2="1056.0" y2="362.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1056.0,369.0 1053.0,362.7 1059.0,362.7" fill="#64748B"/>
+  <rect x="876.0" y="371.0" width="360.0" height="170.0" fill="#FFFFFF" stroke="#6D28D9" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="888.0" y="395.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#7  •  2026-11-19</text>
+  <rect x="1170.5" y="381.0" width="55.5" height="21.0" fill="#EDE9FE" stroke="#6D28D9" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1198.2" y="394.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#6D28D9" text-anchor="middle" font-weight="bold">PIVOT</text>
+  <text x="888.0" y="428.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">Stage D (378 lượt) &amp; Stage E</text>
+  <line x1="888.0" y1="465.0" x2="1224.0" y2="465.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="888.0" y="488.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">H1 có điều kiện; std::set→flat thu hẹp khoảng cách;</text>
+  <text x="888.0" y="508.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">TP-CG PIVOT</text>
+  <line x1="1056.0" y1="543.0" x2="1056.0" y2="552.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1056.0,559.0 1053.0,552.7 1059.0,552.7" fill="#64748B"/>
+  <rect x="876.0" y="561.0" width="360.0" height="170.0" fill="#FFFFFF" stroke="#D97706" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="888.0" y="585.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#8  •  2026-11-19</text>
+  <rect x="1173.5" y="571.0" width="52.5" height="21.0" fill="#FEF3C7" stroke="#D97706" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1199.8" y="584.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#D97706" text-anchor="middle" font-weight="bold">HOLD</text>
+  <text x="888.0" y="618.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">B1+A1 Pilot &amp; Narrow A3 (R2/R3)</text>
+  <line x1="888.0" y1="655.0" x2="1224.0" y2="655.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="888.0" y="678.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">R2 -12.29%, R3 -10.08%, nhưng outer df=1 CI</text>
+  <text x="888.0" y="698.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">[-2.84%, +25.21%]</text>
+  <line x1="1056.0" y1="733.0" x2="1056.0" y2="742.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1056.0,749.0 1053.0,742.7 1059.0,742.7" fill="#64748B"/>
+  <rect x="876.0" y="751.0" width="360.0" height="170.0" fill="#FFFFFF" stroke="#DC2626" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="888.0" y="775.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#9  •  2026-11-20</text>
+  <rect x="1166.5" y="761.0" width="59.5" height="21.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1196.2" y="774.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">NO-GO</text>
+  <text x="888.0" y="808.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">H3 Overlap (6,095 rd) &amp; Meas. Audit</text>
+  <line x1="888.0" y1="845.0" x2="1224.0" y2="845.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="888.0" y="868.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">79–80% dup là emergent; sig-128 thua degree; CI</text>
+  <text x="888.0" y="888.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">observer vượt biên dưới −2%</text>
+  <rect x="1272.0" y="115.0" width="392.0" height="825.0" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" rx="10.0" ry="10.0"/>
+  <rect x="1272.0" y="115.0" width="392.0" height="50.0" fill="#2A9D8F" rx="10.0" ry="10.0"/>
+  <rect x="1272.0" y="153.0" width="392.0" height="12.0" fill="#2A9D8F"/>
+  <text x="1468.0" y="142.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Kỷ nguyên 4: G1/G2 R90 design-3.1</text>
+  <rect x="1288.0" y="181.0" width="360.0" height="225.0" fill="#FFFFFF" stroke="#15803D" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="1300.0" y="205.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#10  •  2026-11-22–24</text>
+  <rect x="1589.0" y="191.0" width="49.0" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1613.5" y="204.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">PASS</text>
+  <text x="1300.0" y="238.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">G1 PASS → v1 HOLD → design-3 Qual</text>
+  <line x1="1300.0" y1="275.0" x2="1636.0" y2="275.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="1300.0" y="298.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">G1 30/30 PASS; v1 span HOLD → v2 b432; Qual #2</text>
+  <text x="1300.0" y="318.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">853/853 PASS</text>
+  <line x1="1468.0" y1="408.0" x2="1468.0" y2="417.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1468.0,424.0 1465.0,417.7 1471.0,417.7" fill="#64748B"/>
+  <rect x="1288.0" y="426.0" width="360.0" height="225.0" fill="#FFFFFF" stroke="#D97706" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="1300.0" y="450.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#11  •  2026-11-24–25</text>
+  <rect x="1585.5" y="436.0" width="52.5" height="21.0" fill="#FEF3C7" stroke="#D97706" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1611.8" y="449.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#D97706" text-anchor="middle" font-weight="bold">HOLD</text>
+  <text x="1300.0" y="483.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">Quality ON 18/18 &amp; 2 OFF HOLDs</text>
+  <line x1="1300.0" y1="520.0" x2="1636.0" y2="520.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="1300.0" y="543.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">Gate A&amp;B PASS; design-3 #1 KeyError &amp; run1 #120</text>
+  <text x="1300.0" y="563.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">firmware-notifier HOLD (cô lập)</text>
+  <line x1="1468.0" y1="653.0" x2="1468.0" y2="662.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1468.0,669.0 1465.0,662.7 1471.0,662.7" fill="#64748B"/>
+  <rect x="1288.0" y="671.0" width="360.0" height="225.0" fill="#FFFFFF" stroke="#2A9D8F" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="1300.0" y="695.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">#12  •  2026-11-25</text>
+  <rect x="1559.0" y="681.0" width="79.0" height="21.0" fill="#CCFBF1" stroke="#2A9D8F" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1598.5" y="694.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#2A9D8F" text-anchor="middle" font-weight="bold">GO / PASS</text>
+  <text x="1300.0" y="728.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#0F172A" text-anchor="start" font-weight="bold">G2 design-3.1 run2 &amp; Final Audit</text>
+  <line x1="1300.0" y1="765.0" x2="1636.0" y2="765.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="1300.0" y="788.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">144/144 OFF (-6.033%), GO_A + GO_B,</text>
+  <text x="1300.0" y="808.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">AUDIT_PASS 0 discrepancies, 9/9 Remote SHA</text>
+  <line x1="36.0" y1="966.0" x2="1664.0" y2="966.0" stroke="#CBD5E1" stroke-width="1.0"/>
+  <text x="36.0" y="983.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start" font-weight="bold">Nguồn / Evidence: TASK_D_RESEARCH_TIMELINE.md (a0916db) • tables/table01_research_timeline.csv</text>
+  <text x="36.0" y="1001.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start">Phạm vi &amp; Giới hạn: Hai lượt HOLD G2 OFF (design-3 #1, design-3.1 run1 #120) được cô lập tuyệt đối khỏi run2; G3 vẫn NOT_OPENED.</text>
+</svg>

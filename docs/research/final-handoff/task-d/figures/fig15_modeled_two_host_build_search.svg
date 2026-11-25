@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="960" viewBox="0 0 1680 960">
+  <rect x="0" y="0" width="1680" height="960" fill="#FFFFFF"/>
+  <rect x="0.0" y="0.0" width="1680.0" height="86.0" fill="#1B4965"/>
+  <rect x="0.0" y="86.0" width="1680.0" height="4.0" fill="#2A9D8F"/>
+  <text x="36.0" y="36.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="23" fill="#FFFFFF" text-anchor="start" font-weight="bold">Hình 15 · Mô hình Tích hợp Hai Máy BUILD–SEARCH (GO_B_SYSTEM_FIXED_COHORT)</text>
+  <text x="36.0" y="64.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#E0F2FE" text-anchor="start">MODELED TWO-HOST: T(Q) = BUILD_HostA + Q × SEARCH_HostD  •  LOẠI TRỪ chi phí transfer/load  •  KHÔNG PHẢI native single-host end-to-end</text>
+  <rect x="36.0" y="104.0" width="1608.0" height="42.0" fill="#FEF3C7" stroke="#D97706" stroke-width="1.8" rx="6.0" ry="6.0"/>
+  <text x="840.0" y="127.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="middle" font-weight="bold">CẢNH BÁO PHẠM VI: Kết hợp cộng tuyến tính Measured BUILD (Host A) + Measured SEARCH (Host D); loại trừ transfer/load (3.91–3.93 s ngoài batch gồm load, warmup, serialize trên Host D); CI điều kiện trên BUILD cố định.</text>
+  <rect x="36.0" y="164.0" width="780.0" height="710.0" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" rx="10.0" ry="10.0"/>
+  <text x="56.0" y="194.1" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="16" fill="#1B4965" text-anchor="start" font-weight="bold">A. Tổng thời gian mô hình hóa T(Q) theo tải truy vấn Q</text>
+  <text x="56.0" y="214.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Tổ hợp fast_opt trội tuyệt đối mọi Q ≥ 1 (break-even = null)</text>
+  <rect x="60.0" y="232.0" width="14.0" height="14.0" fill="#64748B" rx="3.0" ry="3.0"/>
+  <text x="80.0" y="240.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start" font-weight="bold">Stock + Base</text>
+  <rect x="236.0" y="232.0" width="14.0" height="14.0" fill="#457B9D" rx="3.0" ry="3.0"/>
+  <text x="256.0" y="240.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start" font-weight="bold">Fast + Base</text>
+  <rect x="412.0" y="232.0" width="14.0" height="14.0" fill="#6D28D9" rx="3.0" ry="3.0"/>
+  <text x="432.0" y="240.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start" font-weight="bold">Stock + B1+A1</text>
+  <rect x="588.0" y="232.0" width="14.0" height="14.0" fill="#2A9D8F" rx="3.0" ry="3.0"/>
+  <text x="608.0" y="240.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start" font-weight="bold">Fast + B1+A1</text>
+  <rect x="56.0" y="266.0" width="740.0" height="134.0" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2" rx="8.0" ry="8.0"/>
+  <text x="70.0" y="285.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="start" font-weight="bold">Q = 1 (JSON)</text>
+  <rect x="558.5" y="272.0" width="223.5" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="670.2" y="285.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">Tiết kiệm ΔT = +8.46 s (-20.03%)</text>
+  <text x="176.0" y="314.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Stock + Base</text>
+  <rect x="184.0" y="304.0" width="460.0" height="16.0" fill="#64748B" rx="3.0" ry="3.0"/>
+  <text x="652.0" y="314.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">42.26 s</text>
+  <text x="176.0" y="336.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Fast + Base</text>
+  <rect x="184.0" y="326.0" width="367.9" height="16.0" fill="#457B9D" rx="3.0" ry="3.0"/>
+  <text x="559.9" y="336.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">33.80 s</text>
+  <text x="176.0" y="358.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Stock + B1+A1</text>
+  <rect x="184.0" y="348.0" width="460.0" height="16.0" fill="#6D28D9" rx="3.0" ry="3.0"/>
+  <text x="652.0" y="358.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">42.26 s</text>
+  <text x="176.0" y="380.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="end" font-weight="bold">Fast + B1+A1</text>
+  <rect x="184.0" y="370.0" width="367.9" height="16.0" fill="#2A9D8F" rx="3.0" ry="3.0"/>
+  <text x="559.9" y="380.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#2A9D8F" text-anchor="start" font-weight="bold">33.80 s</text>
+  <rect x="56.0" y="414.0" width="740.0" height="134.0" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2" rx="8.0" ry="8.0"/>
+  <text x="70.0" y="433.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="start" font-weight="bold">Q = 10,000 [DERIVED]</text>
+  <rect x="551.0" y="420.0" width="231.0" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="666.5" y="433.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">Tiết kiệm ΔT = +10.65 s (-13.58%)</text>
+  <text x="176.0" y="462.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Stock + Base</text>
+  <rect x="184.0" y="452.0" width="460.0" height="16.0" fill="#64748B" rx="3.0" ry="3.0"/>
+  <text x="652.0" y="462.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">78.46 s</text>
+  <text x="176.0" y="484.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Fast + Base</text>
+  <rect x="184.0" y="474.0" width="410.4" height="16.0" fill="#457B9D" rx="3.0" ry="3.0"/>
+  <text x="602.4" y="484.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">69.99 s</text>
+  <text x="176.0" y="506.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Stock + B1+A1</text>
+  <rect x="184.0" y="496.0" width="447.2" height="16.0" fill="#6D28D9" rx="3.0" ry="3.0"/>
+  <text x="639.2" y="506.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">76.27 s</text>
+  <text x="176.0" y="528.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="end" font-weight="bold">Fast + B1+A1</text>
+  <rect x="184.0" y="518.0" width="397.6" height="16.0" fill="#2A9D8F" rx="3.0" ry="3.0"/>
+  <text x="589.6" y="528.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#2A9D8F" text-anchor="start" font-weight="bold">67.80 s</text>
+  <rect x="56.0" y="562.0" width="740.0" height="134.0" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2" rx="8.0" ry="8.0"/>
+  <text x="70.0" y="581.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="start" font-weight="bold">Q = 100,000 (JSON · Primary B)</text>
+  <rect x="558.5" y="568.0" width="223.5" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="670.2" y="581.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">Tiết kiệm ΔT = +30.34 s (-7.50%)</text>
+  <text x="176.0" y="610.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Stock + Base</text>
+  <rect x="184.0" y="600.0" width="460.0" height="16.0" fill="#64748B" rx="3.0" ry="3.0"/>
+  <text x="652.0" y="610.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">404.24 s</text>
+  <text x="176.0" y="632.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Fast + Base</text>
+  <rect x="184.0" y="622.0" width="450.3" height="16.0" fill="#457B9D" rx="3.0" ry="3.0"/>
+  <text x="642.3" y="632.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">395.75 s</text>
+  <text x="176.0" y="654.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Stock + B1+A1</text>
+  <rect x="184.0" y="644.0" width="435.2" height="16.0" fill="#6D28D9" rx="3.0" ry="3.0"/>
+  <text x="627.2" y="654.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">382.41 s</text>
+  <text x="176.0" y="676.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="end" font-weight="bold">Fast + B1+A1</text>
+  <rect x="184.0" y="666.0" width="425.5" height="16.0" fill="#2A9D8F" rx="3.0" ry="3.0"/>
+  <text x="617.5" y="676.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#2A9D8F" text-anchor="start" font-weight="bold">373.91 s</text>
+  <rect x="56.0" y="710.0" width="740.0" height="134.0" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.2" rx="8.0" ry="8.0"/>
+  <text x="70.0" y="729.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="start" font-weight="bold">Q = 1,000,000 (JSON)</text>
+  <rect x="551.0" y="716.0" width="231.0" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="666.5" y="729.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">Tiết kiệm ΔT = +227.19 s (-6.20%)</text>
+  <text x="176.0" y="758.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Stock + Base</text>
+  <rect x="184.0" y="748.0" width="460.0" height="16.0" fill="#64748B" rx="3.0" ry="3.0"/>
+  <text x="652.0" y="758.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">3,662.13 s</text>
+  <text x="176.0" y="780.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Fast + Base</text>
+  <rect x="184.0" y="770.0" width="458.9" height="16.0" fill="#457B9D" rx="3.0" ry="3.0"/>
+  <text x="650.9" y="780.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">3,653.34 s</text>
+  <text x="176.0" y="802.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">Stock + B1+A1</text>
+  <rect x="184.0" y="792.0" width="432.6" height="16.0" fill="#6D28D9" rx="3.0" ry="3.0"/>
+  <text x="624.6" y="802.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">3,443.77 s</text>
+  <text x="176.0" y="824.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="end" font-weight="bold">Fast + B1+A1</text>
+  <rect x="184.0" y="814.0" width="431.5" height="16.0" fill="#2A9D8F" rx="3.0" ry="3.0"/>
+  <text x="623.5" y="824.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#2A9D8F" text-anchor="start" font-weight="bold">3,434.94 s</text>
+  <rect x="844.0" y="164.0" width="800.0" height="710.0" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" rx="10.0" ry="10.0"/>
+  <text x="864.0" y="193.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#1B4965" text-anchor="start" font-weight="bold">B. Phân rã Thời gian Tiết kiệm Mô hình hóa ΔT(Q) (fast_opt vs stock_base)</text>
+  <text x="864.0" y="214.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Không phát hiện tương tác 2×2 (+0.037 µs, CI95 [-2.58, +2.66] µs) → phân rã xấp xỉ cộng tính</text>
+  <rect x="868.0" y="232.0" width="16.0" height="16.0" fill="#1B4965" rx="3.0" ry="3.0"/>
+  <text x="892.0" y="242.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start" font-weight="bold">Đóng góp Task A BUILD (+8.463 s cố định, Host A)</text>
+  <rect x="1254.0" y="232.0" width="16.0" height="16.0" fill="#2A9D8F" rx="3.0" ry="3.0"/>
+  <text x="1278.0" y="242.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start" font-weight="bold">Chênh SEARCH giữa hai ô (Q × 218.73 µs, Host D)</text>
+  <text x="874.0" y="288.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start" font-weight="bold">Q = 1 (JSON)   →   Tổng tiết kiệm ΔT = 8.464 s  |  t-CI95 [8.46, 8.46] s  |  Joint [8.46, 8.46] s</text>
+  <rect x="874.0" y="304.0" width="740.0" height="42.0" fill="#1B4965" rx="4.0" ry="4.0"/>
+  <text x="1244.0" y="327.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="bold">BUILD: 8.46s (100.0%)</text>
+  <text x="1610.0" y="361.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#2A9D8F" text-anchor="end" font-weight="bold">SEARCH: 0.000s (0.0%)</text>
+  <text x="874.0" y="402.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start" font-weight="bold">Q = 10,000 [DERIVED]   →   Tổng tiết kiệm ΔT = 10.651 s</text>
+  <rect x="874.0" y="418.0" width="588.0" height="42.0" fill="#1B4965" rx="4.0" ry="4.0"/>
+  <rect x="1462.0" y="418.0" width="152.0" height="42.0" fill="#2A9D8F" rx="4.0" ry="4.0"/>
+  <text x="1168.0" y="441.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="bold">BUILD: 8.46s (79.5%)</text>
+  <text x="1538.0" y="441.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="bold">SEARCH: 2.19s (20.5%)</text>
+  <text x="874.0" y="516.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start" font-weight="bold">Q = 100,000 (JSON · Primary B)   →   Tổng tiết kiệm ΔT = 30.336 s  |  t-CI95 [30.07, 30.60] s  |  Joint [30.01, 30.67] s</text>
+  <rect x="874.0" y="532.0" width="206.4" height="42.0" fill="#1B4965" rx="4.0" ry="4.0"/>
+  <rect x="1080.4" y="532.0" width="533.6" height="42.0" fill="#2A9D8F" rx="4.0" ry="4.0"/>
+  <text x="977.2" y="555.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="bold">BUILD: 8.46s (27.9%)</text>
+  <text x="1347.2" y="555.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="bold">SEARCH: 21.87s (72.1%)</text>
+  <text x="874.0" y="630.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start" font-weight="bold">Q = 1,000,000 (JSON)   →   Tổng tiết kiệm ΔT = 227.194 s  |  t-CI95 [224.54, 229.85] s  |  Joint [223.88, 230.50] s</text>
+  <rect x="874.0" y="646.0" width="27.6" height="42.0" fill="#1B4965" rx="4.0" ry="4.0"/>
+  <rect x="901.6" y="646.0" width="712.4" height="42.0" fill="#2A9D8F" rx="4.0" ry="4.0"/>
+  <text x="878.0" y="703.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#1B4965" text-anchor="start" font-weight="bold">BUILD: 8.46s (3.7%)</text>
+  <text x="1257.8" y="669.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#FFFFFF" text-anchor="middle" font-weight="bold">SEARCH: 218.73s (96.3%)</text>
+  <rect x="868.0" y="750.0" width="752.0" height="102.0" fill="#E0F2FE" stroke="#1B4965" stroke-width="1.5" rx="8.0" ry="8.0"/>
+  <text x="882.0" y="771.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">Lưu ý quan trọng (Erratum #2 đã hiệu chỉnh): • 30.336 s (Q=100k) và 227.194 s (Q=1M) là THỜI GIAN TIẾT KIỆM MÔ HÌNH HÓA</text>
+  <text x="882.0" y="790.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">(saved_s = ΔT), KHÔNG PHẢI tổng thời gian chạy. • Tổng thời gian mô hình hóa T(Q) thực tế giảm từ 404.244 → 373.908 s</text>
+  <text x="882.0" y="809.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">(Q=100k) và 3,662.131 → 3,434.938 s (Q=1M). • Phần BUILD lớn ở Q nhỏ (~100% ở Q=1; 79.5% ở Q=10k); phần SEARCH lớn ở Q</text>
+  <text x="882.0" y="828.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#0F172A" text-anchor="start">cao (72.1% ở Q=100k; 96.3% ở Q=1M).</text>
+  <line x1="36.0" y1="906.0" x2="1644.0" y2="906.0" stroke="#CBD5E1" stroke-width="1.0"/>
+  <text x="36.0" y="923.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start" font-weight="bold">Nguồn / Evidence: axd-g2-v2-off-design3_1_run2-analysis.json (build_search) • audit_results.json • tables/table12_modeled_two_host_build_search.csv</text>
+  <text x="36.0" y="941.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start">Phạm vi &amp; Giới hạn: Đính chính câu chữ AXD_G2_FINAL_CLOSEOUT_STATUS.md §6 L104; không tuyên bố cộng hưởng hay độc lập tuyệt đối chỉ vì CI tương tác chứa 0.</text>
+</svg>

@@ -1,0 +1,27 @@
+group,req_id,short_title,status
+A. Phân công gốc (14/10 & Tuần 1),REQ-A1,Tuần 1 Gate 0: Paper/Dataset/Protocol,COMPLETE_WITH_SCOPE
+A. Phân công gốc (14/10 & Tuần 1),REQ-A2,Đọc 5 nguồn nền & 6 khái niệm cốt lõi,COMPLETE
+A. Phân công gốc (14/10 & Tuần 1),REQ-A3,Execution DAG & cơ chế nghẽn scaling,COMPLETE_WITH_SCOPE
+A. Phân công gốc (14/10 & Tuần 1),REQ-A4,Đề xuất ≥2 giả thuyết có điều kiện bác bỏ,COMPLETE
+B. Điều chỉnh sau góp ý GV (16/10),REQ-B1,Prior art trước & Taxonomy D01–D10,COMPLETE
+B. Điều chỉnh sau góp ý GV (16/10),REQ-B2,Kiểm nguồn gốc & tách nhãn bằng chứng,COMPLETE
+B. Điều chỉnh sau góp ý GV (16/10),REQ-B3,Khảo sát Cụm 1 (CPU Multi-core Q1–Q4),SURVEY_COMPLETE
+B. Điều chỉnh sau góp ý GV (16/10),REQ-B4,Khảo sát Cụm 2 (CPU–SSD Q1–Q8),SURVEY_COMPLETE
+B. Điều chỉnh sau góp ý GV (16/10),REQ-B5,Khảo sát Cụm 3 (GPU FAISS Q1–Q8),SURVEY_COMPLETE
+C. Ba Mục tiêu cốt lõi Chuyên đề,REQ-C1,Mục tiêu 1: Trình bày ANN & cải tiến,COMPLETE
+C. Ba Mục tiêu cốt lõi Chuyên đề,REQ-C2,Mục tiêu 2: Đề xuất song song kiểm chứng,COMPLETE_WITH_SCOPE
+C. Ba Mục tiêu cốt lõi Chuyên đề,REQ-C3,Mục tiêu 3: Cài đặt & thực nghiệm công bằng,COMPLETE_WITH_SCOPE
+"D. Đề xuất A×D 15/11 (P0–P6, H1–H3)",REQ-D1,P0/P1 Tương thích .pipnn & Parity,COMPLETE_WITH_SCOPE
+"D. Đề xuất A×D 15/11 (P0–P6, H1–H3)",REQ-D2,P2 Common multi-walker & ON/OFF split,COMPLETE
+"D. Đề xuất A×D 15/11 (P0–P6, H1–H3)",REQ-D3,P3/P4 Kiểm định H1–H2 (Stage D 378 lượt),COMPLETE_WITH_SCOPE
+"D. Đề xuất A×D 15/11 (P0–P6, H1–H3)",REQ-D4,H3 / TP-CG lập lịch động (P5 gốc),NO_GO
+"D. Đề xuất A×D 15/11 (P0–P6, H1–H3)",REQ-D5,H3 Overlap-Aware Seed Assignment,REFUTED_WITH_SCOPE
+"D. Đề xuất A×D 15/11 (P0–P6, H1–H3)",REQ-D6,AverSearch-inspired E0–E3 queue roles,REFUTED_WITH_SCOPE
+"D. Đề xuất A×D 15/11 (P0–P6, H1–H3)",REQ-D7,P6 Cross-host i5 / Dataset 2 / R4–R5 / G3,NOT_RUN
+"D. Đề xuất A×D 15/11 (P0–P6, H1–H3)",REQ-D8,Lịch sử R86 Narrow A3 & PipeANN D1/D4/D6,HOLD
+"D. Đề xuất A×D 15/11 (P0–P6, H1–H3)",REQ-D9,Benchmark native GPU & scheduler SSD mới,OUT_OF_SCOPE
+E. G2 v2 design-3.1 & Closeout,REQ-E1,G2 v2 design-3.1 OFF 144/144 & Quality 18/18,COMPLETE_WITH_SCOPE
+E. G2 v2 design-3.1 & Closeout,REQ-E2,Tích hợp A×D 2×2 & Mô hình BUILD–SEARCH,COMPLETE_WITH_SCOPE
+E. G2 v2 design-3.1 & Closeout,REQ-E3,Audit độc lập (0 diff) & Archive 9/9 SHA,COMPLETE
+E. G2 v2 design-3.1 & Closeout,REQ-E4,Xác nhận phạm vi EXPLORATORY & đóng gói,ADVISOR_DECISION_REQUIRED
+E. G2 v2 design-3.1 & Closeout,REQ-E5,Quyết định chốt G2 hay mở G3 mới,ADVISOR_DECISION_REQUIRED

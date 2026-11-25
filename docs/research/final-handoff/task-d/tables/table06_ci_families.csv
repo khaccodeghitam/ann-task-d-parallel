@@ -1,0 +1,6 @@
+ci_family,point_pct,low_pct,high_pct,status,scope
+Primary block-t (df=11),6.033150997154797,5.976580461340278,6.089687496496936,ESTIMATED,"Độ lặp 12 block cân bằng (6 graph cố định, 10k query cố định)"
+Drift-paired block-t (df=5),6.033150997154797,5.991262407242736,6.075020922270269,ESTIMATED,6 cặp block liền kề (phân tích độ nhạy theo thời gian)
+Query-only bootstrap (10k),6.033150997154797,5.97025221117603,6.095760257841354,ESTIMATED,Lấy mẫu khối 100 query (seed 20261123; điều kiện hóa run)
+Joint bootstrap (10k),6.033150997154797,5.954283104843261,6.113014823038821,ESTIMATED,Kết hợp lặp tiến trình + lấy mẫu query (6 graph cố định)
+Graph population CI,,,,NOT_ESTIMABLE,6 đồ thị dùng chung SEED=555; không suy rộng quần thể RNG mới

@@ -1,0 +1,14 @@
+counter,label,unit,base_mean,opt_mean,delta,change_pct
+unique_distance_evaluations,Unique L2 / query,count/q,19064.160099999997,19064.160099999997,0.0,0.0
+duplicate_distance_evaluations,Duplicate L2 / query,count/q,3712.8081,928.773,-2784.0351,-74.98462147828216
+distance_evaluations,Total L2 / query,count/q,22776.9682,19992.9331,-2784.035100000001,-12.223027558162904
+already_seen_attempts,Already-seen attempts / query,count/q,3293.25,6077.2851,2784.0351,84.5376178547028
+neighbor_attempts,Neighbor attempts / query,count/q,26069.2182,26069.2182,0.0,0.0
+expansions,Total expansions / query,count/q,456.67990000000003,456.67990000000003,0.0,0.0
+unique_expansions,Unique expansions / query,count/q,440.4571833333334,440.4571833333334,0.0,0.0
+duplicate_expansions,Duplicate expansions / query,count/q,16.222716666666667,16.222716666666667,0.0,0.0
+frontier_insertions,Frontier insertions / query,count/q,2548.8228,2548.8228,0.0,0.0
+sync_merge_count,Sync rounds / query,rounds/q,14.866,14.866,0.0,0.0
+merge_time_ns,ON merge_time (µs/q),µs/q,348.50778923333337,384.3943024833333,35.88651324999995,10.297191155740041
+barrier_wait_ns,ON barrier_wait (µs/q),µs/q,219.72375326666668,224.39440735,4.670654083333318,2.1256937467588224
+sync_wait_ns,ON sync_wait (µs/q),µs/q,568.0946876500001,608.6533477166666,40.55866006666656,7.1394189997521185

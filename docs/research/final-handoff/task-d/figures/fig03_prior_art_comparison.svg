@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1720" height="960" viewBox="0 0 1720 960">
+  <rect x="0" y="0" width="1720" height="960" fill="#FFFFFF"/>
+  <rect x="0.0" y="0.0" width="1720.0" height="86.0" fill="#1B4965"/>
+  <rect x="0.0" y="86.0" width="1720.0" height="4.0" fill="#2A9D8F"/>
+  <text x="36.0" y="36.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="23" fill="#FFFFFF" text-anchor="start" font-weight="bold">Hình 3 · Ma trận So sánh Prior Art trong 3 Cụm Parallel ANN &amp; Định vị Task D B1+A1</text>
+  <text x="36.0" y="64.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#E0F2FE" text-anchor="start">Đối chiếu đúng pha (BUILD vs SEARCH), cơ chế đồng bộ, đánh đổi và ranh giới bằng chứng (PAPER vs D-OBS)</text>
+  <rect x="36.0" y="114.0" width="1648.0" height="46.0" fill="#1B4965" rx="6.0" ry="6.0"/>
+  <text x="46.0" y="139.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#FFFFFF" text-anchor="start" font-weight="bold">Công trình</text>
+  <text x="221.0" y="139.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#FFFFFF" text-anchor="start" font-weight="bold">Cụm</text>
+  <text x="326.0" y="139.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#FFFFFF" text-anchor="start" font-weight="bold">Pha</text>
+  <text x="456.0" y="139.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#FFFFFF" text-anchor="start" font-weight="bold">Cơ chế song song</text>
+  <text x="696.0" y="139.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#FFFFFF" text-anchor="start" font-weight="bold">Đồng bộ</text>
+  <text x="886.0" y="139.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#FFFFFF" text-anchor="start" font-weight="bold">Đánh đổi / Giới hạn chính</text>
+  <text x="1276.0" y="139.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#FFFFFF" text-anchor="start" font-weight="bold">Nhãn bằng chứng &amp; Phạm vi</text>
+  <rect x="36.0" y="160.0" width="1648.0" height="70.0" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="46.0" y="182.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">ParlayANN (&#x27;24)</text>
+  <text x="221.0" y="182.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">C1 / D01</text>
+  <line x1="211.0" y1="160.0" x2="211.0" y2="230.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="182.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">BUILD (+Search)</text>
+  <line x1="316.0" y1="160.0" x2="316.0" y2="230.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="182.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Batch snapshot + semisort</text>
+  <line x1="446.0" y1="160.0" x2="446.0" y2="230.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="182.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Batch boundary</text>
+  <line x1="686.0" y1="160.0" x2="686.0" y2="230.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="182.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Chi phí gom batch &amp; RAM tạm</text>
+  <line x1="876.0" y1="160.0" x2="876.0" y2="230.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="182.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PAPER (không đổi thành search latency)</text>
+  <line x1="1266.0" y1="160.0" x2="1266.0" y2="230.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="36.0" y="230.0" width="1648.0" height="70.0" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="46.0" y="252.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">Speed-ANN (&#x27;22)</text>
+  <text x="221.0" y="252.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">C1 / D03</text>
+  <line x1="211.0" y1="230.0" x2="211.0" y2="300.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="252.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">SEARCH intra</text>
+  <line x1="316.0" y1="230.0" x2="316.0" y2="300.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="252.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Multi-walker, staged M</text>
+  <line x1="446.0" y1="230.0" x2="446.0" y2="300.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="252.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Update-pos AUP</text>
+  <line x1="686.0" y1="230.0" x2="686.0" y2="300.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="252.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Work inflation, băng thông RAM</text>
+  <line x1="876.0" y1="230.0" x2="876.0" y2="300.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="252.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PAPER (kết quả trên CPU của tác giả)</text>
+  <line x1="1266.0" y1="230.0" x2="1266.0" y2="300.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="36.0" y="300.0" width="1648.0" height="70.0" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="46.0" y="322.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">iQAN (&#x27;23)</text>
+  <text x="221.0" y="322.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">C1 / D03</text>
+  <line x1="211.0" y1="300.0" x2="211.0" y2="370.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="322.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">SEARCH intra</text>
+  <line x1="316.0" y1="300.0" x2="316.0" y2="370.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="322.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Path-wise + locality</text>
+  <line x1="446.0" y1="300.0" x2="446.0" y2="370.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="322.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Lazy AUP merge</text>
+  <line x1="686.0" y1="300.0" x2="686.0" y2="370.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="322.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Cùng dòng Speed-ANN (không tính đôi)</text>
+  <line x1="876.0" y1="300.0" x2="876.0" y2="370.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="322.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PAPER (PPoPP &#x27;23)</text>
+  <line x1="1266.0" y1="300.0" x2="1266.0" y2="370.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="36.0" y="370.0" width="1648.0" height="70.0" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="46.0" y="392.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">AverSearch (&#x27;25)</text>
+  <text x="221.0" y="392.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">C1 / D03</text>
+  <line x1="211.0" y1="370.0" x2="211.0" y2="440.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="392.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">SEARCH async</text>
+  <line x1="316.0" y1="370.0" x2="316.0" y2="440.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="392.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Balancer/Maint./Calc.</text>
+  <line x1="446.0" y1="370.0" x2="446.0" y2="440.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="392.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Async shared array</text>
+  <line x1="686.0" y1="370.0" x2="686.0" y2="440.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="392.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Phân vai cố định khi hàng đợi mất cân bằng</text>
+  <line x1="876.0" y1="370.0" x2="876.0" y2="440.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="392.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PAPER (E1/E3 chỉ là prototype độc lập)</text>
+  <line x1="1266.0" y1="370.0" x2="1266.0" y2="440.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="36.0" y="440.0" width="1648.0" height="70.0" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="46.0" y="462.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">DiskANN (&#x27;19)</text>
+  <text x="221.0" y="462.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">C2 / D04</text>
+  <line x1="211.0" y1="440.0" x2="211.0" y2="510.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="462.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">SEARCH SSD</text>
+  <line x1="316.0" y1="440.0" x2="316.0" y2="510.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="462.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Batched beam W</text>
+  <line x1="446.0" y1="440.0" x2="446.0" y2="510.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="462.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Batch I/O barrier</text>
+  <line x1="686.0" y1="440.0" x2="686.0" y2="510.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="462.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Chờ request chậm nhất (tail I/O)</text>
+  <line x1="876.0" y1="440.0" x2="876.0" y2="510.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="462.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PAPER (baseline SSD)</text>
+  <line x1="1266.0" y1="440.0" x2="1266.0" y2="510.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="36.0" y="510.0" width="1648.0" height="70.0" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="46.0" y="532.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">PipeANN (&#x27;25)</text>
+  <text x="221.0" y="532.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">C2 / D05–07</text>
+  <line x1="211.0" y1="510.0" x2="211.0" y2="580.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="532.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">SEARCH SSD</text>
+  <line x1="316.0" y1="510.0" x2="316.0" y2="580.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="532.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Async I/O + adaptive W</text>
+  <line x1="446.0" y1="510.0" x2="446.0" y2="580.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="532.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Interleaved issue/exp</text>
+  <line x1="686.0" y1="510.0" x2="686.0" y2="580.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="532.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">I/O suy đoán có thể lãng phí</text>
+  <line x1="876.0" y1="510.0" x2="876.0" y2="580.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="532.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PAPER + OBS (#32 T16 -13.36% SIFT10M)</text>
+  <line x1="1266.0" y1="510.0" x2="1266.0" y2="580.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="36.0" y="580.0" width="1648.0" height="70.0" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="46.0" y="602.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">LAANN (&#x27;26)</text>
+  <text x="221.0" y="602.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">C2 / D08</text>
+  <line x1="211.0" y1="580.0" x2="211.0" y2="650.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="602.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">SEARCH SSD</text>
+  <line x1="316.0" y1="580.0" x2="316.0" y2="650.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="602.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Look-ahead + P1/P2/P3</text>
+  <line x1="446.0" y1="580.0" x2="446.0" y2="650.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="602.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Persistence + io_uring</text>
+  <line x1="686.0" y1="580.0" x2="686.0" y2="650.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="602.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">CPU thêm + phụ thuộc PageANN layout</text>
+  <line x1="876.0" y1="580.0" x2="876.0" y2="650.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="602.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PAPER (NOT_RUN)</text>
+  <line x1="1266.0" y1="580.0" x2="1266.0" y2="650.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="36.0" y="650.0" width="1648.0" height="70.0" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="46.0" y="672.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">FAISS GPU (&#x27;17)</text>
+  <text x="221.0" y="672.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">C3 / D09</text>
+  <line x1="211.0" y1="650.0" x2="211.0" y2="720.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="672.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">SEARCH GPU</text>
+  <line x1="316.0" y1="650.0" x2="316.0" y2="720.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="672.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">GEMM/IVF + WarpSelect</text>
+  <line x1="446.0" y1="650.0" x2="446.0" y2="720.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="672.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Warp ballot/shuffle</text>
+  <line x1="686.0" y1="650.0" x2="686.0" y2="720.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="672.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">VRAM, register pressure, batch nhỏ</text>
+  <line x1="876.0" y1="650.0" x2="876.0" y2="720.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="672.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PAPER (Maxwell 2017; NOT_RUN)</text>
+  <line x1="1266.0" y1="650.0" x2="1266.0" y2="720.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="36.0" y="720.0" width="1648.0" height="70.0" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="46.0" y="742.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">CAGRA (&#x27;24)</text>
+  <text x="221.0" y="742.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">C3 / D09</text>
+  <line x1="211.0" y1="720.0" x2="211.0" y2="790.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="742.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">BUILD+SEARCH</text>
+  <line x1="316.0" y1="720.0" x2="316.0" y2="790.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="742.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">GPU CTA graph search</text>
+  <line x1="446.0" y1="720.0" x2="446.0" y2="790.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="742.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Visited hash + CTA</text>
+  <line x1="686.0" y1="720.0" x2="686.0" y2="790.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="742.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Giới hạn VRAM ở quy mô rất lớn</text>
+  <line x1="876.0" y1="720.0" x2="876.0" y2="790.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="742.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PAPER (prior art GPU graph)</text>
+  <line x1="1266.0" y1="720.0" x2="1266.0" y2="790.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <rect x="36.0" y="790.0" width="1648.0" height="70.0" fill="#CCFBF1" stroke="#2A9D8F" stroke-width="2.0"/>
+  <text x="46.0" y="812.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">Task D B1+A1</text>
+  <text x="221.0" y="812.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">C1 / D03</text>
+  <line x1="211.0" y1="790.0" x2="211.0" y2="860.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="326.0" y="812.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">SEARCH intra</text>
+  <line x1="316.0" y1="790.0" x2="316.0" y2="860.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="456.0" y="812.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">BSP p=2 S=16 hygiene</text>
+  <line x1="446.0" y1="790.0" x2="446.0" y2="860.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="696.0" y="812.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">Barrier mark + inc.</text>
+  <line x1="686.0" y1="790.0" x2="686.0" y2="860.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="886.0" y="812.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">Baseline hygiene (không novelty); p=4 chưa ổn</text>
+  <line x1="876.0" y1="790.0" x2="876.0" y2="860.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <text x="1276.0" y="812.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#15803D" text-anchor="start" font-weight="bold">D-OBS (-6.03%, -74.98% dup, bit-exact)</text>
+  <line x1="1266.0" y1="790.0" x2="1266.0" y2="860.0" stroke="#E2E8F0" stroke-width="0.8"/>
+  <line x1="36.0" y1="906.0" x2="1684.0" y2="906.0" stroke="#CBD5E1" stroke-width="1.0"/>
+  <text x="36.0" y="923.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start" font-weight="bold">Nguồn / Evidence: Task D Sheets (01_PAPERS) • H3_NOVELTY_AND_PRIOR_ART_AUDIT.md • tables/table03_prior_art_comparison.csv</text>
+  <text x="36.0" y="941.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start">Phạm vi &amp; Giới hạn: PAPER chỉ mô tả cơ chế công bố; OBS ở dòng PipeANN là phép đo Issue #32, D-OBS ở dòng B1+A1 là G2 R90.</text>
+</svg>

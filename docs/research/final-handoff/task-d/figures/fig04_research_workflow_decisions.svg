@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="960" viewBox="0 0 1680 960">
+  <rect x="0" y="0" width="1680" height="960" fill="#FFFFFF"/>
+  <rect x="0.0" y="0.0" width="1680.0" height="86.0" fill="#1B4965"/>
+  <rect x="0.0" y="86.0" width="1680.0" height="4.0" fill="#2A9D8F"/>
+  <text x="36.0" y="36.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="23" fill="#FFFFFF" text-anchor="start" font-weight="bold">Hình 4 · Chu trình Nghiên cứu: Research Gap → Giả thuyết → Thực nghiệm → Quyết định</text>
+  <text x="36.0" y="64.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#E0F2FE" text-anchor="start">Chứng minh cách các kết quả âm có kiểm soát trực tiếp sàng lọc và dẫn tới tối ưu đường cơ sở B1+A1 trên G2 v2</text>
+  <rect x="36.0" y="112.0" width="220.0" height="44.0" fill="#1B4965" rx="7.0" ry="7.0"/>
+  <text x="146.0" y="137.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Giai đoạn</text>
+  <rect x="266.0" y="112.0" width="315.0" height="44.0" fill="#457B9D" rx="7.0" ry="7.0"/>
+  <text x="423.5" y="137.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">1. Research Gap</text>
+  <line x1="582.0" y1="134.0" x2="583.0" y2="134.0" stroke="#0F172A" stroke-width="2.0"/>
+  <polygon points="590.0,134.0 583.7,137.0 583.7,131.0" fill="#0F172A"/>
+  <rect x="591.0" y="112.0" width="340.0" height="44.0" fill="#6D28D9" rx="7.0" ry="7.0"/>
+  <text x="761.0" y="137.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">2. Giả thuyết (Falsifiable)</text>
+  <line x1="932.0" y1="134.0" x2="933.0" y2="134.0" stroke="#0F172A" stroke-width="2.0"/>
+  <polygon points="940.0,134.0 933.7,137.0 933.7,131.0" fill="#0F172A"/>
+  <rect x="941.0" y="112.0" width="355.0" height="44.0" fill="#D97706" rx="7.0" ry="7.0"/>
+  <text x="1118.5" y="137.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">3. Thực nghiệm / Đối chứng</text>
+  <line x1="1297.0" y1="134.0" x2="1298.0" y2="134.0" stroke="#0F172A" stroke-width="2.0"/>
+  <polygon points="1305.0,134.0 1298.7,137.0 1298.7,131.0" fill="#0F172A"/>
+  <rect x="1306.0" y="112.0" width="340.0" height="44.0" fill="#2A9D8F" rx="7.0" ry="7.0"/>
+  <text x="1476.0" y="137.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">4. Quyết định (Gate Verdict)</text>
+  <rect x="36.0" y="174.0" width="220.0" height="128.0" fill="#1B4965" rx="8.0" ry="8.0"/>
+  <text x="50.0" y="222.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="start" font-weight="bold">1. PipeANN CPU–SSD</text>
+  <line x1="257.0" y1="238.0" x2="258.0" y2="238.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="265.0,238.0 258.7,241.0 258.7,235.0" fill="#64748B"/>
+  <rect x="266.0" y="174.0" width="315.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="280.0" y="211.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">Nghẽn T16 &amp; chọn ứng viên SSD</text>
+  <line x1="582.0" y1="238.0" x2="583.0" y2="238.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="590.0,238.0 583.7,241.0 583.7,235.0" fill="#64748B"/>
+  <rect x="591.0" y="174.0" width="340.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="605.0" y="211.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">D1/D4/D6, H-G, H-QV1, H-V, H-F</text>
+  <line x1="932.0" y1="238.0" x2="933.0" y2="238.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="940.0,238.0 933.7,241.0 933.7,235.0" fill="#64748B"/>
+  <rect x="941.0" y="174.0" width="355.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="955.0" y="211.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">Issue #32 (36/36) + Surrogate SIFT10M</text>
+  <line x1="1297.0" y1="238.0" x2="1298.0" y2="238.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1305.0,238.0 1298.7,241.0 1298.7,235.0" fill="#64748B"/>
+  <rect x="1306.0" y="174.0" width="340.0" height="128.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="1320.0" y="209.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">Issue #32 PASS; H-G/H-QV1 NO-GO;</text>
+  <text x="1320.0" y="229.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">D1/D4/D6 bảo lưu</text>
+  <line x1="146.0" y1="303.0" x2="146.0" y2="312.0" stroke="#1B4965" stroke-width="2.5"/>
+  <polygon points="146.0,319.0 143.0,312.7 149.0,312.7" fill="#1B4965"/>
+  <rect x="36.0" y="320.0" width="220.0" height="128.0" fill="#1B4965" rx="8.0" ry="8.0"/>
+  <text x="50.0" y="368.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="start" font-weight="bold">2. AverSearch Roles</text>
+  <line x1="257.0" y1="384.0" x2="258.0" y2="384.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="265.0,384.0 258.7,387.0 258.7,381.0" fill="#64748B"/>
+  <rect x="266.0" y="320.0" width="315.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="280.0" y="357.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">Queue starvation ở phân vai tĩnh</text>
+  <line x1="582.0" y1="384.0" x2="583.0" y2="384.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="590.0,384.0 583.7,387.0 583.7,381.0" fill="#64748B"/>
+  <rect x="591.0" y="320.0" width="340.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="605.0" y="357.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">Dynamic role reallocation vượt static</text>
+  <line x1="932.0" y1="384.0" x2="933.0" y2="384.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="940.0,384.0 933.7,387.0 933.7,381.0" fill="#64748B"/>
+  <rect x="941.0" y="320.0" width="355.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="955.0" y="357.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">E0 (108 ô) + E2 SIFT1M NSG (1 mutex)</text>
+  <line x1="1297.0" y1="384.0" x2="1298.0" y2="384.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1305.0,384.0 1298.7,387.0 1298.7,381.0" fill="#64748B"/>
+  <rect x="1306.0" y="320.0" width="340.0" height="128.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="1320.0" y="355.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">E0 REFUTED (3/15/90); E2 FORMAL NO-GO</text>
+  <line x1="146.0" y1="449.0" x2="146.0" y2="458.0" stroke="#1B4965" stroke-width="2.5"/>
+  <polygon points="146.0,465.0 143.0,458.7 149.0,458.7" fill="#1B4965"/>
+  <rect x="36.0" y="466.0" width="220.0" height="128.0" fill="#1B4965" rx="8.0" ry="8.0"/>
+  <text x="50.0" y="514.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="start" font-weight="bold">3. R86 Graph × Worker</text>
+  <line x1="257.0" y1="530.0" x2="258.0" y2="530.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="265.0,530.0 258.7,533.0 258.7,527.0" fill="#64748B"/>
+  <rect x="266.0" y="466.0" width="315.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="280.0" y="503.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">Tương tác BUILD R86 × multi-walker</text>
+  <line x1="582.0" y1="530.0" x2="583.0" y2="530.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="590.0,530.0 583.7,533.0 583.7,527.0" fill="#64748B"/>
+  <rect x="591.0" y="466.0" width="340.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="605.0" y="503.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">H1/H2 tương tác; H3 TP-CG động</text>
+  <line x1="932.0" y1="530.0" x2="933.0" y2="530.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="940.0,530.0 933.7,533.0 933.7,527.0" fill="#64748B"/>
+  <rect x="941.0" y="466.0" width="355.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="955.0" y="503.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">Stage D (378 lượt) + Prior-art Audit</text>
+  <line x1="1297.0" y1="530.0" x2="1298.0" y2="530.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1305.0,530.0 1298.7,533.0 1298.7,527.0" fill="#64748B"/>
+  <rect x="1306.0" y="466.0" width="340.0" height="128.0" fill="#EDE9FE" stroke="#6D28D9" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="1320.0" y="501.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">H1 EXPLORATORY; std::set→flat; TP-CG</text>
+  <text x="1320.0" y="521.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">PIVOT</text>
+  <line x1="146.0" y1="595.0" x2="146.0" y2="604.0" stroke="#1B4965" stroke-width="2.5"/>
+  <polygon points="146.0,611.0 143.0,604.7 149.0,604.7" fill="#1B4965"/>
+  <rect x="36.0" y="612.0" width="220.0" height="128.0" fill="#1B4965" rx="8.0" ry="8.0"/>
+  <text x="50.0" y="660.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="start" font-weight="bold">4. H3 Overlap &amp; Meas.</text>
+  <line x1="257.0" y1="676.0" x2="258.0" y2="676.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="265.0,676.0 258.7,679.0 258.7,673.0" fill="#64748B"/>
+  <rect x="266.0" y="612.0" width="315.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="280.0" y="649.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">Duplicate L2 còn lại sau B1+A1</text>
+  <line x1="582.0" y1="676.0" x2="583.0" y2="676.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="590.0,676.0 583.7,679.0 583.7,673.0" fill="#64748B"/>
+  <rect x="591.0" y="612.0" width="340.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="605.0" y="649.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">Overlap-aware seed assignment (sig-128)</text>
+  <line x1="932.0" y1="676.0" x2="933.0" y2="676.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="940.0,676.0 933.7,679.0 933.7,673.0" fill="#64748B"/>
+  <rect x="941.0" y="612.0" width="355.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="955.0" y="649.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">6,095 rounds trace + Phase Observer</text>
+  <line x1="1297.0" y1="676.0" x2="1298.0" y2="676.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1305.0,676.0 1298.7,679.0 1298.7,673.0" fill="#64748B"/>
+  <rect x="1306.0" y="612.0" width="340.0" height="128.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="1320.0" y="647.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">Overlap NO-GO (79–80% emergent); Obs</text>
+  <text x="1320.0" y="667.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">NOT_VALIDATED</text>
+  <line x1="146.0" y1="741.0" x2="146.0" y2="750.0" stroke="#1B4965" stroke-width="2.5"/>
+  <polygon points="146.0,757.0 143.0,750.7 149.0,750.7" fill="#1B4965"/>
+  <rect x="36.0" y="758.0" width="220.0" height="128.0" fill="#2A9D8F" rx="8.0" ry="8.0"/>
+  <text x="50.0" y="806.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="start" font-weight="bold">5. B1+A1 &amp; G2 v2 R90</text>
+  <line x1="257.0" y1="822.0" x2="258.0" y2="822.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="265.0,822.0 258.7,825.0 258.7,819.0" fill="#64748B"/>
+  <rect x="266.0" y="758.0" width="315.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="280.0" y="795.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">Lãng phí nền BSP &amp; tích hợp A×D</text>
+  <line x1="582.0" y1="822.0" x2="583.0" y2="822.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="590.0,822.0 583.7,825.0 583.7,819.0" fill="#64748B"/>
+  <rect x="591.0" y="758.0" width="340.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="605.0" y="795.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">B1+A1 giảm ≥3% OFF, bit-exact, +Fast BUILD</text>
+  <line x1="932.0" y1="822.0" x2="933.0" y2="822.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="940.0,822.0 933.7,825.0 933.7,819.0" fill="#64748B"/>
+  <rect x="941.0" y="758.0" width="355.0" height="128.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.4" rx="8.0" ry="8.0"/>
+  <text x="955.0" y="795.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">G2 design-3.1 run2 (144 OFF + 18 ON)</text>
+  <line x1="1297.0" y1="822.0" x2="1298.0" y2="822.0" stroke="#64748B" stroke-width="2.0"/>
+  <polygon points="1305.0,822.0 1298.7,825.0 1298.7,819.0" fill="#64748B"/>
+  <rect x="1306.0" y="758.0" width="340.0" height="128.0" fill="#DCFCE7" stroke="#15803D" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="1320.0" y="793.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">GO_A_FIXED_COHORT (-6.03%) +</text>
+  <text x="1320.0" y="813.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">GO_B_SYSTEM_FIXED_COHORT (model</text>
+  <text x="1320.0" y="833.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">+30.34s@100k)</text>
+  <line x1="36.0" y1="906.0" x2="1644.0" y2="906.0" stroke="#CBD5E1" stroke-width="1.0"/>
+  <text x="36.0" y="923.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start" font-weight="bold">Nguồn / Evidence: TASK_D_FINAL_RESEARCH_SYNTHESIS.md • ORIGINAL_PROPOSAL_FINAL_REASSESSMENT.md • tables/table04_workflow_decisions.csv</text>
+  <text x="36.0" y="941.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start">Phạm vi &amp; Giới hạn: E0 là mô hình, E2 dừng nhiệt, TP-CG chuyển hướng trước P5, overlap dừng sau screening. B1+A1 được đánh giá bằng cặp ON/OFF trên R90.</text>
+</svg>

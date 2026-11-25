@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="940" viewBox="0 0 1680 940">
+  <rect x="0" y="0" width="1680" height="940" fill="#FFFFFF"/>
+  <rect x="0.0" y="0.0" width="1680.0" height="86.0" fill="#1B4965"/>
+  <rect x="0.0" y="86.0" width="1680.0" height="4.0" fill="#2A9D8F"/>
+  <text x="36.0" y="36.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="23" fill="#FFFFFF" text-anchor="start" font-weight="bold">Hình 7 · Cơ chế A1 (FrontierMode::kIncremental) — So sánh Trước &amp; Sau</text>
+  <text x="36.0" y="64.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#E0F2FE" text-anchor="start">Mỗi worker nhận tối đa S hạt giống theo thứ tự ưu tiên trong bộ máy BSP cố định.</text>
+  <rect x="36.0" y="114.0" width="780.0" height="740.0" fill="#F8FAFC" stroke="#DC2626" stroke-width="2.0" rx="10.0" ry="10.0"/>
+  <rect x="36.0" y="114.0" width="780.0" height="52.0" fill="#DC2626" rx="10.0" ry="10.0"/>
+  <rect x="36.0" y="154.0" width="780.0" height="12.0" fill="#DC2626"/>
+  <text x="426.0" y="143.1" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="16" fill="#FFFFFF" text-anchor="middle" font-weight="bold">TRƯỚC A1 · Full Frontier Rebuild (kFull)</text>
+  <rect x="64.0" y="186.0" width="724.0" height="182.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5" rx="8.0" ry="8.0"/>
+  <text x="84.0" y="211.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="start" font-weight="bold">global_best_vec_ (kích thước B = 432, chỉ lưu Hit):</text>
+  <rect x="84.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="100.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">E</text>
+  <rect x="121.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="137.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">E</text>
+  <rect x="158.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="174.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">E</text>
+  <rect x="195.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="211.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">E</text>
+  <rect x="232.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="248.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">E</text>
+  <rect x="269.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="285.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">E</text>
+  <rect x="306.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="322.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="343.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="359.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="380.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="396.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="417.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="433.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="454.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="470.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="491.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="507.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="528.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="544.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="565.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="581.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="602.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="618.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="639.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="655.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="676.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="692.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <rect x="713.0" y="232.0" width="33.0" height="36.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.2" rx="4.0" ry="4.0"/>
+  <text x="729.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">U</text>
+  <text x="84.0" y="288.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">E = đã expand (phải tra ngẫu nhiên global_expanded_epoch_[id] cỡ 2 MiB)</text>
+  <text x="84.0" y="310.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#DC2626" text-anchor="start" font-weight="bold">U = chưa expand → sao chép TOÀN BỘ sang active_frontier_ (có thể tới 432 đỉnh!)</text>
+  <text x="84.0" y="334.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Không phân biệt trường hợp merge_scratch_ rỗng hay khác rỗng — luôn quét hết B.</text>
+  <line x1="426.0" y1="368.0" x2="426.0" y2="390.0" stroke="#DC2626" stroke-width="2.4"/>
+  <polygon points="426.0,398.0 422.5,390.8 429.5,390.8" fill="#DC2626"/>
+  <rect x="64.0" y="400.0" width="724.0" height="210.0" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.8" rx="8.0" ry="8.0"/>
+  <text x="84.0" y="426.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#DC2626" text-anchor="start" font-weight="bold">Phân phát thừa &amp; chi phí cấp phát nút cây đỏ-đen (std::set):</text>
+  <text x="84.0" y="455.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">• Mỗi worker nhận tới B / p = 216 hạt giống vào init_seeds. • Đầu mỗi superstep, mỗi worker chèn cả</text>
+  <text x="84.0" y="479.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">≤216 đỉnh vào std::set&lt;Hit&gt; local_pending (cấp phát heap từng node, độ phức tạp O((B/p) log(B/p))). •</text>
+  <text x="84.0" y="503.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">NHƯNG vòng lặp while(steps &lt; S) CHỈ pop tối đa S = 16 đỉnh tốt nhất! • Khoảng ~200 đỉnh xếp hạng</text>
+  <text x="84.0" y="527.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">sau hoàn toàn KHÔNG BAO GIỜ được pop trong vòng đó nhưng vẫn tốn chi phí chèn/hủy cây đỏ-đen mỗi</text>
+  <text x="84.0" y="551.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">vòng.</text>
+  <line x1="426.0" y1="610.0" x2="426.0" y2="632.0" stroke="#DC2626" stroke-width="2.4"/>
+  <polygon points="426.0,640.0 422.5,632.8 429.5,632.8" fill="#DC2626"/>
+  <rect x="64.0" y="642.0" width="724.0" height="186.0" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.8" rx="8.0" ry="8.0"/>
+  <text x="84.0" y="670.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="start" font-weight="bold">Độ phức tạp mỗi superstep (Baseline):</text>
+  <text x="84.0" y="701.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">• Quét lại toàn bộ B + tra ngẫu nhiên global_expanded_epoch_[id]: O(B)</text>
+  <text x="84.0" y="729.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#DC2626" text-anchor="start" font-weight="bold">• Dựng std::set local_pending trên mỗi worker: O((B/p) · log(B/p))</text>
+  <text x="84.0" y="757.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">• Với B=432, p=2, S=16: nạp tới 216 seed/worker (~13.5× mức tối đa S=16!)</text>
+  <text x="84.0" y="785.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#475569" text-anchor="start">• Trên R86 A3 (B≈970): nạp tới ~485 seed/worker (~30× mức S=16!)</text>
+  <rect x="864.0" y="114.0" width="780.0" height="740.0" fill="#F8FAFC" stroke="#2A9D8F" stroke-width="2.0" rx="10.0" ry="10.0"/>
+  <rect x="864.0" y="114.0" width="780.0" height="52.0" fill="#2A9D8F" rx="10.0" ry="10.0"/>
+  <rect x="864.0" y="154.0" width="780.0" height="12.0" fill="#2A9D8F"/>
+  <text x="1254.0" y="143.1" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="16" fill="#FFFFFF" text-anchor="middle" font-weight="bold">SAU A1 · Incremental Frontier (kIncremental)</text>
+  <rect x="892.0" y="186.0" width="724.0" height="182.0" fill="#FFFFFF" stroke="#2A9D8F" stroke-width="1.5" rx="8.0" ry="8.0"/>
+  <text x="912.0" y="211.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="start" font-weight="bold">global_best_flat_ lưu FlatEntry { Hit hit; uint8_t expanded; }:</text>
+  <rect x="912.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="928.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#64748B" text-anchor="middle" font-weight="bold">1</text>
+  <rect x="949.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="965.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#64748B" text-anchor="middle" font-weight="bold">1</text>
+  <rect x="986.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1002.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#64748B" text-anchor="middle" font-weight="bold">1</text>
+  <rect x="1023.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1039.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#64748B" text-anchor="middle" font-weight="bold">1</text>
+  <rect x="1060.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1076.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#64748B" text-anchor="middle" font-weight="bold">1</text>
+  <rect x="1097.0" y="232.0" width="33.0" height="36.0" fill="#F1F5F9" stroke="#64748B" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1113.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#64748B" text-anchor="middle" font-weight="bold">1</text>
+  <rect x="1134.0" y="232.0" width="33.0" height="36.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.5" rx="4.0" ry="4.0"/>
+  <text x="1150.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">0*</text>
+  <rect x="1171.0" y="232.0" width="33.0" height="36.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.5" rx="4.0" ry="4.0"/>
+  <text x="1187.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">0*</text>
+  <rect x="1208.0" y="232.0" width="33.0" height="36.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.5" rx="4.0" ry="4.0"/>
+  <text x="1224.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">0*</text>
+  <rect x="1245.0" y="232.0" width="33.0" height="36.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.5" rx="4.0" ry="4.0"/>
+  <text x="1261.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">0*</text>
+  <rect x="1282.0" y="232.0" width="33.0" height="36.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1298.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">0</text>
+  <rect x="1319.0" y="232.0" width="33.0" height="36.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1335.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">0</text>
+  <rect x="1356.0" y="232.0" width="33.0" height="36.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1372.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">0</text>
+  <rect x="1393.0" y="232.0" width="33.0" height="36.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1409.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">0</text>
+  <rect x="1430.0" y="232.0" width="33.0" height="36.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1446.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">0</text>
+  <rect x="1467.0" y="232.0" width="33.0" height="36.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1483.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">0</text>
+  <rect x="1504.0" y="232.0" width="33.0" height="36.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1520.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">0</text>
+  <rect x="1541.0" y="232.0" width="33.0" height="36.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.1" rx="4.0" ry="4.0"/>
+  <text x="1557.5" y="252.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="middle" font-weight="bold">0</text>
+  <text x="912.0" y="288.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#1B4965" text-anchor="start" font-weight="bold">Con trỏ first_unexp (bỏ qua tiền tố đã expand) &amp; prev_last_disp (chỉ tra epoch ≤ prev_last_disp)</text>
+  <text x="912.0" y="310.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#15803D" text-anchor="start" font-weight="bold">0* = Tối đa max_dispatch = p × S = 32 hạt giống tốt nhất được đẩy trực tiếp vào init_seeds</text>
+  <text x="912.0" y="334.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Nhánh nhanh khi merge_scratch_.empty(): bắt đầu từ first_unexp, dừng sớm ngay khi đủ p×S.</text>
+  <line x1="1254.0" y1="368.0" x2="1254.0" y2="390.0" stroke="#2A9D8F" stroke-width="2.4"/>
+  <polygon points="1254.0,398.0 1250.5,390.8 1257.5,390.8" fill="#2A9D8F"/>
+  <rect x="892.0" y="400.0" width="724.0" height="210.0" fill="#CCFBF1" stroke="#2A9D8F" stroke-width="1.8" rx="8.0" ry="8.0"/>
+  <text x="912.0" y="426.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#1B4965" text-anchor="start" font-weight="bold">Chứng minh bất biến chính xác (Bit-Exact Equivalence):</text>
+  <text x="912.0" y="455.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">• Tập hạt giống ban đầu của worker w được cấp theo thứ tự tăng dần khoảng cách. • Mỗi bước chỉ pop</text>
+  <text x="912.0" y="479.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">phần tử nhỏ nhất trong local_pending và chạy tối đa S = 16 bước. • Mọi phần tử đứng ở hạng ≥ S (từ</text>
+  <text x="912.0" y="503.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">thứ 17 trở đi) trong init_seeds KHÔNG THỂ NÀO đứng trước cả S phần tử tốt hơn đã nạp sẵn (mọi láng</text>
+  <text x="912.0" y="527.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">giềng mới chèn thêm chỉ làm vị trí của chúng lùi sâu hơn). ⇒ Giới hạn init_seeds ở tối đa S = 16</text>
+  <text x="912.0" y="551.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">đỉnh/worker bảo toàn 100% quỹ đạo và Top-10!</text>
+  <line x1="1254.0" y1="610.0" x2="1254.0" y2="632.0" stroke="#2A9D8F" stroke-width="2.4"/>
+  <polygon points="1254.0,640.0 1250.5,632.8 1257.5,632.8" fill="#2A9D8F"/>
+  <rect x="892.0" y="642.0" width="724.0" height="186.0" fill="#FFFFFF" stroke="#15803D" stroke-width="1.8" rx="8.0" ry="8.0"/>
+  <text x="912.0" y="670.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#15803D" text-anchor="start" font-weight="bold">Độ phức tạp mỗi superstep (Sau A1) &amp; Hiệu ứng đo:</text>
+  <text x="912.0" y="701.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#15803D" text-anchor="start" font-weight="bold">• Dựng std::set local_pending: O(S · log S) thay vì O((B/p) · log(B/p))</text>
+  <text x="912.0" y="729.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start">• Không còn mảng trung gian active_frontier_; giảm số lần tra mảng epoch; PMU chưa đo</text>
+  <text x="912.0" y="757.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="start" font-weight="bold">• B1+A1 cùng hoạt động: giảm -6.033% mean latency OFF (p=2, S=16, b432)</text>
+  <text x="912.0" y="784.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#D97706" text-anchor="start" font-weight="bold">• ON merge_time tăng 35.89 µs/q; dispatch nay nằm trong cửa sổ đo merge.</text>
+  <line x1="818.0" y1="480.0" x2="851.0" y2="480.0" stroke="#1B4965" stroke-width="3.0"/>
+  <polygon points="862.0,480.0 852.1,484.8 852.1,475.2" fill="#1B4965"/>
+  <line x1="36.0" y1="886.0" x2="1644.0" y2="886.0" stroke="#CBD5E1" stroke-width="1.0"/>
+  <text x="36.0" y="903.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start" font-weight="bold">Nguồn / Evidence: p2_engine.hpp (L691–709, L900–976) • TASK_D_B1_A1_TECHNICAL_EXPLANATION.md</text>
+  <text x="36.0" y="921.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start">Phạm vi &amp; Giới hạn: Độ phức tạp phân tích dưới giả định B &gt; p·S và tìm kiếm BSP; G2 v2 đo hiệu ứng tổng hợp B1+A1 (không tách riêng B1/A1 trên R90).</text>
+</svg>

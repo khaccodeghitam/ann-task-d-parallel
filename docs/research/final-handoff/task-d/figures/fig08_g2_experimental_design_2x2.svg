@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="960" viewBox="0 0 1680 960">
+  <rect x="0" y="0" width="1680" height="960" fill="#FFFFFF"/>
+  <rect x="0.0" y="0.0" width="1680.0" height="86.0" fill="#1B4965"/>
+  <rect x="0.0" y="86.0" width="1680.0" height="4.0" fill="#2A9D8F"/>
+  <text x="36.0" y="36.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="23" fill="#FFFFFF" text-anchor="start" font-weight="bold">Hình 8 · Thiết kế Thực nghiệm 2×2 &amp; Quy trình Kiểm soát Cổng G2 v2 (design-3.1)</text>
+  <text x="36.0" y="64.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#E0F2FE" text-anchor="start">Protocol AXD-G2-V2-3A-20261123 • MS-Turing-1M (v2_test_10000) • 6 đồ thị R90 P0A v1.3 • Ryzen 5 PRO 4650U</text>
+  <rect x="36.0" y="114.0" width="830.0" height="500.0" fill="#F8FAFC" stroke="#1B4965" stroke-width="2.0" rx="10.0" ry="10.0"/>
+  <text x="56.0" y="143.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#1B4965" text-anchor="start" font-weight="bold">MA TRẬN NHÂN TỐ 2 × 2 (TASK A BUILD × TASK D SEARCH)</text>
+  <text x="56.0" y="164.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">6 đồ thị cố định R90 v1.3 (C160/K1024/N2, SEED=555) × 2 chính sách Search × 12 block cân bằng</text>
+  <rect x="250.0" y="190.0" width="290.0" height="48.0" fill="#457B9D" rx="6.0" ry="6.0"/>
+  <text x="395.0" y="216.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Task D: Baseline (flat+full)</text>
+  <rect x="556.0" y="190.0" width="290.0" height="48.0" fill="#2A9D8F" rx="6.0" ry="6.0"/>
+  <text x="701.0" y="216.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Task D: B1+A1 (bar_all+inc)</text>
+  <rect x="56.0" y="250.0" width="180.0" height="160.0" fill="#1B4965" rx="6.0" ry="6.0"/>
+  <text x="146.0" y="306.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Task A: Stock</text>
+  <text x="146.0" y="328.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#E0F2FE" text-anchor="middle">3 graphs (r1–r3)</text>
+  <text x="146.0" y="352.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#FEF3C7" text-anchor="middle" font-weight="bold">BUILD: 42.257 s</text>
+  <text x="146.0" y="371.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#CBD5E1" text-anchor="middle">(Host A, 4T)</text>
+  <rect x="56.0" y="426.0" width="180.0" height="160.0" fill="#1B4965" rx="6.0" ry="6.0"/>
+  <text x="146.0" y="482.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Task A: Fast v2</text>
+  <text x="146.0" y="504.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#E0F2FE" text-anchor="middle">3 graphs (r1–r3)</text>
+  <text x="146.0" y="528.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#CCFBF1" text-anchor="middle" font-weight="bold">BUILD: 33.793 s</text>
+  <text x="146.0" y="547.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#CBD5E1" text-anchor="middle">(-20.03%, Host A)</text>
+  <rect x="250.0" y="250.0" width="290.0" height="160.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="266.0" y="278.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#1B4965" text-anchor="start" font-weight="bold">Ô 1: stock_base</text>
+  <text x="266.0" y="308.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">36 tiến trình OFF • 3 ON test</text>
+  <text x="266.0" y="339.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">Mean: 3619.87 µs | QPS: 276.24</text>
+  <text x="266.0" y="370.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">R@10: 0.992050 | Mốc tham chiếu</text>
+  <rect x="556.0" y="250.0" width="290.0" height="160.0" fill="#E0F2FE" stroke="#457B9D" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="572.0" y="278.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#1B4965" text-anchor="start" font-weight="bold">Ô 2: stock_opt</text>
+  <text x="572.0" y="308.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">36 tiến trình OFF • 3 ON test</text>
+  <text x="572.0" y="339.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">Mean: 3401.51 µs (-6.032%)</text>
+  <text x="572.0" y="370.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#15803D" text-anchor="start" font-weight="bold">Bit-exact R@10 | QPS: 293.97</text>
+  <rect x="250.0" y="426.0" width="290.0" height="160.0" fill="#F1F5F9" stroke="#64748B" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="266.0" y="454.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#1B4965" text-anchor="start" font-weight="bold">Ô 3: fast_base</text>
+  <text x="266.0" y="484.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">36 tiến trình OFF • 3 ON test</text>
+  <text x="266.0" y="515.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">Mean: 3619.54 µs (−0.33 µs vs Stock)</text>
+  <text x="266.0" y="546.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Gate B PASS | QPS: 276.26</text>
+  <rect x="556.0" y="426.0" width="290.0" height="160.0" fill="#CCFBF1" stroke="#2A9D8F" stroke-width="2.0" rx="8.0" ry="8.0"/>
+  <text x="572.0" y="454.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#1B4965" text-anchor="start" font-weight="bold">Ô 4: fast_opt (Tổ hợp A×D)</text>
+  <text x="572.0" y="484.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">36 tiến trình OFF • 3 ON test</text>
+  <text x="572.0" y="515.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="start" font-weight="bold">Mean: 3401.14 µs (-6.034%)</text>
+  <text x="572.0" y="546.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#15803D" text-anchor="start" font-weight="bold">Tương tác: +0.037 µs (CI qua 0)</text>
+  <rect x="36.0" y="634.0" width="830.0" height="246.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.8" rx="10.0" ry="10.0"/>
+  <text x="56.0" y="662.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#1B4965" text-anchor="start" font-weight="bold">KIỂM SOÁT CÂN BẰNG, NHIỄU &amp; CÔ LẬP HOLD (design-3.1)</text>
+  <text x="56.0" y="692.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">• Cân bằng 12 block × 6 graph × 2 policy = 144 tiến trình OFF (72 cặp liền kề: 36 AB + 36 BA).</text>
+  <text x="56.0" y="722.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">• Mỗi đồ thị xuất hiện đúng 2 lần tại mỗi vị trí block 0..5 để cân bằng thứ tự chạy theo thời gian.</text>
+  <text x="56.0" y="752.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">• Giới hạn nhiễu CPU theo topology CCX: Workers [0..3] ≤ 0.010 | CCX0 [0..5] ≤ 0.020 | Host [0..11] ≤ 0.025.</text>
+  <text x="56.0" y="782.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">• Thực tế run2: max Workers = 0.0055, CCX0 = 0.0075, Host = 0.0070; Tctl max = 78.5°C (&lt; 95°C); AC = 1.</text>
+  <text x="56.0" y="812.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">• Môi trường sạch: systemd multi-user.target + prepare_quiet_tty_env.sh; khôi phục đầy đủ sau chạy.</text>
+  <text x="56.0" y="842.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">• Cô lập tuyệt đối 2 lượt HOLD lịch sử (design-3 #1 KeyError; run1 #120 firmware-notifier): 0/144 receipt trùng.</text>
+  <rect x="892.0" y="114.0" width="752.0" height="766.0" fill="#F8FAFC" stroke="#2A9D8F" stroke-width="2.0" rx="10.0" ry="10.0"/>
+  <text x="914.0" y="143.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="15" fill="#2A9D8F" text-anchor="start" font-weight="bold">QUY TRÌNH CỔNG PHÊ DUYỆT &amp; KIỂM TOÁN ĐỘC LẬP</text>
+  <rect x="914.0" y="174.0" width="708.0" height="114.0" fill="#FFFFFF" stroke="#15803D" stroke-width="1.8" rx="8.0" ry="8.0"/>
+  <text x="932.0" y="198.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="start" font-weight="bold">Cổng 0 · Freeze &amp; Qualification (900s)</text>
+  <rect x="1454.5" y="184.0" width="149.5" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1529.2" y="197.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">QUALIFICATION_PASS</text>
+  <text x="932.0" y="228.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Manifest design-3.1 (29/29 SHA) • Qual #2 PASS: 853/853 (10s) &amp; 848/848 (15s), 0 hard failures.</text>
+  <line x1="1268.0" y1="288.0" x2="1268.0" y2="302.0" stroke="#1B4965" stroke-width="2.4"/>
+  <polygon points="1268.0,310.0 1264.5,302.8 1271.5,302.8" fill="#1B4965"/>
+  <rect x="914.0" y="312.0" width="708.0" height="114.0" fill="#FFFFFF" stroke="#15803D" stroke-width="1.8" rx="8.0" ry="8.0"/>
+  <text x="932.0" y="336.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="start" font-weight="bold">Cổng 1 · Quality ON (18/18, beam=432)</text>
+  <rect x="1459.5" y="322.0" width="144.5" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1531.8" y="335.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">QUALITY_GATE_PASS</text>
+  <text x="932.0" y="366.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">20,000 truy vấn duy nhất (10k test + 10k val) • Gate A (min LCB95 = 0.991188 &gt; 0.990) &amp; Gate B (±0.0005)</text>
+  <text x="932.0" y="385.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">PASS • 120,000 cặp ON (60k test + 60k val so với Stage 5); 0 sai lệch.</text>
+  <line x1="1268.0" y1="426.0" x2="1268.0" y2="440.0" stroke="#1B4965" stroke-width="2.4"/>
+  <polygon points="1268.0,448.0 1264.5,440.8 1271.5,440.8" fill="#1B4965"/>
+  <rect x="914.0" y="450.0" width="708.0" height="114.0" fill="#FFFFFF" stroke="#1B4965" stroke-width="1.8" rx="8.0" ry="8.0"/>
+  <text x="932.0" y="474.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="start" font-weight="bold">Cổng 2 · Owner Approval (OFF_AB)</text>
+  <rect x="1484.0" y="460.0" width="120.0" height="21.0" fill="#E0F2FE" stroke="#1B4965" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1544.0" y="473.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#1B4965" text-anchor="middle" font-weight="bold">APPROVAL_PASS</text>
+  <text x="932.0" y="504.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Ký phê duyệt design3_1_off_approval_run2.json (SHA edbe6e98..., quota 10,800s, scope OFF_AB).</text>
+  <line x1="1268.0" y1="564.0" x2="1268.0" y2="578.0" stroke="#1B4965" stroke-width="2.4"/>
+  <polygon points="1268.0,586.0 1264.5,578.8 1271.5,578.8" fill="#1B4965"/>
+  <rect x="914.0" y="588.0" width="708.0" height="114.0" fill="#FFFFFF" stroke="#2A9D8F" stroke-width="1.8" rx="8.0" ry="8.0"/>
+  <text x="932.0" y="612.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="start" font-weight="bold">Cổng 3 · Performance OFF (144/144)</text>
+  <rect x="1504.5" y="598.0" width="99.5" height="21.0" fill="#CCFBF1" stroke="#2A9D8F" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1554.2" y="611.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#2A9D8F" text-anchor="middle" font-weight="bold">GO_A + GO_B</text>
+  <text x="932.0" y="642.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Thời gian 7,987.18 s • 1,440,000 bản ghi OFF không có trường counters • 144/144 bit-exact digest parity •</text>
+  <text x="932.0" y="661.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">1,299/1,299 BUNDLE.sha256 • NO_HOLD_JSON.</text>
+  <line x1="1268.0" y1="702.0" x2="1268.0" y2="716.0" stroke="#1B4965" stroke-width="2.4"/>
+  <polygon points="1268.0,724.0 1264.5,716.8 1271.5,716.8" fill="#1B4965"/>
+  <rect x="914.0" y="726.0" width="708.0" height="114.0" fill="#FFFFFF" stroke="#15803D" stroke-width="1.8" rx="8.0" ry="8.0"/>
+  <text x="932.0" y="750.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="start" font-weight="bold">Cổng 4 · Independent Final Audit &amp; Archive</text>
+  <rect x="1511.5" y="736.0" width="92.5" height="21.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1557.8" y="749.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#15803D" text-anchor="middle" font-weight="bold">AUDIT_PASS</text>
+  <text x="932.0" y="780.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Replay độc lập 100% số liệu &amp; 20k bootstrap: max_stat_diff = 0.0, 0 discrepancies • PRIVATE Release 9/9</text>
+  <text x="932.0" y="799.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">SHA-256 verified.</text>
+  <line x1="36.0" y1="906.0" x2="1644.0" y2="906.0" stroke="#CBD5E1" stroke-width="1.0"/>
+  <text x="36.0" y="923.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start" font-weight="bold">Nguồn / Evidence: AXD_G2_V2_DESIGN3_1_FINAL_AUDIT.md • AXD_G2_V2_DESIGN3_1_FREEZE_MANIFEST.json (bc897419...)</text>
+  <text x="36.0" y="941.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start">Phạm vi &amp; Giới hạn: Phạm vi EXPLORATORY_HOST_SPECIFIC • graph_population_ci = NOT_ESTIMABLE • Chưa đo p=1/4, jobs&gt;1 hay single-host end-to-end.</text>
+</svg>

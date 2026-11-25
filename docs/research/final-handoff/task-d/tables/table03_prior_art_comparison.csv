@@ -1,0 +1,11 @@
+system,cluster,phase,parallelism,sync_mech,key_tradeoff,scope_note
+ParlayANN ('24),C1 / D01,BUILD (+Search),Batch snapshot + semisort,Batch boundary,Chi phí gom batch & RAM tạm,PAPER (không đổi thành search latency)
+Speed-ANN ('22),C1 / D03,SEARCH intra,"Multi-walker, staged M",Update-pos AUP,"Work inflation, băng thông RAM",PAPER (kết quả trên CPU của tác giả)
+iQAN ('23),C1 / D03,SEARCH intra,Path-wise + locality,Lazy AUP merge,Cùng dòng Speed-ANN (không tính đôi),PAPER (PPoPP '23)
+AverSearch ('25),C1 / D03,SEARCH async,Balancer/Maint./Calc.,Async shared array,Phân vai cố định khi hàng đợi mất cân bằng,PAPER (E1/E3 chỉ là prototype độc lập)
+DiskANN ('19),C2 / D04,SEARCH SSD,Batched beam W,Batch I/O barrier,Chờ request chậm nhất (tail I/O),PAPER (baseline SSD)
+PipeANN ('25),C2 / D05–07,SEARCH SSD,Async I/O + adaptive W,Interleaved issue/exp,I/O suy đoán có thể lãng phí,PAPER + OBS (#32 T16 -13.36% SIFT10M)
+LAANN ('26),C2 / D08,SEARCH SSD,Look-ahead + P1/P2/P3,Persistence + io_uring,CPU thêm + phụ thuộc PageANN layout,PAPER (NOT_RUN)
+FAISS GPU ('17),C3 / D09,SEARCH GPU,GEMM/IVF + WarpSelect,Warp ballot/shuffle,"VRAM, register pressure, batch nhỏ",PAPER (Maxwell 2017; NOT_RUN)
+CAGRA ('24),C3 / D09,BUILD+SEARCH,GPU CTA graph search,Visited hash + CTA,Giới hạn VRAM ở quy mô rất lớn,PAPER (prior art GPU graph)
+Task D B1+A1,C1 / D03,SEARCH intra,BSP p=2 S=16 hygiene,Barrier mark + inc.,Baseline hygiene (không novelty); p=4 chưa ổn,"D-OBS (-6.03%, -74.98% dup, bit-exact)"

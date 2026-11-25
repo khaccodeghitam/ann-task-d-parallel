@@ -1,0 +1,11 @@
+code,cluster,mechanism,phase,resource,representative,status
+D01,Cụm 1: CPU Multi-core,Parallel graph construction,BUILD,CPU / RAM,ParlayANN (PPoPP '24),SURVEY_COMPLETE (Task A tham chiếu)
+D02,Cụm 1: CPU Multi-core,Edge-wise parallel expansion,SEARCH (intra),CPU / RAM,Speed-ANN §3 (đối chứng),SURVEY_COMPLETE
+D03,Cụm 1: CPU Multi-core,Path-wise / multi-walker & async tasks,SEARCH (intra),CPU / RAM,"Speed-ANN, iQAN, AverSearch, Task D B1+A1",EXPERIMENTAL (G2 GO_A_FIXED_COHORT)
+D04,Cụm 2: CPU–SSD Pipeline,Batched SSD beam search,SEARCH (intra),CPU + SSD,DiskANN / Vamana (NeurIPS '19),SURVEY_COMPLETE
+D05,Cụm 2: CPU–SSD Pipeline,Continuous async CPU–SSD pipeline,SEARCH (intra),CPU + SSD,PipeANN / PipeSearch (OSDI '25),BASELINE (Issue #32 SIFT10M) / SURVEY
+D06,Cụm 2: CPU–SSD Pipeline,Adaptive per-query I/O width W,SEARCH (intra),SSD,PipeANN §4.2,SURVEY_COMPLETE
+D07,Cụm 2: CPU–SSD Pipeline,Completion-aware I/O issuance,SEARCH (intra),CPU + SSD,PipeANN §4.3 Fig.10,SURVEY_COMPLETE
+D08,Cụm 2: CPU–SSD Pipeline,Memory-first look-ahead + P1/P2/P3,SEARCH (intra),RAM + CPU + SSD,LAANN (arXiv '26),SURVEY_COMPLETE (NOT_RUN)
+D09,Cụm 3: GPU Data Parallelism,GPU distance + WarpSelect / graph GPU,SEARCH / BUILD,GPU VRAM/Regs,"FAISS GPU ('17), CAGRA ('24), FusionANNS ('25)",SURVEY_COMPLETE (0 GPU benchmark)
+D10,Trục xuyên suốt (Orthogonal),Inter-query concurrency & resource control,SERVING (inter),CPU / SSD / GPU,"ANN Serving, Hitcher, PipeANN multi-T",OPEN (Issue #32 T16=-13.36%; G2 jobs=1)

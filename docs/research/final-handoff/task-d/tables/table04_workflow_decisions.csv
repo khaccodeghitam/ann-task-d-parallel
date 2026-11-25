@@ -1,0 +1,6 @@
+stage,gap,hypothesis,experiment,decision
+1. PipeANN CPU–SSD,Nghẽn T16 & chọn ứng viên SSD,"D1/D4/D6, H-G, H-QV1, H-V, H-F",Issue #32 (36/36) + Surrogate SIFT10M,Issue #32 PASS; H-G/H-QV1 NO-GO; D1/D4/D6 bảo lưu
+2. AverSearch Roles,Queue starvation ở phân vai tĩnh,Dynamic role reallocation vượt static,E0 (108 ô) + E2 SIFT1M NSG (1 mutex),E0 REFUTED (3/15/90); E2 FORMAL NO-GO
+3. R86 Graph × Worker,Tương tác BUILD R86 × multi-walker,H1/H2 tương tác; H3 TP-CG động,Stage D (378 lượt) + Prior-art Audit,H1 EXPLORATORY; std::set→flat; TP-CG PIVOT
+4. H3 Overlap & Meas.,Duplicate L2 còn lại sau B1+A1,Overlap-aware seed assignment (sig-128),"6,095 rounds trace + Phase Observer",Overlap NO-GO (79–80% emergent); Obs NOT_VALIDATED
+5. B1+A1 & G2 v2 R90,Lãng phí nền BSP & tích hợp A×D,"B1+A1 giảm ≥3% OFF, bit-exact, +Fast BUILD",G2 design-3.1 run2 (144 OFF + 18 ON),GO_A_FIXED_COHORT (-6.03%) + GO_B_SYSTEM_FIXED_COHORT (model +30.34s@100k)

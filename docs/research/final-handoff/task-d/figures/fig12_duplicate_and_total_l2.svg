@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="940" viewBox="0 0 1680 940">
+  <rect x="0" y="0" width="1680" height="940" fill="#FFFFFF"/>
+  <rect x="0.0" y="0.0" width="1680.0" height="86.0" fill="#1B4965"/>
+  <rect x="0.0" y="86.0" width="1680.0" height="4.0" fill="#2A9D8F"/>
+  <text x="36.0" y="36.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="23" fill="#FFFFFF" text-anchor="start" font-weight="bold">Hình 12 · Cơ chế Cắt giảm Phép tính Khoảng cách L2 &amp; Bảo toàn 1-đổi-1 (Quality ON 18/18)</text>
+  <text x="36.0" y="64.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#E0F2FE" text-anchor="start">Giá trị kiểm toán chính xác từ audit_results.json (MS-Turing-1M, 6 đồ thị R90 v1.3, beam=432, p=2, S=16)</text>
+  <rect x="48.0" y="124.0" width="780.0" height="724.0" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" rx="10.0" ry="10.0"/>
+  <text x="68.0" y="154.1" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="16" fill="#1B4965" text-anchor="start" font-weight="bold">A. Phân rã Tổng số phép tính L2 / truy vấn</text>
+  <text x="68.0" y="174.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Unique L2 giữ bất biến (Δ = 0); Duplicate L2 giảm -74.98% → Total L2 giảm -12.22%</text>
+  <rect x="144.0" y="232.0" width="636.0" height="480.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <line x1="144.0" y1="712.0" x2="780.0" y2="712.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="134.0" y="714.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">0</text>
+  <line x1="144.0" y1="619.7" x2="780.0" y2="619.7" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="134.0" y="622.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">5,000</text>
+  <line x1="144.0" y1="527.4" x2="780.0" y2="527.4" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="134.0" y="530.1" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">10,000</text>
+  <line x1="144.0" y1="435.1" x2="780.0" y2="435.1" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="134.0" y="437.8" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">15,000</text>
+  <line x1="144.0" y1="342.8" x2="780.0" y2="342.8" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="134.0" y="345.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">20,000</text>
+  <line x1="144.0" y1="250.5" x2="780.0" y2="250.5" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="134.0" y="253.1" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">25,000</text>
+  <rect x="244.0" y="360.0" width="150.0" height="352.0" fill="#1B4965" stroke="#FFFFFF" stroke-width="1.5"/>
+  <rect x="244.0" y="291.5" width="150.0" height="68.5" fill="#DC2626" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="319.0" y="538.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Unique L2</text>
+  <text x="319.0" y="557.5" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#E0F2FE" text-anchor="middle" font-weight="bold">19,064.2</text>
+  <text x="319.0" y="329.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Dup: 3,712.8</text>
+  <text x="319.0" y="277.8" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="middle" font-weight="bold">Total: 22,777.0</text>
+  <text x="319.0" y="738.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="middle" font-weight="bold">Baseline (flat+full)</text>
+  <rect x="524.0" y="360.0" width="150.0" height="352.0" fill="#1B4965" stroke="#FFFFFF" stroke-width="1.5"/>
+  <rect x="524.0" y="342.9" width="150.0" height="17.1" fill="#D97706" stroke="#FFFFFF" stroke-width="1.5"/>
+  <text x="599.0" y="538.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#FFFFFF" text-anchor="middle" font-weight="bold">Unique L2</text>
+  <text x="599.0" y="557.5" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#E0F2FE" text-anchor="middle" font-weight="bold">19,064.2</text>
+  <text x="684.0" y="354.0" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#D97706" text-anchor="start" font-weight="bold">Dup: 928.8</text>
+  <text x="599.0" y="329.2" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="middle" font-weight="bold">Total: 19,992.9</text>
+  <text x="599.0" y="738.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="14" fill="#0F172A" text-anchor="middle" font-weight="bold">B1+A1 (bar_all+inc)</text>
+  <rect x="483.8" y="250.0" width="230.5" height="23.0" fill="#DCFCE7" stroke="#15803D" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="599.0" y="265.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#15803D" text-anchor="middle" font-weight="bold">Total L2: -2,784.04 (-12.22%)</text>
+  <rect x="144.0" y="764.0" width="16.0" height="16.0" fill="#1B4965" rx="3.0" ry="3.0"/>
+  <text x="168.0" y="774.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Unique L2 (19,064.16, Δ=0)</text>
+  <rect x="388.0" y="764.0" width="16.0" height="16.0" fill="#DC2626" rx="3.0" ry="3.0"/>
+  <text x="412.0" y="774.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Dup L2 Base (3,712.81)</text>
+  <rect x="588.0" y="764.0" width="16.0" height="16.0" fill="#D97706" rx="3.0" ry="3.0"/>
+  <text x="612.0" y="774.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">Dup L2 B1+A1 (928.77)</text>
+  <text x="144.0" y="810.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start" font-weight="bold">Bất biến quỹ đạo (Δ=0): expansions = 456.68 | sync_rounds = 14.87 | neighbor_attempts = 26,069.22</text>
+  <rect x="856.0" y="124.0" width="776.0" height="724.0" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5" rx="10.0" ry="10.0"/>
+  <text x="876.0" y="154.1" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="16" fill="#1B4965" text-anchor="start" font-weight="bold">B. Chuyển dịch 1-đổi-1 (Already-Seen) &amp; Liên hệ Độ trễ OFF</text>
+  <text x="876.0" y="174.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#475569" text-anchor="start">Đỉnh từng bị tính lại L2 nay bị chặn ở O(1) qua settled_epoch_ (Δ = ±2,784.04/q)</text>
+  <rect x="952.0" y="218.0" width="636.0" height="260.0" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <line x1="952.0" y1="478.0" x2="1588.0" y2="478.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="942.0" y="480.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">0</text>
+  <line x1="952.0" y1="408.7" x2="1588.0" y2="408.7" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="942.0" y="411.3" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">2,000</text>
+  <line x1="952.0" y1="339.3" x2="1588.0" y2="339.3" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="942.0" y="342.0" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">4,000</text>
+  <line x1="952.0" y1="270.0" x2="1588.0" y2="270.0" stroke="#E2E8F0" stroke-width="1.0"/>
+  <text x="942.0" y="272.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="end">6,000</text>
+  <rect x="1045.0" y="349.3" width="64.0" height="128.7" fill="#DC2626" rx="4.0" ry="4.0"/>
+  <rect x="1125.0" y="445.8" width="64.0" height="32.2" fill="#2A9D8F" rx="4.0" ry="4.0"/>
+  <text x="1077.0" y="339.0" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#DC2626" text-anchor="middle" font-weight="bold">3,712.8</text>
+  <text x="1157.0" y="435.5" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#2A9D8F" text-anchor="middle" font-weight="bold">928.8</text>
+  <rect x="1046.5" y="230.0" width="141.0" height="21.0" fill="#CCFBF1" stroke="#1B4965" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1117.0" y="243.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#1B4965" text-anchor="middle" font-weight="bold">-2,784.04 (-74.98%)</text>
+  <text x="1117.0" y="499.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="middle" font-weight="bold">Duplicate L2 / q</text>
+  <rect x="1355.0" y="363.8" width="64.0" height="114.2" fill="#457B9D" rx="4.0" ry="4.0"/>
+  <rect x="1435.0" y="267.3" width="64.0" height="210.7" fill="#1B4965" rx="4.0" ry="4.0"/>
+  <text x="1387.0" y="353.5" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#457B9D" text-anchor="middle" font-weight="bold">3,293.2</text>
+  <text x="1467.0" y="257.0" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#1B4965" text-anchor="middle" font-weight="bold">6,077.3</text>
+  <rect x="1351.8" y="230.0" width="150.5" height="21.0" fill="#E0F2FE" stroke="#1B4965" stroke-width="1.2" rx="6.0" ry="6.0"/>
+  <text x="1427.0" y="243.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#1B4965" text-anchor="middle" font-weight="bold">+2,784.04 (+84.54%)</text>
+  <text x="1427.0" y="499.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#0F172A" text-anchor="middle" font-weight="bold">Already-Seen / q</text>
+  <rect x="884.0" y="522.0" width="720.0" height="304.0" fill="#FFFFFF" stroke="#1B4965" stroke-width="1.6" rx="8.0" ry="8.0"/>
+  <text x="902.0" y="549.4" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="13" fill="#1B4965" text-anchor="start" font-weight="bold">TẠI SAO GIẢM 74.98% DUPLICATE L2 NHƯNG LATENCY CHỈ GIẢM 6.03%?</text>
+  <text x="902.0" y="580.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">1. Duplicate L2 chỉ chiếm 16.30% tổng L2 ban đầu (3,712.8 / 22,777.0) ⇒ giảm 74.98% phần trùng chỉ tương ứng</text>
+  <text x="902.0" y="598.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">giảm 12.22% tổng số phép tính L2.</text>
+  <text x="902.0" y="626.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">2. Định luật Amdahl: Thời gian truy vấn OFF không chỉ có phép tính L2, mà còn gồm duyệt CSR, truy cập bộ nhớ</text>
+  <text x="902.0" y="644.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">ngẫu nhiên (cache/DRAM), quản lý std::set, spin-wait barrier và pha merge đơn luồng.</text>
+  <text x="902.0" y="672.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">3. Truy cập lại một đỉnh có thể tận dụng cache. Tỷ lệ cache hit và chi phí riêng mỗi phép tính L2 chưa được đo.</text>
+  <text x="902.0" y="700.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">4. B1 ghi các ID để công bố tại barrier. A1 đưa dispatch vào merge. Thời gian merge ON 348.5 → 384.4 µs/q có</text>
+  <text x="902.0" y="718.6" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="12" fill="#0F172A" text-anchor="start">ranh giới đo khác nhau giữa hai policy.</text>
+  <line x1="36.0" y1="886.0" x2="1644.0" y2="886.0" stroke="#CBD5E1" stroke-width="1.0"/>
+  <text x="36.0" y="903.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start" font-weight="bold">Nguồn / Evidence: audit_results.json (quality_mechanism, 18/18 ON, 100% parity) • tables/table09_on_l2_counters.csv</text>
+  <text x="36.0" y="921.7" font-family="DejaVu Sans, Noto Sans, sans-serif" font-size="11" fill="#475569" text-anchor="start">Phạm vi &amp; Giới hạn: Đính chính minh bạch erratum #1: dùng số chính xác 19,064.16 / 3,712.81 / 928.77 từ audit_results.json thay cho số làm tròn ghi tay trong bản tường thuật cũ. PMU NOT_MEASURED.</text>
+</svg>
